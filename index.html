@@ -90,7 +90,46 @@ td strong{color:var(--neon-purple);}
 .form-row button{flex:0 0 auto;}
 .drive-box{text-align:center;padding:35px 20px;background:rgba(168,85,247,.05);border-radius:12px;border:1px dashed rgba(168,85,247,.4);}
 .drive-box p{margin-bottom:18px;color:var(--text-dim);font-size:.9rem;}
-@media(max-width:600px){.navbar{padding:10px 12px;flex-wrap:wrap;gap:8px;}.navbar-brand h2{font-size:.95rem;}.greeting{font-size:.72rem;}.card{padding:16px;}th,td{padding:8px 6px;font-size:.78rem;}.summary-banner .total-amount{font-size:1.3rem;}}
+
+/* ===== TAMPILAN TABEL JADI CARD DI HP ===== */
+@media(max-width: 768px){
+  table thead { display: none; }
+  table tr {
+    display: block;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+    padding: 8px 0;
+    text-align: right;
+    font-size: 0.85rem;
+    white-space: normal;
+  }
+  table td:last-child {
+    border-bottom: none;
+    margin-top: 5px;
+    justify-content: flex-end;
+  }
+  table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: var(--neon-cyan);
+    text-align: left;
+    margin-right: 15px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+}
+
+@media(max-width:600px){.navbar{padding:10px 12px;flex-wrap:wrap;gap:8px;}.navbar-brand h2{font-size:.95rem;}.greeting{font-size:.72rem;}.card{padding:16px;}.summary-banner .total-amount{font-size:1.3rem;}}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
 </style>
 </head>
@@ -328,8 +367,8 @@ function renderDashboard(){
 function renderStruktur(){
   const tbody=document.getElementById('tabel-struktur-body');tbody.innerHTML='';
   struktur.forEach((item,index)=>{
-    const aksi=currentUser.role==='admin'?`<td><button class="btn btn-danger btn-sm" onclick="hapusStruktur(${index})">Hapus</button></td>`:'';
-    tbody.innerHTML+=`<tr><td><strong>${item.jabatan}</strong></td><td>${item.nama}</td>${aksi}</tr>`;
+    const aksi=currentUser.role==='admin'?`<td data-label="Aksi"><button class="btn btn-danger btn-sm" onclick="hapusStruktur(${index})">Hapus</button></td>`:'';
+    tbody.innerHTML+=`<tr><td data-label="Jabatan"><strong>${item.jabatan}</strong></td><td data-label="Nama Siswa">${item.nama}</td>${aksi}</tr>`;
   });
 }
 function tambahStruktur(){
@@ -349,8 +388,8 @@ function hapusStruktur(i){
 function renderPiket(){
   const tbody=document.getElementById('tabel-piket-body');tbody.innerHTML='';
   piket.forEach((item,index)=>{
-    const aksi=currentUser.role==='admin'?`<td><button class="btn btn-danger btn-sm" onclick="hapusPiket(${index})">Hapus</button></td>`:'';
-    tbody.innerHTML+=`<tr><td><strong>${item.hari}</strong></td><td>${item.anggota}</td>${aksi}</tr>`;
+    const aksi=currentUser.role==='admin'?`<td data-label="Aksi"><button class="btn btn-danger btn-sm" onclick="hapusPiket(${index})">Hapus</button></td>`:'';
+    tbody.innerHTML+=`<tr><td data-label="Hari"><strong>${item.hari}</strong></td><td data-label="Petugas Piket">${item.anggota}</td>${aksi}</tr>`;
   });
 }
 function simpanPiket(){
@@ -387,8 +426,8 @@ function renderTabungan(){
     const nominalFmt=(item.jenis==='tarik'?'- ':'+ ')+formatRupiah(item.nominal);
     const cls=item.jenis==='tarik'?'text-danger':'text-success';
     const saldoSiswa=saldoPerSiswa[item.nama]||0;
-    const aksi=currentUser.role==='admin'?`<td><button class="btn btn-danger btn-sm" onclick="hapusTransaksi(${index})">Hapus</button></td>`:'';
-    tbody.innerHTML+=`<tr><td>${item.tanggal}</td><td><strong>${item.nama}</strong></td><td>${item.keterangan}</td><td class="${cls}">${nominalFmt}</td><td><strong>${formatRupiah(saldoSiswa)}</strong></td>${aksi}</tr>`;
+    const aksi=currentUser.role==='admin'?`<td data-label="Aksi"><button class="btn btn-danger btn-sm" onclick="hapusTransaksi(${index})">Hapus</button></td>`:'';
+    tbody.innerHTML+=`<tr><td data-label="Tanggal">${item.tanggal}</td><td data-label="Nama"><strong>${item.nama}</strong></td><td data-label="Keterangan">${item.keterangan}</td><td data-label="Nominal" class="${cls}">${nominalFmt}</td><td data-label="Total Saldo"><strong>${formatRupiah(saldoSiswa)}</strong></td>${aksi}</tr>`;
   });
 }
 function tambahTransaksiTabungan(){
@@ -418,7 +457,14 @@ function renderTabelAkun(){
   users.forEach((u,index)=>{
     const br=u.role==='admin'?'<span class="badge badge-admin">Admin</span>':'<span class="badge badge-siswa">Siswa</span>';
     const bs=u.status==='online'?'<span class="badge badge-online">Online</span>':'<span class="badge badge-offline">Offline</span>';
-    tbody.innerHTML+=`<tr><td>${u.nama}</td><td>${u.username}</td><td>${u.password}</td><td>${br}</td><td>${bs}</td><td><button class="btn btn-warning btn-sm" onclick="editAkun(${index})">Edit</button> <button class="btn btn-danger btn-sm" onclick="hapusAkun(${index})">Hapus</button></td></tr>`;
+    tbody.innerHTML+=`<tr>
+      <td data-label="Nama">${u.nama}</td>
+      <td data-label="Username">${u.username}</td>
+      <td data-label="Password">${u.password}</td>
+      <td data-label="Role">${br}</td>
+      <td data-label="Status">${bs}</td>
+      <td data-label="Aksi"><button class="btn btn-warning btn-sm" onclick="editAkun(${index})">Edit</button> <button class="btn btn-danger btn-sm" onclick="hapusAkun(${index})">Hapus</button></td>
+    </tr>`;
   });
 }
 function simpanAkun(){
