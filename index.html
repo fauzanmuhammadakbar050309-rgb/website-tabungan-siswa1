@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>12 TKJ 3 TAV - Profil Kelas</title>
 <style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#a66e38">
 :root{
   --bg:#14110f; --card:rgba(43,35,31,0.8); --card2:#2b231f;
   --brown:#a66e38; --cream:#f4e8d1; --white:#fdfbf7; --dim:#a89b8c;
@@ -976,6 +978,13 @@ function resetFormAkun(){
   document.getElementById('form-akun-title').innerText="Buat Akun Baru"; document.getElementById('edit-akun-index').value="-1";
   document.getElementById('akun-nama').value=''; document.getElementById('akun-username').value=''; document.getElementById('akun-password').value=''; document.getElementById('akun-role').value='siswa'; document.getElementById('btn-batal-edit').classList.add('hidden');
 }
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
 </script>
 </body>
 </html>
