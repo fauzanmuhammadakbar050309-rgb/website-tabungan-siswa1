@@ -1,0 +1,40 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install -g @capacitor/cli @capacitor/core
+          npm init -y
+          npm install @capacitor/android
+
+      - name: Build APK
+        uses: sharadcodes/pwa-to-apk-action@v1
+        with:
+          pwa-url: 'https://tkj3-tav-941cd.web.app'
+          app-name: '12 TKJ 3 TAV'
+          app-short-name: '12 TKJ 3 TAV'
+          theme-color: '#a66e38'
+          background-color: '#1a1512'
+          icon-url: 'https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/a8c350a19ec84a27c3533e99c9ae0feb306120c2/icon.png'
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: 12TKJ3TAV-APK
+          path: '**/*.apk'
