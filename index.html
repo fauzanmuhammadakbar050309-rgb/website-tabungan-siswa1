@@ -30,8 +30,7 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 .nav-right{display:flex;align-items:center;position:relative;}
 .dots-btn{background:var(--card2);border:1px solid var(--brown);color:var(--cream);font-size:1.4rem;cursor:pointer;padding:4px 12px;border-radius:8px;transition:.3s;box-shadow:0 4px 0 #14110f, 0 0 10px rgba(166,110,56,0.3);}
 .dots-btn:hover{background:var(--brown);color:var(--white);transform:translateY(2px);box-shadow:0 2px 0 #14110f;}
-.dropdown-menu{display:none;position:absolute;right:0;top:50px;background:var(--card2);min-width:220px;border-radius:10px;border:1px solid var(--brown);box-shadow:0 10px 30px rgba(0,0,0,0.8);z-index:200;overflow:hidden;animation:slideDown .25s ease;}
-@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.dropdown-menu{display:none;position:absolute;right:0;top:50px;background:var(--card2);min-width:220px;border-radius:10px;border:1px solid var(--brown);box-shadow:0 10px 30px rgba(0,0,0,0.8);z-index:200;overflow:hidden;}
 .dropdown-menu.show{display:block;}
 .dropdown-menu button{width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:.9rem;color:var(--white);transition:.2s;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;}
 .dropdown-menu button:hover{background:var(--brown);color:var(--cream);padding-left:22px;}
@@ -44,7 +43,7 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 .hero-subtitle{font-size:1.1rem;color:var(--cream);margin-bottom:15px;}
 .hero-desc{font-size:0.9rem;color:var(--dim);margin-bottom:30px;}
 .stats-grid{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
-.stat-card{background:var(--card2);border:1px solid var(--brown);padding:15px 25px;border-radius:12px;box-shadow:0 5px 0 #0a0807, 0 10px 15px rgba(0,0,0,.6);text-align:center;min-width:100px;}
+.stat-card{background:var(--card2);border:1px solid var(--brown);padding:15px 25px;border-radius:12px;box-shadow:0 5px 0 #0a0807;text-align:center;min-width:100px;}
 .stat-num{font-size:1.8rem;font-weight:bold;color:var(--cream);}
 .stat-label{font-size:0.75rem;color:var(--dim);margin-top:5px;}
 
@@ -66,9 +65,9 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 .jurusan-card h4{color:var(--cream);font-size:1.1rem;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
 .jurusan-card p{color:var(--dim);font-size:0.85rem;line-height:1.5;}
 
-/* Sejarah & Gambar */
+/* Gambar */
 .img-container{width:100%;border-radius:12px;overflow:hidden;margin-bottom:15px;border:2px solid var(--brown);box-shadow:0 8px 15px rgba(0,0,0,0.5);}
-.img-container img{width:100%;height:auto;display:block;object-fit:cover;}
+.img-container img{width:100%;height:auto;display:block;}
 
 /* Piket List */
 .piket-item{display:flex;align-items:center;background:var(--card2);padding:12px 15px;border-radius:10px;margin-bottom:10px;border:1px solid var(--border);box-shadow:0 3px 0 #0a0807;}
@@ -77,60 +76,52 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 
 /* Login Box */
 .login-container{max-width:440px;margin:70px auto;padding:0 15px;position:relative;z-index:10;}
-.login-card{background:var(--card2);padding:32px;border-radius:20px;border:1px solid var(--brown);box-shadow:0 10px 0 #0a0807, 0 20px 40px rgba(0,0,0,.8);text-align:center;}
+.login-card{background:var(--card2);padding:32px;border-radius:20px;border:1px solid var(--brown);box-shadow:0 10px 0 #0a0807;text-align:center;}
 .login-card h2{margin-bottom:6px;font-size:1.6rem;color:var(--cream);text-shadow:1px 1px 0 #000;}
 .login-card .subtitle{font-size:.78rem;color:var(--dim);margin-bottom:25px;}
 .form-group{margin-bottom:16px;text-align:left;}
 .form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.85rem;color:var(--dim);}
-.form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:.92rem;background:#14110f;color:var(--white);outline:none;transition:.3s;box-shadow:inset 0 3px 5px rgba(0,0,0,0.5);}
-.form-group input:focus,.form-group select:focus{border-color:var(--brown);box-shadow:0 0 10px rgba(166,110,56,.3), inset 0 3px 5px rgba(0,0,0,0.5);}
+.form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:.92rem;background:#14110f;color:var(--white);outline:none;}
+.form-group input:focus{border-color:var(--brown);}
 .checkbox-group{display:flex;align-items:center;gap:8px;margin-bottom:15px;font-size:.85rem;color:var(--dim);cursor:pointer;}
-.checkbox-group input{accent-color:var(--brown);width:16px;height:16px;}
 
 /* Tombol 3D */
-.btn{padding:10px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.2s;text-shadow:1px 1px 0 rgba(0,0,0,.5);}
+.btn{padding:10px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.2s;}
 .btn:active{transform:translateY(2px);}
-.btn-primary{background:var(--brown);color:var(--cream);width:100%;box-shadow:0 5px 0 #5a3d2b, 0 8px 10px rgba(0,0,0,.4);}
-.btn-primary:hover{background:#c48549;transform:translateY(-1px);box-shadow:0 6px 0 #5a3d2b;}
+.btn-primary{background:var(--brown);color:var(--cream);width:100%;box-shadow:0 5px 0 #5a3d2b;}
+.btn-primary:hover{background:#c48549;}
 .btn-success{background:#385c3c;color:#e3f5e5;border:1px solid #4a7a50;box-shadow:0 4px 0 #1e3321;}
 .btn-danger{background:#7a2e2e;color:#fae3e3;border:1px solid #9e3c3c;box-shadow:0 4px 0 #3d1515;}
 .btn-secondary{background:#4a413d;color:var(--white);box-shadow:0 4px 0 #2b2623;}
-.btn-sm{padding:5px 10px;font-size:.75rem;border-radius:6px;box-shadow:0 3px 0 rgba(0,0,0,.4);}
+.btn-sm{padding:5px 10px;font-size:.75rem;border-radius:6px;}
 
-/* Container Umum */
 .container{max-width:1000px;margin:25px auto;padding:0 15px;}
-.card{background:var(--card2);padding:22px;border-radius:16px;border:1px solid var(--brown);box-shadow:0 8px 0 #0a0807, 0 10px 20px rgba(0,0,0,.5);margin-bottom:20px;transition:.3s;}
-.card:hover{border-color:var(--cream);}
+.card{background:var(--card2);padding:22px;border-radius:16px;border:1px solid var(--brown);box-shadow:0 8px 0 #0a0807;margin-bottom:20px;}
 
-/* Jam & Salam */
+/* Jam */
 .clock-container{text-align:center;margin:30px 0 40px;}
 .salam-text{font-size:1.2rem;color:var(--cream);margin-bottom:10px;}
-.clock-time{font-size:4.5rem;font-weight:bold;color:var(--brown);text-shadow:2px 2px 0 #000, -1px -1px 0 #5a3d2b;line-height:1;}
+.clock-time{font-size:4.5rem;font-weight:bold;color:var(--brown);text-shadow:2px 2px 0 #000;line-height:1;}
 .clock-date{font-size:1rem;color:var(--cream);margin-top:10px;}
 
-/* Table */
 table{width:100%;border-collapse:collapse;margin-top:12px;}
 th,td{padding:11px 12px;text-align:left;font-size:.86rem;border-bottom:1px solid rgba(255,255,255,.05);}
-th{background:#14110f;color:var(--brown);font-weight:bold;}
+th{background:#14110f;color:var(--brown);}
 tbody tr:hover{background:rgba(255,255,255,.05);}
 td strong{color:var(--cream);}
 
-/* Chat & Inbox */
 .chat-container{display:flex;flex-direction:column;height:400px;background:#14110f;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:15px;}
 .chat-messages{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px;}
-.chat-bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:.88rem;position:relative;word-wrap:break-word;box-shadow:0 2px 5px rgba(0,0,0,0.3);}
+.chat-bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:.88rem;}
 .chat-bubble.own{align-self:flex-end;background:var(--brown);color:var(--cream);border-bottom-right-radius:4px;}
 .chat-bubble.other{align-self:flex-start;background:var(--card2);color:var(--white);border:1px solid var(--border);border-bottom-left-radius:4px;}
 .chat-meta{font-size:.68rem;opacity:0.8;margin-bottom:4px;display:flex;justify-content:space-between;gap:10px;}
 .chat-input-area{display:flex;gap:10px;padding:10px;background:var(--card2);border-top:1px solid var(--border);}
 .chat-input-area input{flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;background:#14110f;color:var(--white);outline:none;}
 
-/* Badge Notif */
-.badge-notif{position:absolute;top:-5px;right:-5px;background:#ff4d4d;color:white;border-radius:50%;padding:2px 6px;font-size:.65rem;font-weight:bold;box-shadow:0 0 10px #ff4d4d;animation:pulse 1.5s infinite;}
+.badge-notif{position:absolute;top:-5px;right:-5px;background:#ff4d4d;color:white;border-radius:50%;padding:2px 6px;font-size:.65rem;font-weight:bold;animation:pulse 1.5s infinite;}
 .inbox-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
-.inbox-item:hover{border-color:var(--brown);}
 
-/* Spinner Load */
 #loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;color:var(--cream);}
 .spinner{width:40px;height:40px;border:4px solid rgba(166,110,56,.2);border-top-color:var(--brown);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:15px;}
 
@@ -153,7 +144,7 @@ td strong{color:var(--cream);}
 <div class="bg-container"><div class="bg-orb orb-1"></div><div class="bg-orb orb-2"></div><div class="bg-orb orb-3"></div></div>
 <div class="bg-overlay"></div>
 
-<!-- NAVBAR (Selalu Tampil) -->
+<!-- NAVBAR -->
 <div class="navbar" style="position:fixed;width:100%;">
   <div class="navbar-brand">
     <h2>12 TKJ 3 TAV</h2>
@@ -166,12 +157,10 @@ td strong{color:var(--cream);}
         <span id="global-notif" class="badge-notif hidden">0</span>
       </button>
       <div id="dots-dropdown" class="dropdown-menu">
-        <!-- Menu Publik (Sebelum Login) -->
         <div id="public-menu">
           <button onclick="showPage('page-landing')">🏠 Beranda Utama</button>
           <button onclick="showPage('page-login')">🔑 Masuk Akun</button>
         </div>
-        <!-- Menu Privat (Setelah Login) -->
         <div id="private-menu" class="hidden">
           <button onclick="showPage('page-dashboard')">🏠 Beranda</button>
           <button onclick="showPage('page-piket')">📅 Jadwal Piket</button>
@@ -190,7 +179,7 @@ td strong{color:var(--cream);}
 
 <div style="padding-top: 65px;">
 
-  <!-- HALAMAN LANDING (PUBLIK) -->
+  <!-- LANDING PAGE -->
   <div id="page-landing" class="page-content">
     <div class="hero-section">
       <div class="badge-ta">Tahun Ajaran 2024–2027</div>
@@ -243,7 +232,7 @@ td strong{color:var(--cream);}
       <div class="img-container">
         <img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/main/IMG_3528.PNG" alt="Struktur Kelas 1">
       </div>
-      <div class="card-3d" style="text-align:center; color:var(--dim); font-size:0.9rem;" id="img-struktur-2-placeholder">
+      <div class="card-3d" style="text-align:center; color:var(--dim); font-size:0.9rem;">
         (Foto Struktur Kelas 2 Menyusul)
       </div>
     </div>
@@ -287,7 +276,7 @@ td strong{color:var(--cream);}
     </div>
   </div>
 
-  <!-- HALAMAN SETELAH LOGIN (DASHBOARD DLL) -->
+  <!-- APLIKASI SETELAH LOGIN -->
   <div id="app-section" class="hidden">
     <div class="container">
       <div id="page-dashboard" class="page-content hidden">
@@ -544,7 +533,7 @@ function initFirebaseListeners(){
     else { defaultPiket.forEach((p) => { window.fbSet(window.fbRef(window.db, 'piket/' + p.hari), p); }); }
     renderPiket(); 
     renderLandingPiket(); 
-    if(!document.getElementById('page-dashboard').classList.contains('hidden')) renderDashboard();
+    if(currentUser && !document.getElementById('page-dashboard').classList.contains('hidden')) renderDashboard();
   });
 
   window.fbOnValue(window.fbRef(window.db, 'tabungan'), (snap) => {
@@ -575,6 +564,7 @@ function initFirebaseListeners(){
   if(currentUser){
     document.getElementById('public-menu').classList.add('hidden');
     document.getElementById('private-menu').classList.remove('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
     inisialisasiSesiUI();
     showPage('page-dashboard');
     setupPresence(currentUser._key);
@@ -629,6 +619,7 @@ function handleLogin(){
   
   document.getElementById('public-menu').classList.add('hidden');
   document.getElementById('private-menu').classList.remove('hidden');
+  document.getElementById('app-section').classList.remove('hidden');
   inisialisasiSesiUI(); showPage('page-dashboard');
 }
 
@@ -636,6 +627,7 @@ function handleLogout(){
   if(currentUser && currentUser._key){ window.fbUpdate(window.fbRef(window.db, 'users/' + currentUser._key), {status:'offline'}); }
   currentUser = null; sessionStorage.removeItem('app_current_user');
   document.getElementById('login-username').value=''; document.getElementById('login-password').value='';
+  document.getElementById('app-section').classList.add('hidden');
   document.getElementById('public-menu').classList.remove('hidden');
   document.getElementById('private-menu').classList.add('hidden');
   showPage('page-landing');
