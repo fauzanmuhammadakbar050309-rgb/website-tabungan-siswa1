@@ -23,12 +23,13 @@ body{background-color:var(--bg);color:var(--text);min-height:100vh;overflow-x:hi
 .navbar-brand h2{font-size:1.1rem;font-weight:700;color:#fff;text-shadow:0 0 10px rgba(168,85,247,.9);line-height:1.2;}
 .navbar-brand span{font-size:.7rem;color:var(--neon-cyan);text-shadow:0 0 8px rgba(0,229,255,.7);}
 .nav-right{display:flex;align-items:center;position:relative;height:100%;}
-.dots-btn{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.4);color:var(--neon-purple);font-size:1.4rem;cursor:pointer;padding:4px 12px;border-radius:8px;transition:.3s;line-height:1;box-shadow:0 0 10px rgba(168,85,247,.3);}
+.dots-btn{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.4);color:var(--neon-purple);font-size:1.4rem;cursor:pointer;padding:4px 12px;border-radius:8px;transition:.3s;line-height:1;box-shadow:0 0 10px rgba(168,85,247,.3);position:relative;}
 .dots-btn:hover{background:rgba(168,85,247,.3);box-shadow:0 0 20px rgba(168,85,247,.8);}
+.badge-notif{position:absolute;top:-5px;right:-5px;background:var(--neon-pink);color:white;border-radius:50%;padding:2px 6px;font-size:.65rem;font-weight:bold;box-shadow:0 0 10px var(--neon-pink);animation:pulse 1.5s infinite;}
 .dropdown-menu{display:none;position:absolute;right:0;top:50px;background:rgba(26,26,46,0.95);backdrop-filter:blur(15px);min-width:220px;border-radius:10px;border:1px solid rgba(168,85,247,.5);box-shadow:0 0 30px rgba(168,85,247,.5);z-index:200;overflow:hidden;animation:slideDown .25s ease;}
 @keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
 .dropdown-menu.show{display:block;}
-.dropdown-menu button{width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:.9rem;color:var(--text);transition:.2s;border-bottom:1px solid rgba(255,255,255,.05);}
+.dropdown-menu button{width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:.9rem;color:var(--text);transition:.2s;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;}
 .dropdown-menu button:hover{background:rgba(168,85,247,.2);color:#fff;padding-left:22px;text-shadow:0 0 8px #fff;}
 .dropdown-menu button.logout-btn{color:var(--neon-pink);font-weight:bold;border-top:1px solid rgba(255,255,255,.1);}
 .dropdown-menu button.logout-btn:hover{background:rgba(255,45,117,.2);text-shadow:0 0 8px var(--neon-pink);}
@@ -51,6 +52,9 @@ body{background-color:var(--bg);color:var(--text);min-height:100vh;overflow-x:hi
 .form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.85rem;color:var(--text-dim);}
 .form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.15);border-radius:10px;font-size:.92rem;background:rgba(26,26,46,0.8);color:var(--text);outline:none;transition:.3s;box-shadow:inset 0 2px 5px rgba(0,0,0,0.5);}
 .form-group input:focus,.form-group select:focus{border-color:var(--neon-cyan);box-shadow:0 0 15px rgba(0,229,255,.5), inset 0 2px 5px rgba(0,0,0,0.5);}
+.checkbox-group{display:flex;align-items:center;gap:8px;margin-bottom:15px;font-size:.85rem;color:var(--text-dim);cursor:pointer;}
+.checkbox-group input[type="checkbox"]{accent-color:var(--neon-purple);width:16px;height:16px;}
+
 .btn{padding:10px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.3s;text-shadow:0 1px 2px rgba(0,0,0,.5);}
 .btn:active{transform:translateY(2px);}
 .btn-primary{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;width:100%;border:1px solid #d8b4fe;box-shadow:0 4px 0 #4c1d95, 0 0 15px rgba(168,85,247,.8);}
@@ -103,7 +107,6 @@ td strong{color:var(--neon-purple);}
 .checkbox-list label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.85rem;color:var(--text);cursor:pointer;}
 .checkbox-list input[type="checkbox"]{accent-color:var(--neon-pink);width:16px;height:16px;}
 
-/* CHAT BOX */
 .chat-container{display:flex;flex-direction:column;height:400px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:15px;}
 .chat-messages{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px;}
 .chat-bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:.88rem;position:relative;word-wrap:break-word;}
@@ -157,6 +160,9 @@ td strong{color:var(--neon-purple);}
       <div class="form-group"><label>Akses Masuk</label>
         <select id="login-role-select"><option value="siswa">Siswa</option><option value="admin">Admin (Tabungan)</option><option value="developer">Developer</option></select>
       </div>
+      <label class="checkbox-group">
+        <input type="checkbox" id="remember-me"> Ingat Saya (Simpan Akun)
+      </label>
       <button class="btn btn-primary" style="margin-top:8px;" onclick="handleLogin()">Masuk</button>
     </div>
   </div>
@@ -167,15 +173,18 @@ td strong{color:var(--neon-purple);}
     <div class="navbar-brand"><h2>12 TKJ 3 TAV</h2><span id="nav-user-role-label">Sistem Informasi Kelas</span></div>
     <div class="nav-right">
       <div id="menu-dots-wrapper" style="position:relative;">
-        <button class="dots-btn" onclick="toggleDropdown()" title="Menu">&#8942;</button>
+        <button class="dots-btn" onclick="toggleDropdown()" title="Menu">
+          &#8942;
+          <span id="global-notif" class="badge-notif hidden">0</span>
+        </button>
         <div id="dots-dropdown" class="dropdown-menu">
           <button onclick="showPage('page-dashboard')">🏠 Beranda</button>
           <button onclick="showPage('page-struktur')">👥 Struktur Kelas</button>
           <button onclick="showPage('page-piket')">📅 Jadwal Piket</button>
           <button onclick="showPage('page-foto')">📸 Kenangan Foto</button>
           <button onclick="showPage('page-tabungan')">💰 Data Tabungan</button>
-          <button id="menu-helpdesk" onclick="showPage('page-chat')">💬 Hubungi Developer</button>
-          <button id="menu-inbox" class="hidden" onclick="showPage('page-inbox')">📥 Pesan Masuk</button>
+          <button id="menu-helpdesk" onclick="showPage('page-chat')">💬 Hubungi Developer <span id="notif-user" class="hidden" style="color:var(--neon-pink);font-weight:bold;">🔴</span></button>
+          <button id="menu-inbox" class="hidden" onclick="showPage('page-inbox')">📥 Pesan Masuk <span id="notif-dev" class="hidden" style="color:var(--neon-pink);font-weight:bold;">🔴</span></button>
           <button onclick="showPage('page-profil')">👤 Profil Saya</button>
           <button id="menu-akun-btn" class="hidden" onclick="showPage('page-akun')">⚙️ Manajemen Akun</button>
           <button class="logout-btn" onclick="handleLogout()">🚪 Keluar</button>
@@ -298,7 +307,10 @@ td strong{color:var(--neon-purple);}
     </div>
 
     <div id="page-chat" class="card page-content hidden">
-      <h3 style="color:var(--neon-purple);margin-bottom:10px;text-shadow:0 0 10px rgba(168,85,247,.8);">💬 Hubungi Developer</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h3 style="color:var(--neon-purple);text-shadow:0 0 10px rgba(168,85,247,.8);">💬 Hubungi Developer</h3>
+        <button class="btn btn-danger btn-sm" onclick="hapusChatUser()">🗑️ Hapus Chat</button>
+      </div>
       <div class="chat-container">
         <div class="chat-messages" id="chat-messages-user"></div>
         <div class="chat-input-area">
@@ -313,7 +325,10 @@ td strong{color:var(--neon-purple);}
       <div id="inbox-list"></div>
       
       <div id="chat-dev-view" class="hidden" style="margin-top:20px;">
-        <button class="btn btn-secondary btn-sm" onclick="kembaliKeInbox()" style="margin-bottom:15px;">⬅ Kembali ke Daftar</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+          <button class="btn btn-secondary btn-sm" onclick="kembaliKeInbox()">⬅ Kembali</button>
+          <button class="btn btn-danger btn-sm" onclick="hapusChatDev()">🗑️ Hapus Chat</button>
+        </div>
         <h4 id="chat-dev-title" style="color:var(--neon-cyan);margin-bottom:10px;"></h4>
         <div class="chat-container">
           <div class="chat-messages" id="chat-messages-dev"></div>
@@ -364,7 +379,7 @@ td strong{color:var(--neon-purple);}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, onValue, push, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, set, get, onValue, push, remove, update, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCzGcL78IsYHKqR4fszu-n_x-AC3WC031I",
@@ -386,6 +401,7 @@ window.fbOnValue = onValue;
 window.fbPush = push;
 window.fbRemove = remove;
 window.fbUpdate = update;
+window.fbOnDisconnect = onDisconnect;
 window.dispatchEvent(new Event('firebase-ready'));
 </script>
 
@@ -463,8 +479,10 @@ function initFirebaseListeners(){
   window.fbOnValue(window.fbRef(window.db, 'chats'), (snap) => {
     const data = snap.val();
     if(data){ chats = Object.keys(data).map(k => ({...data[k], _key: k})); } else { chats = []; }
+    updateNotifBadges();
     if(currentUser && currentUser.role === 'developer') {
       if(!document.getElementById('page-inbox').classList.contains('hidden')) renderInbox();
+      if(selectedChatUser && !document.getElementById('chat-dev-view').classList.contains('hidden')) renderChatDev();
     } else {
       if(!document.getElementById('page-chat').classList.contains('hidden')) renderChatUser();
     }
@@ -480,9 +498,54 @@ function initFirebaseListeners(){
     document.getElementById('login-section').classList.add('hidden');
     document.getElementById('app-section').classList.remove('hidden');
     inisialisasiSesiUI(); showPage('page-dashboard');
+    setupPresence(currentUser._key);
   } else {
     document.getElementById('login-section').classList.remove('hidden');
   }
+}
+
+function setupPresence(userKey) {
+  if(!userKey) return;
+  const userStatusRef = window.fbRef(window.db, 'users/' + userKey + '/status');
+  const connectedRef = window.fbRef(window.db, '.info/connected');
+  window.fbOnValue(connectedRef, (snap) => {
+    if (snap.val() === true) {
+      window.fbOnDisconnect(userStatusRef).set('offline');
+      window.fbSet(userStatusRef, 'online');
+    }
+  });
+}
+
+function updateNotifBadges() {
+  const globalBadge = document.getElementById('global-notif');
+  const notifUser = document.getElementById('notif-user');
+  const notifDev = document.getElementById('notif-dev');
+  if(!currentUser) return;
+
+  let unreadCount = 0;
+  if(currentUser.role === 'developer') {
+    unreadCount = chats.filter(c => c.sender !== 'dev' && !c.readByDev).length;
+    if(notifDev) notifDev.classList.toggle('hidden', unreadCount === 0);
+  } else {
+    unreadCount = chats.filter(c => c.username === currentUser.username && c.sender === 'dev' && !c.readByUser).length;
+    if(notifUser) notifUser.classList.toggle('hidden', unreadCount === 0);
+  }
+  
+  if(globalBadge) {
+    globalBadge.innerText = unreadCount;
+    globalBadge.classList.toggle('hidden', unreadCount === 0);
+  }
+}
+
+function markReadDev() {
+  chats.filter(c => c.sender !== 'dev' && !c.readByDev).forEach(c => {
+    window.fbUpdate(window.fbRef(window.db, 'chats/'+c._key), {readByDev: true});
+  });
+}
+function markReadUser(uname) {
+  chats.filter(c => c.username === uname && c.sender === 'dev' && !c.readByUser).forEach(c => {
+    window.fbUpdate(window.fbRef(window.db, 'chats/'+c._key), {readByUser: true});
+  });
 }
 
 function handleLogin(){
@@ -490,10 +553,20 @@ function handleLogin(){
   const u = document.getElementById('login-username').value.trim();
   const p = document.getElementById('login-password').value.trim();
   const r = document.getElementById('login-role-select').value;
+  const remember = document.getElementById('remember-me').checked;
+  
   const found = users.find(x => x.username === u && x.password === p && x.role === r);
   if(!found){ alert("Username, Password, atau Akses Masuk salah!"); return; }
+  
   currentUser = found; sessionStorage.setItem('app_current_user', JSON.stringify(found));
-  if(found._key){ window.fbUpdate(window.fbRef(window.db, 'users/' + found._key), {status:'online'}); }
+  if(remember) localStorage.setItem('remember_login', JSON.stringify({u, p, r}));
+  else localStorage.removeItem('remember_login');
+
+  if(found._key){ 
+    window.fbUpdate(window.fbRef(window.db, 'users/' + found._key), {status:'online'}); 
+    setupPresence(found._key);
+  }
+  
   document.getElementById('login-section').classList.add('hidden');
   document.getElementById('app-section').classList.remove('hidden');
   inisialisasiSesiUI(); showPage('page-dashboard');
@@ -506,6 +579,17 @@ function handleLogout(){
   document.getElementById('app-section').classList.add('hidden'); document.getElementById('login-section').classList.remove('hidden');
 }
 
+window.onload = function() {
+  const saved = localStorage.getItem('remember_login');
+  if(saved) {
+    const d = JSON.parse(saved);
+    document.getElementById('login-username').value = d.u;
+    document.getElementById('login-password').value = d.p;
+    document.getElementById('login-role-select').value = d.r;
+    document.getElementById('remember-me').checked = true;
+  }
+};
+
 function inisialisasiSesiUI(){
   const roleText = currentUser.role==='developer'?'Developer':(currentUser.role==='admin'?'Admin':'Siswa');
   document.getElementById('nav-user-role-label').innerText=`Sistem Informasi Kelas - ${roleText}`;
@@ -516,7 +600,7 @@ function inisialisasiSesiUI(){
   ['admin-struktur-form','th-aksi-struktur','admin-piket-form','th-aksi-piket','admin-foto-form'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!isDev));
   document.getElementById('tabungan-admin-view').classList.toggle('hidden',!isAdminOrDev);
   document.getElementById('tabungan-siswa-view').classList.toggle('hidden',isAdminOrDev);
-  updateClock();
+  updateClock(); updateNotifBadges();
 }
 
 function toggleDropdown(){document.getElementById('dots-dropdown').classList.toggle('show');}
@@ -531,8 +615,8 @@ function showPage(pageId){
   if(pageId==='page-piket')renderPiket();
   if(pageId==='page-foto')renderFotoPage();
   if(pageId==='page-tabungan')renderTabungan();
-  if(pageId==='page-chat')renderChatUser();
-  if(pageId==='page-inbox')renderInbox();
+  if(pageId==='page-chat'){renderChatUser(); markReadUser(currentUser.username);}
+  if(pageId==='page-inbox'){renderInbox(); markReadDev();}
   if(pageId==='page-profil')renderProfil();
   if(pageId==='page-akun')renderTabelAkun();
 }
@@ -671,12 +755,10 @@ function exportCSV(){
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Data_Tabungan_12TKJ3.csv"; link.click();
 }
 
-// CHAT USER (Siswa/Admin)
 function renderChatUser(){
   const box = document.getElementById('chat-messages-user'); if(!box) return; box.innerHTML='';
   const myChats = chats.filter(c => c.username === currentUser.username).sort((a,b)=> new Date(a.waktu) - new Date(b.waktu));
   myChats.forEach(c=>{
-    const isOwn = c.username === currentUser.username && c.sender === currentUser.username;
     const isDev = c.sender === 'dev';
     const div = document.createElement('div');
     div.className = `chat-bubble ${isDev ? 'other' : 'own'}`;
@@ -689,28 +771,35 @@ function kirimPesanUser(){
   const input = document.getElementById('chat-input-user'); const pesan = input.value.trim();
   if(!pesan) return;
   const now = new Date(); const jam = now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  window.fbSet(window.fbPush(window.fbRef(window.db, 'chats')), {username:currentUser.username, nama:currentUser.nama, pesan:pesan, jam:jam, waktu:now.toISOString(), sender:currentUser.username});
+  window.fbSet(window.fbPush(window.fbRef(window.db, 'chats')), {username:currentUser.username, nama:currentUser.nama, pesan:pesan, jam:jam, waktu:now.toISOString(), sender:currentUser.username, readByDev:false, readByUser:true});
   input.value='';
 }
+function hapusChatUser(){
+  if(!confirm("Hapus semua riwayat chat Anda dengan Developer?")) return;
+  chats.filter(c => c.username === currentUser.username).forEach(c => {
+    window.fbRemove(window.fbRef(window.db, 'chats/'+c._key));
+  });
+}
 
-// CHAT DEV (Developer)
 function renderInbox(){
   const list = document.getElementById('inbox-list'); if(!list) return; list.innerHTML='';
   const grouped = {};
   chats.forEach(c => {
     if(c.sender !== 'dev') {
-      if(!grouped[c.username]) grouped[c.username] = {nama: c.nama, lastMsg: c.pesan, count: 0};
+      if(!grouped[c.username]) grouped[c.username] = {nama: c.nama, lastMsg: c.pesan, count: 0, unread: 0};
       grouped[c.username].lastMsg = c.pesan;
       grouped[c.username].count++;
+      if(!c.readByDev) grouped[c.username].unread++;
     }
   });
   const keys = Object.keys(grouped);
   if(keys.length === 0) { list.innerHTML = '<p style="color:var(--text-dim);">Belum ada pesan masuk.</p>'; return; }
   keys.forEach(uname => {
     const d = grouped[uname];
+    let badgeHtml = d.unread > 0 ? `<div class="badge badge-admin" style="background:var(--neon-pink);">${d.unread} Baru</div>` : `<div class="badge badge-admin">${d.count} Pesan</div>`;
     list.innerHTML += `<div class="inbox-item" onclick="bukaChatDev('${uname}', '${d.nama}')">
       <div class="inbox-info"><span class="inbox-name">${d.nama} (${uname})</span><span class="inbox-msg">${d.lastMsg}</span></div>
-      <div class="badge badge-admin">${d.count} Pesan</div>
+      ${badgeHtml}
     </div>`;
   });
 }
@@ -719,6 +808,7 @@ function bukaChatDev(uname, nama){
   document.getElementById('inbox-list').classList.add('hidden');
   document.getElementById('chat-dev-view').classList.remove('hidden');
   document.getElementById('chat-dev-title').innerText = 'Chat dengan ' + nama;
+  markReadDev();
   renderChatDev();
 }
 function kembaliKeInbox(){
@@ -746,8 +836,16 @@ function kirimPesanDev(){
   if(!pesan) return;
   const targetUser = users.find(u => u.username === selectedChatUser);
   const now = new Date(); const jam = now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  window.fbSet(window.fbPush(window.fbRef(window.db, 'chats')), {username:selectedChatUser, nama:targetUser ? targetUser.nama : 'User', pesan:pesan, jam:jam, waktu:now.toISOString(), sender:'dev'});
+  window.fbSet(window.fbPush(window.fbRef(window.db, 'chats')), {username:selectedChatUser, nama:targetUser ? targetUser.nama : 'User', pesan:pesan, jam:jam, waktu:now.toISOString(), sender:'dev', readByDev:true, readByUser:false});
   input.value='';
+}
+function hapusChatDev(){
+  if(!selectedChatUser) return;
+  if(!confirm("Hapus semua riwayat chat dengan user ini?")) return;
+  chats.filter(c => c.username === selectedChatUser).forEach(c => {
+    window.fbRemove(window.fbRef(window.db, 'chats/'+c._key));
+  });
+  kembaliKeInbox();
 }
 
 function renderProfil(){
