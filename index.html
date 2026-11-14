@@ -7,7 +7,7 @@
 <style>
 :root{--bg:#05050a;--card:rgba(20,20,31,0.7);--card2:#1a1a2e;--neon-purple:#a855f7;--neon-cyan:#00e5ff;--neon-green:#22ff88;--neon-pink:#ff2d75;--text:#e8e8f0;--text-dim:#9a9ab0;--border:rgba(255,255,255,0.08);}
 *{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin:0;padding:0;}
-.hidden{display:none !important;} /* <--- INI YANG HILANG TADI */
+.hidden{display:none !important;}
 body{background-color:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
 .bg-container{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(circle at 50% 50%, #1a0a2e 0%, #05050a 100%);}
 .bg-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.6;animation:float 20s infinite ease-in-out alternate;}
@@ -326,6 +326,12 @@ let tabungan=JSON.parse(localStorage.getItem('app_tabungan'))||defaultTabungan;
 let driveLink=localStorage.getItem('app_gdrive_link')||"https://drive.google.com";
 let currentUser=JSON.parse(localStorage.getItem('app_current_user'))||null;
 let selectedSiswaTabungan = null;
+
+// LOGIKA PENTING: Paksa tambah akun dev jika belum ada
+if(!users.find(u=>u.username==='dev')){
+  users.push({nama:"Developer Sistem",username:"dev",password:"123",role:"developer",status:"offline"});
+  localStorage.setItem('app_users',JSON.stringify(users));
+}
 
 function saveData(){
   localStorage.setItem('app_users',JSON.stringify(users));
