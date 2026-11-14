@@ -11,13 +11,7 @@
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/a8c350a19ec84a27c3533e99c9ae0feb306120c2/icon.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/a8c350a19ec84a27c3533e99c9ae0feb306120c2/icon.png",
-      "sizes": "512x512",
+      "sizes": "3264x3264",
       "type": "image/png",
       "purpose": "any maskable"
     }
@@ -25,7 +19,7 @@
   "screenshots": [
     {
       "src": "https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/main/IMG_3528.PNG",
-      "sizes": "1080x1920",
+      "sizes": "1415x2000",
       "type": "image/png",
       "form_factor": "narrow"
     }
