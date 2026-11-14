@@ -17,11 +17,12 @@ body{background-color:var(--bg);color:var(--text);min-height:100vh;overflow-x:hi
 .orb-4{width:200px;height:200px;background:var(--neon-green);bottom:20%;left:10%;animation-delay:-15s;opacity:0.2;}
 @keyframes float{0%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-50px) scale(1.1);}100%{transform:translate(-20px,20px) scale(0.9);}}
 .bg-overlay{position:fixed;inset:0;z-index:-1;background:rgba(5,5,10,0.6);backdrop-filter:blur(20px);}
+
 .navbar{background:rgba(13,13,26,.8);backdrop-filter:blur(15px);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(168,85,247,.3);box-shadow:0 0 20px rgba(168,85,247,.15);position:sticky;top:0;z-index:100;}
-.navbar-brand h2{font-size:1.1rem;font-weight:700;color:#fff;text-shadow:0 0 10px rgba(168,85,247,.9);}
+.navbar-brand{display:flex;flex-direction:column;justify-content:center;}
+.navbar-brand h2{font-size:1.1rem;font-weight:700;color:#fff;text-shadow:0 0 10px rgba(168,85,247,.9);line-height:1.2;}
 .navbar-brand span{font-size:.7rem;color:var(--neon-cyan);text-shadow:0 0 8px rgba(0,229,255,.7);}
-.nav-right{display:flex;align-items:center;gap:12px;position:relative;}
-.greeting{font-size:.82rem;color:var(--text-dim);}
+.nav-right{display:flex;align-items:center;position:relative;height:100%;}
 .dots-btn{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.4);color:var(--neon-purple);font-size:1.4rem;cursor:pointer;padding:4px 12px;border-radius:8px;transition:.3s;line-height:1;box-shadow:0 0 10px rgba(168,85,247,.3);}
 .dots-btn:hover{background:rgba(168,85,247,.3);box-shadow:0 0 20px rgba(168,85,247,.8);}
 .dropdown-menu{display:none;position:absolute;right:0;top:50px;background:rgba(26,26,46,0.95);backdrop-filter:blur(15px);min-width:220px;border-radius:10px;border:1px solid rgba(168,85,247,.5);box-shadow:0 0 30px rgba(168,85,247,.5);z-index:200;overflow:hidden;animation:slideDown .25s ease;}
@@ -31,10 +32,17 @@ body{background-color:var(--bg);color:var(--text);min-height:100vh;overflow-x:hi
 .dropdown-menu button:hover{background:rgba(168,85,247,.2);color:#fff;padding-left:22px;text-shadow:0 0 8px #fff;}
 .dropdown-menu button.logout-btn{color:var(--neon-pink);font-weight:bold;border-top:1px solid rgba(255,255,255,.1);}
 .dropdown-menu button.logout-btn:hover{background:rgba(255,45,117,.2);text-shadow:0 0 8px var(--neon-pink);}
+
+.clock-container{text-align:center;margin:30px 0 40px;animation:fadeUp .6s ease;}
+.salam-text{font-size:1.2rem;color:var(--text-dim);margin-bottom:10px;font-weight:500;}
+.clock-time{font-size:4.5rem;font-weight:bold;color:var(--neon-cyan);text-shadow:0 0 20px rgba(0,229,255,.8), 0 0 40px rgba(0,229,255,.4);line-height:1;letter-spacing:2px;}
+.clock-date{font-size:1rem;color:var(--neon-purple);margin-top:10px;text-shadow:0 0 10px rgba(168,85,247,.6);}
+
 .container{max-width:1000px;margin:25px auto;padding:0 15px;}
 .card{background:var(--card);backdrop-filter:blur(15px);padding:22px;border-radius:16px;border:1px solid rgba(168,85,247,.3);box-shadow:inset 0 0 15px rgba(168,85,247,.1), 0 8px 32px rgba(0,0,0,.5), 0 0 20px rgba(168,85,247,.15);margin-bottom:20px;animation:fadeUp .4s ease;transition:.3s;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
 .card:hover{border-color:rgba(168,85,247,.6);box-shadow:inset 0 0 20px rgba(168,85,247,.2), 0 8px 32px rgba(0,0,0,.5), 0 0 30px rgba(168,85,247,.3);}
+
 .login-container{max-width:440px;margin:70px auto;padding:0 15px;position:relative;z-index:10;}
 .login-card{background:rgba(20,20,31,0.8);backdrop-filter:blur(20px);padding:32px;border-radius:20px;border:1px solid rgba(168,85,247,.5);box-shadow:0 0 50px rgba(168,85,247,.3), inset 0 0 20px rgba(168,85,247,.1);text-align:center;}
 .login-card h2{margin-bottom:6px;font-size:1.6rem;color:#fff;text-shadow:0 0 15px rgba(168,85,247,1);}
@@ -53,18 +61,14 @@ body{background-color:var(--bg);color:var(--text);min-height:100vh;overflow-x:hi
 .btn-danger{background:linear-gradient(135deg,#ff2d75,#c81e4a);color:#fff;border:1px solid #fecdd3;box-shadow:0 3px 0 #881337, 0 0 10px rgba(255,45,117,.5);}
 .btn-secondary{background:#334155;color:#fff;box-shadow:0 3px 0 #0f172a;}
 .btn-sm{padding:5px 10px;font-size:.75rem;border-radius:6px;}
-.welcome-banner{background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(0,229,255,.1));border:1px solid rgba(168,85,247,.5);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 0 20px rgba(168,85,247,.2);}
-.welcome-banner h2{font-size:1.35rem;margin-bottom:8px;background:linear-gradient(90deg,#a855f7,#00e5ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 20px rgba(168,85,247,.5);}
-.welcome-banner p{color:var(--text-dim);font-size:.9rem;line-height:1.6;}
+
 .piket-card{background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(20,20,31,0.8));border:1px solid rgba(168,85,247,.5);box-shadow:0 0 25px rgba(168,85,247,.3);}
 .piket-card h3{color:var(--neon-purple);text-shadow:0 0 10px rgba(168,85,247,.8);margin-bottom:6px;font-size:1.1rem;}
 .piket-date{color:var(--neon-cyan);font-size:.85rem;margin-bottom:15px;text-shadow:0 0 5px rgba(0,229,255,.5);}
 .piket-list{list-style:none;padding:0;margin-bottom:18px;}
 .piket-list li{padding:10px 14px;margin-bottom:8px;background:rgba(168,85,247,.1);border-left:3px solid var(--neon-purple);border-radius:8px;font-size:.92rem;animation:slideIn .4s ease both;box-shadow:inset 0 0 10px rgba(168,85,247,.1);}
 @keyframes slideIn{from{opacity:0;transform:translateX(-15px);}to{opacity:1;transform:translateX(0);}}
-.date-widget{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(20,20,31,.8);border:1px solid var(--border);border-radius:12px;margin-bottom:20px;font-size:.82rem;backdrop-filter:blur(10px);}
-.date-widget span{color:var(--text-dim);display:block;font-size:.75rem;}
-.date-widget strong{color:var(--neon-cyan);text-shadow:0 0 8px rgba(0,229,255,.6);font-size:.95rem;}
+
 table{width:100%;border-collapse:collapse;margin-top:12px;}
 th,td{padding:11px 12px;text-align:left;font-size:.86rem;border-bottom:1px solid rgba(255,255,255,.08);}
 th{background:rgba(26,26,46,0.9);font-weight:600;color:var(--neon-cyan);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;text-shadow:0 0 5px rgba(0,229,255,.5);}
@@ -78,6 +82,7 @@ td strong{color:var(--neon-purple);}
 .badge-online{background:rgba(34,255,136,.15);color:var(--neon-green);border:1px solid rgba(34,255,136,.5);animation:pulse 2s infinite;}
 .badge-offline{background:rgba(100,116,139,.15);color:#94a3b8;border:1px solid rgba(100,116,139,.3);}
 @keyframes pulse{0%,100%{box-shadow:0 0 5px rgba(34,255,136,.5);}50%{box-shadow:0 0 15px rgba(34,255,136,.9);}}
+
 .summary-banner{background:linear-gradient(135deg,rgba(34,255,136,.15),rgba(168,85,247,.1));border:1px solid rgba(34,255,136,.5);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;box-shadow:0 0 20px rgba(34,255,136,.2);}
 .summary-banner h3{font-size:.9rem;color:var(--text-dim);font-weight:normal;}
 .summary-banner .total-amount{font-size:1.7rem;font-weight:bold;color:var(--neon-green);text-shadow:0 0 15px rgba(34,255,136,.8);margin-top:4px;}
@@ -97,6 +102,24 @@ td strong{color:var(--neon-purple);}
 .checkbox-list{max-height:150px;overflow-y:auto;background:rgba(0,0,0,0.3);border-radius:8px;padding:10px;margin-bottom:10px;}
 .checkbox-list label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.85rem;color:var(--text);cursor:pointer;}
 .checkbox-list input[type="checkbox"]{accent-color:var(--neon-pink);width:16px;height:16px;}
+
+/* CHAT BOX */
+.chat-container{display:flex;flex-direction:column;height:400px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:15px;}
+.chat-messages{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px;}
+.chat-bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:.88rem;position:relative;word-wrap:break-word;}
+.chat-bubble.own{align-self:flex-end;background:rgba(168,85,247,.2);border:1px solid rgba(168,85,247,.4);border-bottom-right-radius:4px;}
+.chat-bubble.other{align-self:flex-start;background:rgba(26,26,46,0.9);border:1px solid var(--border);border-bottom-left-radius:4px;}
+.chat-meta{font-size:.68rem;color:var(--text-dim);margin-bottom:4px;display:flex;justify-content:space-between;gap:10px;}
+.chat-input-area{display:flex;gap:10px;padding:10px;background:rgba(26,26,46,0.8);border-top:1px solid var(--border);}
+.chat-input-area input{flex:1;padding:10px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:var(--bg);color:var(--text);outline:none;}
+.chat-input-area input:focus{border-color:var(--neon-cyan);}
+
+.inbox-item{background:rgba(26,26,46,0.8);border:1px solid rgba(168,85,247,.3);border-radius:10px;padding:15px;margin-bottom:10px;cursor:pointer;transition:.3s;display:flex;justify-content:space-between;align-items:center;}
+.inbox-item:hover{border-color:var(--neon-cyan);box-shadow:0 0 15px rgba(0,229,255,.3);transform:translateY(-2px);}
+.inbox-info{display:flex;flex-direction:column;gap:4px;}
+.inbox-name{font-weight:bold;color:var(--neon-cyan);}
+.inbox-msg{font-size:.8rem;color:var(--text-dim);}
+
 #loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;color:var(--neon-cyan);font-weight:bold;letter-spacing:2px;}
 .spinner{width:40px;height:40px;border:4px solid rgba(0,229,255,.2);border-top-color:var(--neon-cyan);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:15px;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -107,12 +130,11 @@ td strong{color:var(--neon-purple);}
   table td {display: flex;justify-content: space-between;align-items: center;border-bottom: 1px dashed rgba(255,255,255,0.1);padding: 8px 0;text-align: right;font-size: 0.85rem;white-space: normal;}
   table td:last-child {border-bottom: none;margin-top: 5px;justify-content: flex-end;}
   table td::before {content: attr(data-label);font-weight: bold;color: var(--neon-cyan);text-align: left;margin-right: 15px;font-size: 0.75rem;text-transform: uppercase;text-shadow:0 0 5px rgba(0,229,255,.5);}
-  .navbar{padding:10px 15px;flex-wrap:wrap;gap:5px;position:relative;}
+  .navbar{padding:10px 15px;flex-wrap:nowrap;}
   .navbar-brand h2{font-size:1rem;}
   .navbar-brand span{font-size:0.65rem;}
-  .nav-right{width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:5px;}
-  .greeting{font-size:0.75rem;}
-  .dots-btn{position:absolute;right:15px;top:50%;transform:translateY(-50%);}
+  .clock-time{font-size:3rem;}
+  .salam-text{font-size:1rem;}
 }
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
 </style>
@@ -125,20 +147,15 @@ td strong{color:var(--neon-purple);}
 <div class="bg-overlay"></div>
 
 <div id="login-section" class="hidden">
-  <div class="navbar"><div class="navbar-brand"><h2>12 TKJ 3 TAV</h2><span>www.12tkj3tav.com</span></div></div>
+  <div class="navbar"><div class="navbar-brand"><h2>12 TKJ 3 TAV</h2><span>Sistem Informasi Kelas</span></div></div>
   <div class="login-container">
     <div class="login-card">
       <h2>Masuk Akun</h2>
-      <div class="subtitle">www.12tkj3tav.com</div>
+      <div class="subtitle">Silakan masuk</div>
       <div class="form-group"><label>Username</label><input type="text" id="login-username" placeholder="Masukkan username"></div>
       <div class="form-group"><label>Kata Sandi</label><input type="password" id="login-password" placeholder="..."></div>
-      <div class="form-group">
-        <label>Akses Masuk</label>
-        <select id="login-role-select">
-          <option value="siswa">Siswa</option>
-          <option value="admin">Admin (Tabungan)</option>
-          <option value="developer">Developer</option>
-        </select>
+      <div class="form-group"><label>Akses Masuk</label>
+        <select id="login-role-select"><option value="siswa">Siswa</option><option value="admin">Admin (Tabungan)</option><option value="developer">Developer</option></select>
       </div>
       <button class="btn btn-primary" style="margin-top:8px;" onclick="handleLogin()">Masuk</button>
     </div>
@@ -149,8 +166,7 @@ td strong{color:var(--neon-purple);}
   <div class="navbar">
     <div class="navbar-brand"><h2>12 TKJ 3 TAV</h2><span id="nav-user-role-label">Sistem Informasi Kelas</span></div>
     <div class="nav-right">
-      <span id="user-greeting-nav" class="greeting"></span>
-      <div id="menu-dots-wrapper" style="position:relative;display:flex;align-items:center;">
+      <div id="menu-dots-wrapper" style="position:relative;">
         <button class="dots-btn" onclick="toggleDropdown()" title="Menu">&#8942;</button>
         <div id="dots-dropdown" class="dropdown-menu">
           <button onclick="showPage('page-dashboard')">🏠 Beranda</button>
@@ -158,7 +174,10 @@ td strong{color:var(--neon-purple);}
           <button onclick="showPage('page-piket')">📅 Jadwal Piket</button>
           <button onclick="showPage('page-foto')">📸 Kenangan Foto</button>
           <button onclick="showPage('page-tabungan')">💰 Data Tabungan</button>
-          <button id="menu-akun-btn" class="hidden" onclick="showPage('page-akun')">👤 Manajemen Akun</button>
+          <button id="menu-helpdesk" onclick="showPage('page-chat')">💬 Hubungi Developer</button>
+          <button id="menu-inbox" class="hidden" onclick="showPage('page-inbox')">📥 Pesan Masuk</button>
+          <button onclick="showPage('page-profil')">👤 Profil Saya</button>
+          <button id="menu-akun-btn" class="hidden" onclick="showPage('page-akun')">⚙️ Manajemen Akun</button>
           <button class="logout-btn" onclick="handleLogout()">🚪 Keluar</button>
         </div>
       </div>
@@ -166,15 +185,11 @@ td strong{color:var(--neon-purple);}
   </div>
 
   <div class="container">
-    <div class="date-widget">
-      <div><span>Tanggal Hari Ini:</span><strong id="current-date-display">-</strong></div>
-      <div style="text-align:right;"><span>Periode Bulan:</span><strong id="current-month-display">-</strong></div>
-    </div>
-
     <div id="page-dashboard" class="page-content">
-      <div class="welcome-banner">
-        <h2 id="welcome-banner-text">HALLO, SELAMAT DATANG</h2>
-        <p id="dashboard-desc"></p>
+      <div class="clock-container">
+        <div class="salam-text" id="salam-text">Selamat Pagi!</div>
+        <div class="clock-time" id="clock-time">00:00:00</div>
+        <div class="clock-date" id="clock-date">-</div>
       </div>
       <div class="card piket-card">
         <h3>📅 Piket Hari Ini</h3>
@@ -227,7 +242,10 @@ td strong{color:var(--neon-purple);}
     </div>
 
     <div id="page-tabungan" class="card page-content hidden">
-      <h3 style="color:var(--neon-purple);margin-bottom:12px;text-shadow:0 0 10px rgba(168,85,247,.8);">💰 Data Tabungan Siswa</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="color:var(--neon-purple);text-shadow:0 0 10px rgba(168,85,247,.8);">💰 Data Tabungan</h3>
+        <button class="btn btn-primary btn-sm" style="width:auto;" onclick="exportCSV()">📥 Export</button>
+      </div>
       
       <div id="tabungan-admin-view">
         <div class="summary-banner">
@@ -248,8 +266,8 @@ td strong{color:var(--neon-purple);}
         <div id="form-iuran-panel">
           <h4>📉 Form Potong Iuran</h4>
           <div class="form-row">
-            <input type="text" id="iuran-ket" placeholder="Keterangan (cth: Beli alat kebersihan)" style="flex:2;">
-            <input type="number" id="iuran-nominal" placeholder="Nominal per Siswa (Rp)">
+            <input type="text" id="iuran-ket" placeholder="Keterangan (cth: Beli alat)" style="flex:2;">
+            <input type="number" id="iuran-nominal" placeholder="Nominal (Rp)">
           </div>
           <label style="display:flex;align-items:center;gap:8px;color:var(--neon-pink);font-weight:bold;margin-bottom:10px;cursor:pointer;">
             <input type="checkbox" id="check-semua" onchange="togglePilihSemua()"> Pilih Semua Siswa
@@ -262,7 +280,7 @@ td strong{color:var(--neon-purple);}
           <div class="siswa-card-list" id="list-siswa-tabungan"></div>
         </div>
         <div id="rincian-tabungan-container" class="hidden">
-          <button class="btn btn-secondary btn-sm" onclick="kembaliKeDaftar()" style="margin-bottom:15px;">⬅ Kembali ke Daftar</button>
+          <button class="btn btn-secondary btn-sm" onclick="kembaliKeDaftar()" style="margin-bottom:15px;">⬅ Kembali</button>
           <h4 id="rincian-nama" style="color:var(--neon-cyan);margin-bottom:5px;"></h4>
           <p style="margin-bottom:15px;">Total Saldo: <strong id="rincian-saldo" style="color:var(--neon-green);font-size:1.2rem;"></strong></p>
           <table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Nominal</th><th>Keterangan</th><th id="th-aksi-tabungan" class="hidden">Aksi</th></tr></thead><tbody id="tabel-rincian-tabungan"></tbody></table>
@@ -279,8 +297,51 @@ td strong{color:var(--neon-purple);}
       </div>
     </div>
 
+    <div id="page-chat" class="card page-content hidden">
+      <h3 style="color:var(--neon-purple);margin-bottom:10px;text-shadow:0 0 10px rgba(168,85,247,.8);">💬 Hubungi Developer</h3>
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages-user"></div>
+        <div class="chat-input-area">
+          <input type="text" id="chat-input-user" placeholder="Ketik pesan..." onkeypress="if(event.key==='Enter') kirimPesanUser()">
+          <button class="btn btn-primary" style="width:auto;" onclick="kirimPesanUser()">Kirim</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-inbox" class="card page-content hidden">
+      <h3 style="color:var(--neon-purple);margin-bottom:10px;text-shadow:0 0 10px rgba(168,85,247,.8);">📥 Pesan Masuk</h3>
+      <div id="inbox-list"></div>
+      
+      <div id="chat-dev-view" class="hidden" style="margin-top:20px;">
+        <button class="btn btn-secondary btn-sm" onclick="kembaliKeInbox()" style="margin-bottom:15px;">⬅ Kembali ke Daftar</button>
+        <h4 id="chat-dev-title" style="color:var(--neon-cyan);margin-bottom:10px;"></h4>
+        <div class="chat-container">
+          <div class="chat-messages" id="chat-messages-dev"></div>
+          <div class="chat-input-area">
+            <input type="text" id="chat-input-dev" placeholder="Balas pesan..." onkeypress="if(event.key==='Enter') kirimPesanDev()">
+            <button class="btn btn-primary" style="width:auto;" onclick="kirimPesanDev()">Kirim</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-profil" class="card page-content hidden">
+      <h3 style="color:var(--neon-purple);margin-bottom:12px;text-shadow:0 0 10px rgba(168,85,247,.8);">👤 Profil Saya</h3>
+      <div style="background:rgba(26,26,46,0.8);padding:20px;border-radius:10px;border:1px solid var(--border);">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="profil-username">
+        </div>
+        <div class="form-group">
+          <label>Password Baru (Kosongkan jika tidak diubah)</label>
+          <input type="password" id="profil-password" placeholder="••••••••">
+        </div>
+        <button class="btn btn-success" onclick="simpanProfil()">Simpan Perubahan</button>
+      </div>
+    </div>
+
     <div id="page-akun" class="card page-content hidden">
-      <h3 style="color:var(--neon-purple);margin-bottom:12px;text-shadow:0 0 10px rgba(168,85,247,.8);">👤 Manajemen Akun Pengguna</h3>
+      <h3 style="color:var(--neon-purple);margin-bottom:12px;text-shadow:0 0 10px rgba(168,85,247,.8);">⚙️ Manajemen Akun Pengguna</h3>
       <div style="background:rgba(26,26,46,0.8);padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
         <h4 id="form-akun-title" style="margin-bottom:10px;font-size:.9rem;color:var(--neon-cyan);">Buat Akun Baru</h4>
         <input type="hidden" id="edit-akun-index" value="-1">
@@ -288,11 +349,7 @@ td strong{color:var(--neon-purple);}
           <input type="text" id="akun-nama" placeholder="Nama Lengkap">
           <input type="text" id="akun-username" placeholder="Username">
           <input type="text" id="akun-password" placeholder="Password">
-          <select id="akun-role">
-            <option value="siswa">Siswa</option>
-            <option value="admin">Admin (Tabungan)</option>
-            <option value="developer">Developer</option>
-          </select>
+          <select id="akun-role"><option value="siswa">Siswa</option><option value="admin">Admin</option><option value="developer">Developer</option></select>
         </div>
         <div style="margin-top:10px;">
           <button class="btn btn-primary btn-sm" style="width:auto;" onclick="simpanAkun()">Simpan Akun</button>
@@ -321,7 +378,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-
 window.db = db;
 window.fbRef = ref;
 window.fbSet = set;
@@ -330,14 +386,13 @@ window.fbOnValue = onValue;
 window.fbPush = push;
 window.fbRemove = remove;
 window.fbUpdate = update;
-
 window.dispatchEvent(new Event('firebase-ready'));
 </script>
 
 <script>
-let users = []; let struktur = []; let piket = []; let tabungan = []; let driveLink = "https://drive.google.com";
+let users = []; let struktur = []; let piket = []; let tabungan = []; let chats = []; let driveLink = "https://drive.google.com";
 let currentUser = JSON.parse(sessionStorage.getItem('app_current_user')) || null;
-let firebaseReady = false; let selectedSiswaTabungan = null;
+let firebaseReady = false; let selectedSiswaTabungan = null; let selectedChatUser = null;
 
 const defaultUsers = [
   {nama:"Administrator Utama",username:"admin",password:"123",role:"admin",status:"offline"},
@@ -346,43 +401,55 @@ const defaultUsers = [
 const defaultStruktur = [{jabatan:"Ketua Kelas",nama:"Ahmad Fauzi"},{jabatan:"Wakil Ketua",nama:"Siti Aminah"},{jabatan:"Sekretaris",nama:"Dewi Lestari"},{jabatan:"Bendahara",nama:"Rizky Pratama"}];
 const defaultPiket = [{hari:"Senin",anggota:"Ahmad Fauzi, Siti Aminah"},{hari:"Selasa",anggota:"Budi Santoso, Rina Melati"},{hari:"Rabu",anggota:"Joko Widodo, Sri Mulyani"},{hari:"Kamis",anggota:"Doni Setiawan, Maya Sari"},{hari:"Jumat",anggota:"Eko Prasetyo, Dian Sastrowardoyo"}];
 
-function setRealTimeCalendar(){
-  const t = new Date();
-  document.getElementById('current-date-display').innerText = t.toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById('current-month-display').innerText = t.toLocaleDateString('id-ID',{month:'long',year:'numeric'});
+function updateClock() {
+  const now = new Date();
+  const jam = String(now.getHours()).padStart(2,'0');
+  const menit = String(now.getMinutes()).padStart(2,'0');
+  const detik = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('clock-time');
+  if(el) el.innerText = `${jam}:${menit}:${detik}`;
+  
+  const elDate = document.getElementById('clock-date');
+  if(elDate) elDate.innerText = now.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  
+  const elSalam = document.getElementById('salam-text');
+  if(elSalam && currentUser) {
+    const h = now.getHours();
+    let salam = "Selamat Malam";
+    if(h >= 4 && h < 11) salam = "Selamat Pagi";
+    else if(h >= 11 && h < 15) salam = "Selamat Siang";
+    else if(h >= 15 && h < 18) salam = "Selamat Sore";
+    elSalam.innerText = `${salam}, ${currentUser.nama}! 👋`;
+  }
 }
+setInterval(updateClock, 1000);
 
 window.addEventListener('firebase-ready', () => {
   firebaseReady = true;
-  setRealTimeCalendar();
+  updateClock();
   initFirebaseListeners();
 });
 
 function initFirebaseListeners(){
   window.fbOnValue(window.fbRef(window.db, 'users'), (snap) => {
     const data = snap.val();
-    if(data){
-      users = Object.keys(data).map(k => ({...data[k], _key: k}));
-    } else {
-      defaultUsers.forEach(u => {
-        const newRef = window.fbPush(window.fbRef(window.db, 'users'));
-        window.fbSet(newRef, u);
-      });
-      users = [...defaultUsers];
-    }
+    if(data){ users = Object.keys(data).map(k => ({...data[k], _key: k})); }
+    else { defaultUsers.forEach(u => { window.fbSet(window.fbPush(window.fbRef(window.db, 'users')), u); }); }
     if(currentUser){ const found = users.find(u => u.username === currentUser.username); if(found){ currentUser = found; sessionStorage.setItem('app_current_user', JSON.stringify(found)); } }
     if(currentUser && currentUser.role === 'developer') renderTabelAkun();
   });
 
   window.fbOnValue(window.fbRef(window.db, 'struktur'), (snap) => {
     const data = snap.val();
-    if(data){ struktur = Object.keys(data).map(k => ({...data[k], _key: k})); } else { defaultStruktur.forEach((s, i) => { window.fbSet(window.fbRef(window.db, 'struktur/s' + i), s); }); struktur = [...defaultStruktur]; }
+    if(data){ struktur = Object.keys(data).map(k => ({...data[k], _key: k})); }
+    else { defaultStruktur.forEach((s, i) => { window.fbSet(window.fbRef(window.db, 'struktur/s' + i), s); }); }
     if(!document.getElementById('page-struktur').classList.contains('hidden')) renderStruktur();
   });
 
   window.fbOnValue(window.fbRef(window.db, 'piket'), (snap) => {
     const data = snap.val();
-    if(data){ piket = Object.keys(data).map(k => ({...data[k], _key: k})); } else { defaultPiket.forEach((p) => { window.fbSet(window.fbRef(window.db, 'piket/' + p.hari), p); }); piket = [...defaultPiket]; }
+    if(data){ piket = Object.keys(data).map(k => ({...data[k], _key: k})); }
+    else { defaultPiket.forEach((p) => { window.fbSet(window.fbRef(window.db, 'piket/' + p.hari), p); }); }
     if(!document.getElementById('page-piket').classList.contains('hidden')) renderPiket();
     if(!document.getElementById('page-dashboard').classList.contains('hidden')) renderDashboard();
   });
@@ -391,6 +458,16 @@ function initFirebaseListeners(){
     const data = snap.val();
     if(data){ tabungan = Object.keys(data).map(k => ({...data[k], _key: k})); } else { tabungan = []; }
     if(!document.getElementById('page-tabungan').classList.contains('hidden')) renderTabungan();
+  });
+
+  window.fbOnValue(window.fbRef(window.db, 'chats'), (snap) => {
+    const data = snap.val();
+    if(data){ chats = Object.keys(data).map(k => ({...data[k], _key: k})); } else { chats = []; }
+    if(currentUser && currentUser.role === 'developer') {
+      if(!document.getElementById('page-inbox').classList.contains('hidden')) renderInbox();
+    } else {
+      if(!document.getElementById('page-chat').classList.contains('hidden')) renderChatUser();
+    }
   });
 
   window.fbOnValue(window.fbRef(window.db, 'settings/driveLink'), (snap) => {
@@ -415,8 +492,7 @@ function handleLogin(){
   const r = document.getElementById('login-role-select').value;
   const found = users.find(x => x.username === u && x.password === p && x.role === r);
   if(!found){ alert("Username, Password, atau Akses Masuk salah!"); return; }
-  currentUser = found;
-  sessionStorage.setItem('app_current_user', JSON.stringify(found));
+  currentUser = found; sessionStorage.setItem('app_current_user', JSON.stringify(found));
   if(found._key){ window.fbUpdate(window.fbRef(window.db, 'users/' + found._key), {status:'online'}); }
   document.getElementById('login-section').classList.add('hidden');
   document.getElementById('app-section').classList.remove('hidden');
@@ -432,21 +508,20 @@ function handleLogout(){
 
 function inisialisasiSesiUI(){
   const roleText = currentUser.role==='developer'?'Developer':(currentUser.role==='admin'?'Admin':'Siswa');
-  document.getElementById('user-greeting-nav').innerText=`Halo, ${currentUser.nama} (${roleText})`;
   document.getElementById('nav-user-role-label').innerText=`Sistem Informasi Kelas - ${roleText}`;
-  document.getElementById('welcome-banner-text').innerText=`HALLO, SELAMAT DATANG ${currentUser.nama.toUpperCase()} DI 12 TKJ 3 TAV`;
-  document.getElementById('menu-dots-wrapper').classList.remove('hidden');
-  let desc = currentUser.role==='developer'?"Anda adalah Developer. Akses penuh ke seluruh sistem.":(currentUser.role==='admin'?"Anda adalah Admin. Anda hanya dapat mengelola Data Tabungan dan Iuran.":"Anda masuk sebagai Siswa. Lihat informasi kelas, jadwal piket, galeri foto, dan tabungan Anda.");
-  document.getElementById('dashboard-desc').innerText = desc;
   const isDev = currentUser.role==='developer'; const isAdminOrDev = currentUser.role==='admin'||isDev;
   document.getElementById('menu-akun-btn').classList.toggle('hidden',!isDev);
+  document.getElementById('menu-inbox').classList.toggle('hidden',!isDev);
+  document.getElementById('menu-helpdesk').classList.toggle('hidden',isDev);
   ['admin-struktur-form','th-aksi-struktur','admin-piket-form','th-aksi-piket','admin-foto-form'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!isDev));
   document.getElementById('tabungan-admin-view').classList.toggle('hidden',!isAdminOrDev);
   document.getElementById('tabungan-siswa-view').classList.toggle('hidden',isAdminOrDev);
+  updateClock();
 }
 
 function toggleDropdown(){document.getElementById('dots-dropdown').classList.toggle('show');}
 window.onclick=function(e){if(!e.target.matches('.dots-btn')){const d=document.getElementById('dots-dropdown');if(d&&d.classList.contains('show'))d.classList.remove('show');}};
+
 function showPage(pageId){
   document.querySelectorAll('.page-content').forEach(el=>el.classList.add('hidden'));
   document.getElementById(pageId).classList.remove('hidden');
@@ -456,6 +531,9 @@ function showPage(pageId){
   if(pageId==='page-piket')renderPiket();
   if(pageId==='page-foto')renderFotoPage();
   if(pageId==='page-tabungan')renderTabungan();
+  if(pageId==='page-chat')renderChatUser();
+  if(pageId==='page-inbox')renderInbox();
+  if(pageId==='page-profil')renderProfil();
   if(pageId==='page-akun')renderTabelAkun();
 }
 
@@ -469,6 +547,7 @@ function renderDashboard(){
   if(!data||!data.anggota.trim()){list.innerHTML='<li style="border-color:var(--neon-pink);">Belum ada petugas piket.</li>';return;}
   data.anggota.split(',').forEach(nama=>{const li=document.createElement('li');li.innerText='🧹 '+nama.trim();list.appendChild(li);});
 }
+
 function renderStruktur(){
   const tbody=document.getElementById('tabel-struktur-body');tbody.innerHTML='';
   struktur.forEach((item)=>{
@@ -480,10 +559,11 @@ function tambahStruktur(){
   if(currentUser.role!=='developer')return;
   const j=document.getElementById('struct-jabatan').value.trim(); const n=document.getElementById('struct-nama').value.trim();
   if(!j||!n){alert("Isi jabatan dan nama!");return;}
-  const newRef=window.fbPush(window.fbRef(window.db, 'struktur')); window.fbSet(newRef, {jabatan:j, nama:n});
+  window.fbSet(window.fbPush(window.fbRef(window.db, 'struktur')), {jabatan:j, nama:n});
   document.getElementById('struct-jabatan').value=''; document.getElementById('struct-nama').value='';
 }
 function hapusStruktur(key){if(currentUser.role!=='developer')return;if(confirm("Hapus jabatan ini?")){window.fbRemove(window.fbRef(window.db, 'struktur/' + key));}}
+
 function renderPiket(){
   const tbody=document.getElementById('tabel-piket-body');tbody.innerHTML='';
   piket.forEach((item)=>{
@@ -499,6 +579,7 @@ function simpanPiket(){
   document.getElementById('piket-nama').value='';
 }
 function hapusPiket(hari){if(currentUser.role!=='developer')return;if(confirm("Hapus jadwal piket ini?")){window.fbRemove(window.fbRef(window.db, 'piket/' + hari));}}
+
 function renderFotoPage(){document.getElementById('gdrive-button-link').href=driveLink;document.getElementById('input-gdrive-link').value=driveLink;}
 function simpanDriveLink(){
   if(currentUser.role!=='developer')return;
@@ -506,10 +587,10 @@ function simpanDriveLink(){
   if(!l){alert("Link tidak boleh kosong!");return;}
   window.fbSet(window.fbRef(window.db, 'settings/driveLink'), l); alert("Link berhasil diperbarui!");
 }
+
 function formatRupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(n);}
 function hitungSaldoPerSiswa(){
-  let saldo={};
-  users.forEach(u=>{if(u.role==='siswa')saldo[u.nama]=0;});
+  let saldo={}; users.forEach(u=>{if(u.role==='siswa')saldo[u.nama]=0;});
   tabungan.forEach(t=>{if(saldo[t.nama]!==undefined){saldo[t.nama]+=(t.jenis==='setor'?t.nominal:-t.nominal);}});
   return saldo;
 }
@@ -535,8 +616,7 @@ function lihatRincianTabungan(nama){
   document.getElementById('daftar-siswa-container').classList.add('hidden');
   document.getElementById('rincian-tabungan-container').classList.remove('hidden');
   document.getElementById('rincian-nama').innerText='Rincian Tabungan: '+nama;
-  const saldo=hitungSaldoPerSiswa()[nama]||0;
-  document.getElementById('rincian-saldo').innerText=formatRupiah(saldo);
+  document.getElementById('rincian-saldo').innerText=formatRupiah(hitungSaldoPerSiswa()[nama]||0);
   const tbody=document.getElementById('tabel-rincian-tabungan');tbody.innerHTML='';
   tabungan.filter(t=>t.nama===nama).forEach((item)=>{
     const nominalFmt=(item.jenis==='setor'?'+ ':'- ')+formatRupiah(item.nominal);
@@ -557,7 +637,7 @@ function tambahSetor(){
   const nama=document.getElementById('tab-nama').value; const nominal=parseInt(document.getElementById('tab-nominal').value);
   if(!nama || isNaN(nominal) || nominal<=0){alert("Pilih siswa dan masukkan nominal!");return;}
   const now=new Date(); const tgl=now.toLocaleDateString('id-ID')+' '+now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  const newRef=window.fbPush(window.fbRef(window.db, 'tabungan')); window.fbSet(newRef, {tanggal:tgl,nama:nama,keterangan:"",nominal:nominal,jenis:"setor"});
+  window.fbSet(window.fbPush(window.fbRef(window.db, 'tabungan')), {tanggal:tgl,nama:nama,keterangan:"",nominal:nominal,jenis:"setor"});
   document.getElementById('tab-nominal').value='';
 }
 function toggleFormIuran(){const p=document.getElementById('form-iuran-panel');p.style.display=p.style.display==='block'?'none':'block';}
@@ -565,20 +645,14 @@ function togglePilihSemua(){const isChecked=document.getElementById('check-semua
 function prosesIuran(){
   const ket=document.getElementById('iuran-ket').value.trim(); const nominal=parseInt(document.getElementById('iuran-nominal').value);
   const selected=Array.from(document.querySelectorAll('.check-siswa:checked')).map(c=>c.value);
-  if(!ket){alert("Keterangan iuran harus diisi!");return;}
-  if(isNaN(nominal)||nominal<=0){alert("Nominal iuran tidak valid!");return;}
-  if(selected.length===0){alert("Pilih minimal satu siswa!");return;}
+  if(!ket || isNaN(nominal)||nominal<=0 || selected.length===0){alert("Lengkapi data iuran dan pilih siswa!");return;}
   const now=new Date(); const tgl=now.toLocaleDateString('id-ID')+' '+now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  selected.forEach(nama=>{
-    const newRef=window.fbPush(window.fbRef(window.db, 'tabungan')); window.fbSet(newRef, {tanggal:tgl,nama:nama,keterangan:ket,nominal:nominal,jenis:"tarik"});
-  });
+  selected.forEach(nama=>{ window.fbSet(window.fbPush(window.fbRef(window.db, 'tabungan')), {tanggal:tgl,nama:nama,keterangan:ket,nominal:nominal,jenis:"tarik"}); });
   document.getElementById('iuran-ket').value=''; document.getElementById('iuran-nominal').value=''; document.getElementById('check-semua').checked=false;
-  document.querySelectorAll('.check-siswa').forEach(c=>c.checked=false);
-  toggleFormIuran(); alert("Iuran berhasil dipotong untuk "+selected.length+" siswa.");
+  document.querySelectorAll('.check-siswa').forEach(c=>c.checked=false); toggleFormIuran(); alert("Iuran dipotong untuk "+selected.length+" siswa.");
 }
 function renderTabunganSiswa(){
-  const nama = currentUser.nama; const saldo=hitungSaldoPerSiswa()[nama]||0;
-  document.getElementById('total-saldo-siswa').innerText=formatRupiah(saldo);
+  const nama = currentUser.nama; document.getElementById('total-saldo-siswa').innerText=formatRupiah(hitungSaldoPerSiswa()[nama]||0);
   const tbody=document.getElementById('tabel-siswa-sendiri');tbody.innerHTML='';
   tabungan.filter(t=>t.nama===nama).forEach((item)=>{
     const nominalFmt=(item.jenis==='setor'?'+ ':'- ')+formatRupiah(item.nominal);
@@ -588,6 +662,112 @@ function renderTabunganSiswa(){
   });
 }
 function hapusTransaksi(key){if(currentUser.role!=='developer')return;if(confirm("Hapus transaksi ini?")){window.fbRemove(window.fbRef(window.db, 'tabungan/' + key));}}
+
+function exportCSV(){
+  if(tabungan.length===0){alert("Tidak ada data untuk diexport.");return;}
+  let csv = "Tanggal,Nama Siswa,Jenis,Nominal,Keterangan\n";
+  tabungan.forEach(t=>{ csv += `"${t.tanggal}","${t.nama}","${t.jenis}","${t.nominal}","${t.keterangan}"\n`; });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Data_Tabungan_12TKJ3.csv"; link.click();
+}
+
+// CHAT USER (Siswa/Admin)
+function renderChatUser(){
+  const box = document.getElementById('chat-messages-user'); if(!box) return; box.innerHTML='';
+  const myChats = chats.filter(c => c.username === currentUser.username).sort((a,b)=> new Date(a.waktu) - new Date(b.waktu));
+  myChats.forEach(c=>{
+    const isOwn = c.username === currentUser.username && c.sender === currentUser.username;
+    const isDev = c.sender === 'dev';
+    const div = document.createElement('div');
+    div.className = `chat-bubble ${isDev ? 'other' : 'own'}`;
+    div.innerHTML = `<div class="chat-meta"><strong>${isDev?'Developer':currentUser.nama}</strong> <span>${c.jam}</span></div><div>${c.pesan}</div>`;
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+function kirimPesanUser(){
+  const input = document.getElementById('chat-input-user'); const pesan = input.value.trim();
+  if(!pesan) return;
+  const now = new Date(); const jam = now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  window.fbSet(window.fbPush(window.fbRef(window.db, 'chats')), {username:currentUser.username, nama:currentUser.nama, pesan:pesan, jam:jam, waktu:now.toISOString(), sender:currentUser.username});
+  input.value='';
+}
+
+// CHAT DEV (Developer)
+function renderInbox(){
+  const list = document.getElementById('inbox-list'); if(!list) return; list.innerHTML='';
+  const grouped = {};
+  chats.forEach(c => {
+    if(c.sender !== 'dev') {
+      if(!grouped[c.username]) grouped[c.username] = {nama: c.nama, lastMsg: c.pesan, count: 0};
+      grouped[c.username].lastMsg = c.pesan;
+      grouped[c.username].count++;
+    }
+  });
+  const keys = Object.keys(grouped);
+  if(keys.length === 0) { list.innerHTML = '<p style="color:var(--text-dim);">Belum ada pesan masuk.</p>'; return; }
+  keys.forEach(uname => {
+    const d = grouped[uname];
+    list.innerHTML += `<div class="inbox-item" onclick="bukaChatDev('${uname}', '${d.nama}')">
+      <div class="inbox-info"><span class="inbox-name">${d.nama} (${uname})</span><span class="inbox-msg">${d.lastMsg}</span></div>
+      <div class="badge badge-admin">${d.count} Pesan</div>
+    </div>`;
+  });
+}
+function bukaChatDev(uname, nama){
+  selectedChatUser = uname;
+  document.getElementById('inbox-list').classList.add('hidden');
+  document.getElementById('chat-dev-view').classList.remove('hidden');
+  document.getElementById('chat-dev-title').innerText = 'Chat dengan ' + nama;
+  renderChatDev();
+}
+function kembaliKeInbox(){
+  selectedChatUser = null;
+  document.getElementById('inbox-list').classList.remove('hidden');
+  document.getElementById('chat-dev-view').classList.add('hidden');
+  renderInbox();
+}
+function renderChatDev(){
+  if(!selectedChatUser) return;
+  const box = document.getElementById('chat-messages-dev'); box.innerHTML='';
+  const myChats = chats.filter(c => c.username === selectedChatUser).sort((a,b)=> new Date(a.waktu) - new Date(b.waktu));
+  myChats.forEach(c=>{
+    const isDev = c.sender === 'dev';
+    const div = document.createElement('div');
+    div.className = `chat-bubble ${isDev ? 'own' : 'other'}`;
+    div.innerHTML = `<div class="chat-meta"><strong>${isDev?'Anda (Dev)':c.nama}</strong> <span>${c.jam}</span></div><div>${c.pesan}</div>`;
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+function kirimPesanDev(){
+  if(!selectedChatUser) return;
+  const input = document.getElementById('chat-input-dev'); const pesan = input.value.trim();
+  if(!pesan) return;
+  const targetUser = users.find(u => u.username === selectedChatUser);
+  const now = new Date(); const jam = now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  window.fbSet(window.fbPush(window.fbRef(window.db, 'chats')), {username:selectedChatUser, nama:targetUser ? targetUser.nama : 'User', pesan:pesan, jam:jam, waktu:now.toISOString(), sender:'dev'});
+  input.value='';
+}
+
+function renderProfil(){
+  document.getElementById('profil-username').value = currentUser.username;
+  document.getElementById('profil-password').value = '';
+}
+function simpanProfil(){
+  const newUser = document.getElementById('profil-username').value.trim();
+  const newPass = document.getElementById('profil-password').value.trim();
+  if(!newUser){ alert("Username tidak boleh kosong!"); return; }
+  if(newUser !== currentUser.username && users.some(u=>u.username===newUser)){ alert("Username sudah dipakai orang lain!"); return; }
+  let updates = { username: newUser };
+  if(newPass) updates.password = newPass;
+  window.fbUpdate(window.fbRef(window.db, 'users/' + currentUser._key), updates);
+  currentUser.username = newUser; if(newPass) currentUser.password = newPass;
+  sessionStorage.setItem('app_current_user', JSON.stringify(currentUser));
+  alert("Profil berhasil diperbarui!");
+  renderProfil();
+}
+
 function renderTabelAkun(){
   if(currentUser.role!=='developer')return;
   const tbody=document.getElementById('tabel-akun-body');tbody.innerHTML='';
@@ -603,8 +783,8 @@ function simpanAkun(){
   if(!n||!u||!p){alert("Semua kolom wajib diisi!");return;}
   if(key==='-1'){
     if(users.some(x=>x.username===u)){alert("Username sudah digunakan!");return;}
-    const newRef=window.fbPush(window.fbRef(window.db, 'users')); window.fbSet(newRef, {nama:n,username:u,password:p,role:r,status:"offline"});
-  }else{window.fbUpdate(window.fbRef(window.db, 'users/' + key), {nama:n, username:u, password:p, role:r});}
+    window.fbSet(window.fbPush(window.fbRef(window.db, 'users')), {nama:n,username:u,password:p,role:r,status:"offline"});
+  }else{ window.fbUpdate(window.fbRef(window.db, 'users/' + key), {nama:n, username:u, password:p, role:r}); }
   resetFormAkun();
 }
 function editAkun(key){
