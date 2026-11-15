@@ -25,7 +25,7 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 @keyframes float{0%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-50px) scale(1.1);}100%{transform:translate(-20px,20px) scale(0.9);}}
 .bg-overlay{position:fixed;inset:0;z-index:-1;background:rgba(20,17,15,0.6);backdrop-filter:blur(15px);}
 
-/* EFEK GLOBAL GLOW (LEMBUT) */
+/* EFEK GLOBAL GLOW & SCROLL REVEAL */
 .hero-title, .section-title, .clock-time, .stat-num {
   color: var(--white);
   text-shadow: 0 0 10px rgba(244,232,209,0.6), 0 0 20px rgba(166,110,56,0.4);
@@ -36,6 +36,10 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
   box-shadow: 0 0 15px rgba(166,110,56,0.25);
   border: 1px solid var(--border);
 }
+
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
 
 /* NAVBAR */
 .navbar{background:rgba(20,17,15,.95);backdrop-filter:blur(15px);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brown);position:sticky;top:0;z-index:100;}
@@ -70,7 +74,7 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 
 .progress-container{background:#14110f;border-radius:10px;height:15px;display:flex;overflow:hidden;margin:15px 0;border:1px solid #000;}
 .progress-tkj{background:var(--brown);width:0%;height:100%;transition:width 1.5s ease-out;}
-.progress-tav{background:var(--cream);width:0%;height:100%;transition:width 1.5s ease-out;}
+.progress-tav{background:var(--cream);width:18%;height:100%;}
 .progress-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--dim);}
 
 .jurusan-card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:15px;position:relative;}
@@ -86,6 +90,11 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 .piket-hari{font-weight:bold;color:var(--cream);width:80px;flex-shrink:0;}
 .piket-nama{color:var(--white);font-size:0.9rem;}
 
+/* FOOTER */
+.footer{background:rgba(20,17,15,0.95);border-top:2px solid var(--brown);padding:30px 20px;text-align:center;margin-top:40px;}
+.footer h3{color:var(--brown);font-size:1.5rem;margin-bottom:10px;text-shadow:0 0 10px rgba(166,110,56,0.6);letter-spacing:2px;}
+.footer p{color:var(--dim);font-size:0.75rem;}
+
 .login-container{max-width:440px;margin:70px auto;padding:0 15px;}
 .login-card{background:var(--card);padding:32px;border-radius:20px;border:1px solid var(--brown);text-align:center;}
 .login-card h2{margin-bottom:6px;font-size:1.6rem;color:var(--cream);}
@@ -94,7 +103,6 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 .form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.85rem;color:var(--dim);}
 .form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:.92rem;background:#14110f;color:var(--white);outline:none;}
 .form-group input:focus{border-color:var(--brown);}
-.checkbox-group{display:flex;align-items:center;gap:8px;margin-bottom:15px;font-size:.85rem;color:var(--dim);cursor:pointer;}
 
 .btn{padding:10px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.2s;}
 .btn:active{transform:translateY(2px);}
@@ -203,7 +211,7 @@ td strong{color:var(--cream);}
       </div>
     </div>
 
-    <div class="section">
+    <div class="section reveal">
       <h2 class="section-title">Tentang Kelas Kami</h2>
       <div class="card-3d">
         <p>Kami adalah kelas 12 TKJ 3 TAV di SMK Banjar Asri Cimaung. Kelas ini terdiri dari 33 siswa yang berasal dari dua jurusan, yaitu Teknik Komputer dan Jaringan (TKJ) serta Teknik Audio Video (TAV), belajar dan tumbuh bersama.</p>
@@ -217,17 +225,17 @@ td strong{color:var(--cream);}
         </div>
       </div>
 
-      <div class="jurusan-card tkj">
+      <div class="jurusan-card tkj reveal">
         <h4><img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/logo%20tkj.webp" alt="Logo TKJ" style="width:32px; height:32px; object-fit:contain;"> TKJ</h4>
         <p>Teknik Komputer dan Jaringan. Mempelajari perakitan komputer, jaringan, peladen (server), dan administrasi sistem.</p>
       </div>
-      <div class="jurusan-card tav">
+      <div class="jurusan-card tav reveal">
         <h4><img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/logo%20tav.webp" alt="Logo TAV" style="width:32px; height:32px; object-fit:contain;"> TAV</h4>
         <p>Teknik Audio Video. Mempelajari perangkat audio, video, sistem elektronik, dan produksi multimedia.</p>
       </div>
     </div>
 
-    <div class="section">
+    <div class="section reveal">
       <h2 class="section-title">Sejarah Kelas</h2>
       <div class="card-3d">
         <p>TKJ 3 TAV merupakan salah satu kelas di SMK Banjar Asri Cimaung yang terdiri dari 33 siswa, yaitu 27 siswa jurusan Teknik Komputer dan Jaringan (TKJ) dan 6 siswa jurusan Teknik Audio Video (TAV), dengan tahun ajaran 2024–2027.</p>
@@ -237,18 +245,22 @@ td strong{color:var(--cream);}
       </div>
     </div>
 
-    <div class="section">
+    <div class="section reveal">
       <h2 class="section-title">Struktur Kelas</h2>
       <div class="img-container">
         <img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/struktur%20kelas%20(1).webp" alt="Struktur Kelas" loading="lazy">
       </div>
     </div>
 
-    <div class="section">
+    <div class="section reveal">
       <h2 class="section-title">Jadwal Piket</h2>
       <div id="landing-piket-container"></div>
     </div>
 
+    <div class="footer">
+      <h3>UNITED AND FAMOUS</h3>
+      <p>© 2026 12 TKJ 3 TAV · SMK Banjar Asri Cimaung</p>
+    </div>
   </div>
 
   <div id="page-login" class="page-content hidden">
@@ -286,11 +298,17 @@ td strong{color:var(--cream);}
         <h3 style="color:var(--cream);margin-bottom:10px;">📅 Jadwal Piket Kelas</h3>
         <div id="admin-piket-form" class="hidden" style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
           <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Atur Petugas Piket</h4>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <select id="piket-hari" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);"><option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option></select>
-            <input type="text" id="piket-nama" placeholder="Nama (pisah koma)" style="flex:2;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-            <button class="btn btn-success btn-sm" onclick="simpanPiket()">Simpan</button>
+          <div style="margin-bottom:10px;">
+            <label style="color:var(--cream);font-size:0.85rem;margin-bottom:5px;display:block;">Pilih Hari:</label>
+            <select id="piket-hari" onchange="renderPilihanPiket()" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+              <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option>
+            </select>
           </div>
+          <div style="margin-bottom:10px;">
+            <label style="color:var(--cream);font-size:0.85rem;margin-bottom:5px;display:block;">Pilih Siswa (Centang):</label>
+            <div id="piket-siswa-list" style="max-height:150px;overflow-y:auto;background:var(--card2);border-radius:8px;padding:10px;border:1px solid var(--border);"></div>
+          </div>
+          <button class="btn btn-success btn-sm" onclick="simpanPiket()">Simpan Piket</button>
         </div>
         <div id="piket-list-container"></div>
       </div>
@@ -418,8 +436,8 @@ td strong{color:var(--cream);}
         <h3 style="color:var(--cream);margin-bottom:12px;">⚙️ Manajemen Akun Pengguna</h3>
         
         <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
-          <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">📥 Import Akun Siswa via File (.csv)</h4>
-          <p style="font-size:0.75rem;color:var(--dim);margin-bottom:10px;">Format: <strong>Nama Lengkap,Username,Password</strong> (pisahkan dengan koma atau enter)</p>
+          <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">📥 Import Akun Siswa via File</h4>
+          <p style="font-size:0.75rem;color:var(--dim);margin-bottom:10px;">Format: <strong>Nama Lengkap,Username,Password</strong> (pisahkan dengan enter)</p>
           <textarea id="import-file" placeholder="Ahmad Fauzi,ahmad,123&#10;Siti Aminah,siti,123" style="width:100%;height:80px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);font-family:monospace;font-size:0.85rem;"></textarea>
           <button class="btn btn-success btn-sm" style="width:auto;margin-top:10px;" onclick="importAkunSiswa()">🚀 Import Sekarang</button>
         </div>
@@ -491,7 +509,7 @@ const defaultPiket = [{hari:"Senin",anggota:"Fauzan, Raisya"},{hari:"Selasa",ang
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  if(!window.matchMedia('(display-mode: standalone)').matches){
+  if(!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone){
     document.getElementById('btn-install-pwa').style.display = 'block';
   }
 });
@@ -510,27 +528,46 @@ function installPWA() {
   }
 }
 
-// ANIMASI GACHA & PROGRESS BAR
+// ANIMASI GACHA & PROGRESS BAR (Muncul saat scroll)
 function jalankanAnimasi() {
-  // Gacha Angka
-  document.querySelectorAll('.gacha-num').forEach(el => {
-    const target = parseInt(el.getAttribute('data-target'));
-    let current = 0;
-    const step = Math.ceil(target / 30);
-    const interval = setInterval(() => {
-      current += step;
-      if(current >= target) { current = target; clearInterval(interval); }
-      el.innerText = current;
-    }, 30);
-  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Gacha Angka
+        entry.target.querySelectorAll('.gacha-num').forEach(el => {
+          const target = parseInt(el.getAttribute('data-target'));
+          let current = 0;
+          const step = Math.ceil(target / 30);
+          const interval = setInterval(() => {
+            current += step;
+            if(current >= target) { current = target; clearInterval(interval); }
+            el.innerText = current;
+          }, 30);
+        });
 
-  // Progress Bar
-  setTimeout(() => {
-    const barTkj = document.getElementById('bar-tkj');
-    const barTav = document.getElementById('bar-tav');
-    if(barTkj) barTkj.style.width = '82%';
-    if(barTav) barTav.style.width = '18%';
-  }, 300);
+        // Progress Bar (Hanya TKJ yang berjalan)
+        const barTkj = entry.target.querySelector('#bar-tkj');
+        if(barTkj) barTkj.style.width = '82%';
+
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.section.reveal').forEach(el => observer.observe(el));
+}
+
+// SCROLL REVEAL
+function initScrollReveal() {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 }
 
 function updateClock() {
@@ -560,9 +597,8 @@ window.addEventListener('firebase-ready', () => {
   firebaseReady = true;
   updateClock();
   initFirebaseListeners();
-  if(!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
-    // Tombol install akan muncul otomatis lewat event beforeinstallprompt
-  }
+  initScrollReveal();
+  jalankanAnimasi();
 });
 
 function initFirebaseListeners(){
@@ -677,10 +713,6 @@ function handleLogout(){
   showPage('page-landing');
 }
 
-window.onload = function() {
-  // Remove remember me logic
-};
-
 function inisialisasiSesiUI(){
   const roleText = currentUser.role==='developer'?'Developer':(currentUser.role==='admin'?'Admin':'Siswa');
   document.getElementById('nav-user-role-label').innerText=`Sistem Informasi Kelas - ${roleText}`;
@@ -709,9 +741,9 @@ function showPage(pageId){
     showPage('page-dashboard'); return;
   }
 
-  if(pageId==='page-landing'){ jalankanAnimasi(); }
+  if(pageId==='page-landing'){ initScrollReveal(); jalankanAnimasi(); }
   if(pageId==='page-dashboard')renderDashboard();
-  if(pageId==='page-piket')renderPiket();
+  if(pageId==='page-piket') { renderPiket(); renderPilihanPiket(); }
   if(pageId==='page-foto')renderFotoPage();
   if(pageId==='page-tabungan')renderTabungan();
   if(pageId==='page-chat'){renderChatUser(); markReadUser(currentUser.username);}
@@ -728,13 +760,14 @@ function renderLandingPiket() {
   hariList.forEach(hari => {
     const data = piket.find(p=>p.hari===hari);
     const anggota = data && data.anggota ? data.anggota : '';
-    container.innerHTML += `<div class="piket-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+    container.innerHTML += `<div class="piket-item reveal" style="flex-direction:column; align-items:flex-start; gap:8px;">
       <div class="piket-hari" style="width:100%; border-bottom:1px solid var(--border); padding-bottom:5px;">📌 ${hari}</div>
       <div style="display:flex; flex-direction:column; gap:5px; width:100%;">
         ${anggota ? anggota.split(',').map(n=>`<span style="color:var(--white); font-size:0.9rem;">• ${n.trim()}</span>`).join('') : '<span style="color:var(--dim); font-size:0.9rem;">Belum ada petugas</span>'}
       </div>
     </div>`;
   });
+  initScrollReveal();
 }
 
 function renderDashboard(){
@@ -762,12 +795,48 @@ function renderPiket(){
     </div>`;
   });
 }
+
+function renderPilihanPiket() {
+  const hari = document.getElementById('piket-hari').value;
+  const container = document.getElementById('piket-siswa-list');
+  container.innerHTML = '';
+  
+  const dataPiket = piket.find(p => p.hari === hari);
+  const namaTerpilih = dataPiket ? dataPiket.anggota.split(',').map(n => n.trim()) : [];
+  
+  const siswaList = users.filter(u => u.role === 'siswa').sort((a,b) => a.nama.localeCompare(b.nama));
+  
+  if(siswaList.length === 0) {
+    container.innerHTML = '<span style="color:var(--dim);font-size:0.85rem;">Belum ada akun siswa terdaftar.</span>';
+    return;
+  }
+
+  siswaList.forEach(siswa => {
+    const isChecked = namaTerpilih.includes(siswa.nama) ? 'checked' : '';
+    container.innerHTML += `
+      <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem;color:var(--white);cursor:pointer;">
+        <input type="checkbox" class="check-piket" value="${siswa.nama}" ${isChecked}> ${siswa.nama}
+      </label>
+    `;
+  });
+}
+
 function simpanPiket(){
   if(currentUser.role!=='developer')return;
-  const h=document.getElementById('piket-hari').value; const a=document.getElementById('piket-nama').value.trim();
-  if(!a){alert("Masukkan nama petugas!");return;}
-  window.fbSet(window.fbRef(window.db, 'piket/' + h), {hari:h, anggota:a});
-  document.getElementById('piket-nama').value=''; alert("Jadwal piket berhasil diperbarui!");
+  const h = document.getElementById('piket-hari').value;
+  const selected = Array.from(document.querySelectorAll('.check-piket:checked')).map(c => c.value);
+  
+  if(selected.length === 0){ 
+    alert("Pilih minimal satu siswa untuk piket!"); 
+    return; 
+  }
+  
+  const anggotaStr = selected.join(', ');
+  window.fbSet(window.fbRef(window.db, 'piket/' + h), {hari:h, anggota:anggotaStr});
+  
+  alert("Jadwal piket " + h + " berhasil diperbarui!");
+  renderPiket();
+  renderLandingPiket();
 }
 
 function renderFotoPage(){document.getElementById('gdrive-button-link').href=driveLink;document.getElementById('input-gdrive-link').value=driveLink;}
