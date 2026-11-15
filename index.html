@@ -25,7 +25,7 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 @keyframes float{0%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-50px) scale(1.1);}100%{transform:translate(-20px,20px) scale(0.9);}}
 .bg-overlay{position:fixed;inset:0;z-index:-1;background:rgba(20,17,15,0.6);backdrop-filter:blur(15px);}
 
-/* EFEK GLOBAL GLOW & SCROLL REVEAL */
+/* EFEK GLOBAL GLOW */
 .hero-title, .section-title, .clock-time, .stat-num {
   color: var(--white);
   text-shadow: 0 0 10px rgba(244,232,209,0.6), 0 0 20px rgba(166,110,56,0.4);
@@ -528,33 +528,36 @@ function installPWA() {
   }
 }
 
-// ANIMASI GACHA & PROGRESS BAR (Muncul saat scroll)
-function jalankanAnimasi() {
+// ANIMASI GACHA (Langsung Jalan Saat Halaman Dibuka)
+function jalankanGacha() {
+  document.querySelectorAll('.gacha-num').forEach(el => {
+    const target = parseInt(el.getAttribute('data-target'));
+    let current = 0;
+    const step = Math.ceil(target / 30);
+    const interval = setInterval(() => {
+      current += step;
+      if(current >= target) { current = target; clearInterval(interval); }
+      el.innerText = current;
+    }, 30);
+  });
+}
+
+// ANIMASI PROGRESS BAR (Hanya TKJ yang berjalan, dipicu saat di-scroll)
+function initProgressBar() {
+  const barTkj = document.getElementById('bar-tkj');
+  if(!barTkj) return;
+  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Gacha Angka
-        entry.target.querySelectorAll('.gacha-num').forEach(el => {
-          const target = parseInt(el.getAttribute('data-target'));
-          let current = 0;
-          const step = Math.ceil(target / 30);
-          const interval = setInterval(() => {
-            current += step;
-            if(current >= target) { current = target; clearInterval(interval); }
-            el.innerText = current;
-          }, 30);
-        });
-
-        // Progress Bar (Hanya TKJ yang berjalan)
-        const barTkj = entry.target.querySelector('#bar-tkj');
-        if(barTkj) barTkj.style.width = '82%';
-
+        barTkj.style.width = '82%';
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.2 });
-
-  document.querySelectorAll('.section.reveal').forEach(el => observer.observe(el));
+  
+  const sectionTentang = barTkj.closest('.section');
+  if(sectionTentang) observer.observe(sectionTentang);
 }
 
 // SCROLL REVEAL
@@ -598,7 +601,8 @@ window.addEventListener('firebase-ready', () => {
   updateClock();
   initFirebaseListeners();
   initScrollReveal();
-  jalankanAnimasi();
+  jalankanGacha();
+  initProgressBar();
 });
 
 function initFirebaseListeners(){
@@ -741,7 +745,7 @@ function showPage(pageId){
     showPage('page-dashboard'); return;
   }
 
-  if(pageId==='page-landing'){ initScrollReveal(); jalankanAnimasi(); }
+  if(pageId==='page-landing'){ initScrollReveal(); jalankanGacha(); initProgressBar(); }
   if(pageId==='page-dashboard')renderDashboard();
   if(pageId==='page-piket') { renderPiket(); renderPilihanPiket(); }
   if(pageId==='page-foto')renderFotoPage();
@@ -930,7 +934,6 @@ function exportCSV(){
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Data_Tabungan_12TKJ3.csv"; link.click();
 }
 
-// IMPORT AKUN SISWA
 function importAkunSiswa(){
   if(currentUser.role!=='developer') return;
   const raw = document.getElementById('import-file').value.trim();
