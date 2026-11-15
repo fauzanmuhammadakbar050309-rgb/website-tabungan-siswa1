@@ -3,25 +3,23 @@
   "name": "12 TKJ 3 TAV - Sistem Informasi Kelas",
   "short_name": "12 TKJ 3 TAV",
   "start_url": "/",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#1a1512",
+  "background_color": "#14110f",
   "theme_color": "#a66e38",
   "description": "Sistem Informasi Kelas 12 TKJ 3 TAV",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/a8c350a19ec84a27c3533e99c9ae0feb306120c2/icon.png",
-      "sizes": "3264x3264",
+      "src": "https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/20261115_233454.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
+    },
     {
-      "src": "https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/main/IMG_3528.PNG",
-      "sizes": "1415x2000",
+      "src": "https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/20261115_233454.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "form_factor": "narrow"
+      "purpose": "any maskable"
     }
   ]
 }
