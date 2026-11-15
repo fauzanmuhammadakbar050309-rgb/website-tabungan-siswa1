@@ -5,147 +5,141 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>12 TKJ 3 TAV - Profil Kelas</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#fcf9f2">
+<meta name="theme-color" content="#14110f">
 <style>
 :root{
-  --bg:#fcf9f2; /* Background Krem Sangat Terang */
-  --card:#ffffff; /* Card Putih Bersih */
-  --card2:#f4ebd9; /* Aksen Krem Gelap */
-  --brown:#8b5a2b; /* Coklat Tua (Teks/Aksen Utama) */
-  --brown-light:#c59b6d; /* Coklat Muda */
-  --cream:#e8d5b5; /* Warna Krem */
-  --text-main:#3e2723; /* Teks Coklat Sangat Gelap */
-  --text-dim:#6d4c41; /* Teks Coklat Redup */
-  --border:rgba(139, 90, 43, 0.15);
+  --bg:#14110f; --card:#2b231f; --card2:#3a2d26;
+  --brown:#a66e38; --cream:#f4e8d1; --white:#fdfbf7; --dim:#a89b8c;
+  --border:rgba(244,232,209,0.15);
 }
 *{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin:0;padding:0;}
 .hidden{display:none !important;}
-body{background-color:var(--bg);color:var(--text-main);min-height:100vh;overflow-x:hidden;}
+body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden;}
 
-/* BACKGROUND ANIMASI */
-.bg-container{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(circle at 50% 50%, #ffffff 0%, var(--bg) 100%);}
-.bg-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.2;animation:float 20s infinite ease-in-out alternate;}
-.orb-1{width:400px;height:400px;background:var(--cream);top:-10%;left:-10%;}
-.orb-2{width:300px;height:300px;background:#fff;bottom:-10%;right:-5%;animation-delay:-5s;}
-.orb-3{width:250px;height:250px;background:var(--brown-light);top:40%;left:40%;animation-delay:-10s;opacity:0.1;}
+/* BACKGROUND ANIMASI 3D */
+.bg-container{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(circle at 50% 50%, #2b231f 0%, #14110f 100%);}
+.bg-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.3;animation:float 20s infinite ease-in-out alternate;}
+.orb-1{width:400px;height:400px;background:var(--brown);top:-10%;left:-10%;}
+.orb-2{width:300px;height:300px;background:var(--cream);bottom:-10%;right:-5%;opacity:0.15;animation-delay:-5s;}
+.orb-3{width:250px;height:250px;background:#5a3d2b;top:40%;left:40%;animation-delay:-10s;}
 @keyframes float{0%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-50px) scale(1.1);}100%{transform:translate(-20px,20px) scale(0.9);}}
-.bg-overlay{position:fixed;inset:0;z-index:-1;background:rgba(252,249,242,0.5);backdrop-filter:blur(15px);}
+.bg-overlay{position:fixed;inset:0;z-index:-1;background:rgba(20,17,15,0.6);backdrop-filter:blur(15px);}
 
 /* EFEK GLOBAL GLOW (LEMBUT) */
 .hero-title, .section-title, .clock-time, .stat-num {
-  color: var(--brown);
-  text-shadow: 0 2px 4px rgba(139, 90, 43, 0.2);
+  color: var(--white);
+  text-shadow: 0 0 10px rgba(244,232,209,0.6), 0 0 20px rgba(166,110,56,0.4);
 }
-.card-3d p, .jurusan-card p {
-  color: var(--text-dim);
-}
+.card-3d p, .jurusan-card p { color: var(--cream); }
 .card, .card-3d, .stat-card, .jurusan-card, .piket-item, .login-card, .navbar {
   background-color: var(--card);
-  box-shadow: 0 8px 20px rgba(139, 90, 43, 0.08);
+  box-shadow: 0 0 15px rgba(166,110,56,0.25);
   border: 1px solid var(--border);
 }
 
 /* NAVBAR */
-.navbar{background:rgba(255,255,255,.95);backdrop-filter:blur(15px);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brown);position:sticky;top:0;z-index:100;}
-.navbar-brand h2{font-size:1.1rem;font-weight:700;color:var(--text-main);line-height:1.2;}
+.navbar{background:rgba(20,17,15,.95);backdrop-filter:blur(15px);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brown);position:sticky;top:0;z-index:100;}
+.navbar-brand h2{font-size:1.1rem;font-weight:700;color:var(--cream);text-shadow:1px 1px 0px #000;line-height:1.2;}
 .navbar-brand span{font-size:.7rem;color:var(--brown);}
-.nav-right{display:flex;align-items:center;position:relative;}
-.dots-btn{background:var(--card);border:1px solid var(--brown);color:var(--brown);font-size:1.4rem;cursor:pointer;padding:4px 12px;border-radius:8px;transition:.3s;box-shadow:0 3px 0 var(--cream);}
-.dots-btn:hover{background:var(--brown);color:#fff;}
-.dropdown-menu{display:none;position:absolute;right:0;top:50px;background:var(--card);min-width:220px;border-radius:10px;border:1px solid var(--border);box-shadow:0 10px 30px rgba(0,0,0,0.1);z-index:200;overflow:hidden;}
+.nav-right{display:flex;align-items:center;gap:8px;position:relative;}
+.dots-btn{background:var(--card2);border:1px solid var(--brown);color:var(--cream);font-size:1.4rem;cursor:pointer;padding:4px 12px;border-radius:8px;transition:.3s;box-shadow:0 4px 0 #14110f;}
+.dots-btn:hover{background:var(--brown);color:var(--white);}
+.btn-install{background:var(--brown);border:1px solid var(--cream);color:var(--white);font-size:.75rem;cursor:pointer;padding:6px 12px;border-radius:8px;transition:.3s;font-weight:bold;display:none;box-shadow:0 4px 0 #5a3d2b;}
+.btn-install:hover{background:#c48549;}
+.dropdown-menu{display:none;position:absolute;right:0;top:50px;background:var(--card2);min-width:220px;border-radius:10px;border:1px solid var(--brown);box-shadow:0 10px 30px rgba(0,0,0,0.8);z-index:200;overflow:hidden;}
 .dropdown-menu.show{display:block;}
-.dropdown-menu button{width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:.9rem;color:var(--text-main);transition:.2s;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;}
-.dropdown-menu button:hover{background:var(--card2);color:var(--brown);padding-left:22px;}
-.dropdown-menu button.logout-btn{color:#e74c3c;font-weight:bold;border-top:1px solid var(--border);}
+.dropdown-menu button{width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:.9rem;color:var(--white);transition:.2s;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;}
+.dropdown-menu button:hover{background:var(--brown);color:var(--cream);padding-left:22px;}
+.dropdown-menu button.logout-btn{color:#ff6b6b;font-weight:bold;border-top:1px solid var(--brown);}
 
 /* LANDING PAGE */
-.hero-section{background:linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);padding:60px 20px;text-align:center;border-bottom:2px solid var(--brown);}
-.badge-ta{display:inline-block;background:var(--card2);color:var(--brown);padding:6px 16px;border-radius:20px;font-size:0.8rem;margin-top:10px;margin-bottom:20px;border:1px solid var(--brown-light);}
+.hero-section{background:linear-gradient(180deg, #2b231f 0%, #14110f 100%);padding:60px 20px;text-align:center;border-bottom:2px solid var(--brown);}
+.badge-ta{display:inline-block;background:rgba(166,110,56,.2);color:var(--cream);padding:6px 16px;border-radius:20px;font-size:0.8rem;margin-top:10px;margin-bottom:20px;border:1px solid var(--brown);}
 .hero-title{font-size:2rem;font-weight:bold;margin-bottom:10px;}
-.hero-subtitle{font-size:1.1rem;color:var(--brown);margin-bottom:5px;}
-.hero-desc{font-size:0.9rem;color:var(--text-dim);margin-bottom:30px;}
+.hero-subtitle{font-size:1.1rem;color:var(--cream);margin-bottom:5px;}
+.hero-desc{font-size:0.9rem;color:var(--dim);margin-bottom:30px;}
 .stats-grid{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
-.stat-card{background:var(--card);border:1px solid var(--border);padding:10px 15px;border-radius:12px;text-align:center;flex:1;min-width:80px;max-width:110px;}
+.stat-card{background:var(--card);border:1px solid var(--brown);padding:10px 15px;border-radius:12px;text-align:center;flex:1;min-width:80px;max-width:110px;}
 .stat-num{font-size:1.5rem;font-weight:bold;}
-.stat-label{font-size:0.65rem;color:var(--text-dim);margin-top:5px;}
+.stat-label{font-size:0.65rem;color:var(--dim);margin-top:5px;}
 
 .section{padding:40px 20px;max-width:1000px;margin:0 auto;}
-.section-title{font-size:1.4rem;margin-bottom:20px;border-left:4px solid var(--brown);padding-left:12px;color:var(--brown);}
+.section-title{font-size:1.4rem;margin-bottom:20px;border-left:4px solid var(--brown);padding-left:12px;}
 .card-3d{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px;}
 .card-3d p{line-height:1.6;margin-bottom:15px;font-size:0.9rem;}
 
-.progress-container{background:var(--card2);border-radius:10px;height:15px;display:flex;overflow:hidden;margin:15px 0;border:1px solid var(--border);}
-.progress-tkj{background:var(--brown);width:82%;height:100%;}
-.progress-tav{background:var(--brown-light);width:18%;height:100%;}
-.progress-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-dim);}
+.progress-container{background:#14110f;border-radius:10px;height:15px;display:flex;overflow:hidden;margin:15px 0;border:1px solid #000;}
+.progress-tkj{background:var(--brown);width:0%;height:100%;transition:width 1.5s ease-out;}
+.progress-tav{background:var(--cream);width:0%;height:100%;transition:width 1.5s ease-out;}
+.progress-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--dim);}
 
 .jurusan-card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:15px;position:relative;}
 .jurusan-card.tkj{border-top:3px solid var(--brown);}
-.jurusan-card.tav{border-top:3px solid var(--brown-light);}
-.jurusan-card h4{color:var(--brown);font-size:1.1rem;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.jurusan-card p{color:var(--text-dim);font-size:0.85rem;line-height:1.5;}
+.jurusan-card.tav{border-top:3px solid var(--cream);}
+.jurusan-card h4{color:var(--cream);font-size:1.1rem;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.jurusan-card p{color:var(--dim);font-size:0.85rem;line-height:1.5;}
 
-.img-container{width:100%;border-radius:12px;overflow:hidden;margin-bottom:15px;border:2px solid var(--brown-light);}
+.img-container{width:100%;border-radius:12px;overflow:hidden;margin-bottom:15px;border:2px solid var(--brown);}
 .img-container img{width:100%;height:auto;display:block;}
 
 .piket-item{display:flex;align-items:center;background:var(--card);padding:12px 15px;border-radius:10px;margin-bottom:10px;border:1px solid var(--border);}
-.piket-hari{font-weight:bold;color:var(--brown);width:80px;flex-shrink:0;}
-.piket-nama{color:var(--text-main);font-size:0.9rem;}
+.piket-hari{font-weight:bold;color:var(--cream);width:80px;flex-shrink:0;}
+.piket-nama{color:var(--white);font-size:0.9rem;}
 
 .login-container{max-width:440px;margin:70px auto;padding:0 15px;}
-.login-card{background:var(--card);padding:32px;border-radius:20px;border:1px solid var(--border);text-align:center;}
-.login-card h2{margin-bottom:6px;font-size:1.6rem;color:var(--brown);}
-.login-card .subtitle{font-size:.78rem;color:var(--text-dim);margin-bottom:25px;}
+.login-card{background:var(--card);padding:32px;border-radius:20px;border:1px solid var(--brown);text-align:center;}
+.login-card h2{margin-bottom:6px;font-size:1.6rem;color:var(--cream);}
+.login-card .subtitle{font-size:.78rem;color:var(--dim);margin-bottom:25px;}
 .form-group{margin-bottom:16px;text-align:left;}
-.form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.85rem;color:var(--text-main);}
-.form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:.92rem;background:var(--bg);color:var(--text-main);outline:none;}
+.form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.85rem;color:var(--dim);}
+.form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:.92rem;background:#14110f;color:var(--white);outline:none;}
 .form-group input:focus{border-color:var(--brown);}
-.checkbox-group{display:flex;align-items:center;gap:8px;margin-bottom:15px;font-size:.85rem;color:var(--text-main);cursor:pointer;}
+.checkbox-group{display:flex;align-items:center;gap:8px;margin-bottom:15px;font-size:.85rem;color:var(--dim);cursor:pointer;}
 
 .btn{padding:10px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.2s;}
 .btn:active{transform:translateY(2px);}
-.btn-primary{background:var(--brown);color:#fff;width:100%;box-shadow:0 4px 0 #5a3d2b;}
-.btn-primary:hover{background:#a36e38;}
-.btn-success{background:#4caf50;color:#fff;border:1px solid #388e3c;box-shadow:0 4px 0 #2e7d32;}
-.btn-danger{background:#e74c3c;color:#fff;border:1px solid #c0392b;box-shadow:0 4px 0 #922b21;}
-.btn-secondary{background:#95a5a6;color:#fff;box-shadow:0 4px 0 #7f8c8d;}
+.btn-primary{background:var(--brown);color:var(--cream);width:100%;box-shadow:0 5px 0 #5a3d2b;}
+.btn-primary:hover{background:#c48549;}
+.btn-success{background:#385c3c;color:#e3f5e5;border:1px solid #4a7a50;box-shadow:0 4px 0 #1e3321;}
+.btn-danger{background:#7a2e2e;color:#fae3e3;border:1px solid #9e3c3c;box-shadow:0 4px 0 #3d1515;}
+.btn-secondary{background:#4a413d;color:var(--white);box-shadow:0 4px 0 #2b2623;}
 .btn-sm{padding:5px 10px;font-size:.75rem;border-radius:6px;}
 
 .container{max-width:1000px;margin:25px auto;padding:0 15px;}
-.card{background:var(--card);padding:22px;border-radius:16px;border:1px solid var(--border);margin-bottom:20px;}
+.card{background:var(--card);padding:22px;border-radius:16px;border:1px solid var(--brown);margin-bottom:20px;}
 
 .clock-container{text-align:center;margin:30px 0 40px;}
-.salam-text{font-size:1.2rem;color:var(--brown);margin-bottom:10px;}
+.salam-text{font-size:1.2rem;color:var(--cream);margin-bottom:10px;}
 .clock-time{font-size:4.5rem;font-weight:bold;color:var(--brown);line-height:1;}
-.clock-date{font-size:1rem;color:var(--text-dim);margin-top:10px;}
+.clock-date{font-size:1rem;color:var(--cream);margin-top:10px;}
 
 table{width:100%;border-collapse:collapse;margin-top:12px;}
-th,td{padding:11px 12px;text-align:left;font-size:.86rem;border-bottom:1px solid var(--border);}
-th{background:var(--card2);color:var(--brown);}
-tbody tr:hover{background:var(--card2);}
-td strong{color:var(--brown);}
+th,td{padding:11px 12px;text-align:left;font-size:.86rem;border-bottom:1px solid rgba(255,255,255,.05);}
+th{background:#14110f;color:var(--brown);}
+tbody tr:hover{background:rgba(255,255,255,.05);}
+td strong{color:var(--cream);}
 
-.chat-container{display:flex;flex-direction:column;height:400px;background:var(--card2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:15px;}
+.chat-container{display:flex;flex-direction:column;height:400px;background:#14110f;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:15px;}
 .chat-messages{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px;}
 .chat-bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:.88rem;}
-.chat-bubble.own{align-self:flex-end;background:var(--brown);color:#fff;border-bottom-right-radius:4px;}
-.chat-bubble.other{align-self:flex-start;background:var(--card);color:var(--text-main);border:1px solid var(--border);border-bottom-left-radius:4px;}
+.chat-bubble.own{align-self:flex-end;background:var(--brown);color:var(--cream);border-bottom-right-radius:4px;}
+.chat-bubble.other{align-self:flex-start;background:var(--card);color:var(--white);border:1px solid var(--border);border-bottom-left-radius:4px;}
 .chat-meta{font-size:.68rem;opacity:0.8;margin-bottom:4px;display:flex;justify-content:space-between;gap:10px;}
 .chat-input-area{display:flex;gap:10px;padding:10px;background:var(--card);border-top:1px solid var(--border);}
-.chat-input-area input{flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text-main);outline:none;}
+.chat-input-area input{flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;background:#14110f;color:var(--white);outline:none;}
 
-.badge-notif{position:absolute;top:-5px;right:-5px;background:#e74c3c;color:white;border-radius:50%;padding:2px 6px;font-size:.65rem;font-weight:bold;}
+.badge-notif{position:absolute;top:-5px;right:-5px;background:#ff4d4d;color:white;border-radius:50%;padding:2px 6px;font-size:.65rem;font-weight:bold;animation:pulse 1.5s infinite;}
 .inbox-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
 
-#loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;color:var(--brown);}
-.spinner{width:40px;height:40px;border:4px solid var(--card2);border-top-color:var(--brown);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:15px;}
+#loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;color:var(--cream);}
+.spinner{width:40px;height:40px;border:4px solid rgba(166,110,56,.2);border-top-color:var(--brown);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:15px;}
 
 @media(max-width: 768px){
   table thead { display: none; }
   table tr {display: block;background: var(--card);border: 1px solid var(--border);border-radius: 10px;margin-bottom: 15px;padding: 12px;}
-  table td {display: flex;justify-content: space-between;align-items: center;border-bottom: 1px dashed var(--border);padding: 8px 0;text-align: right;}
+  table td {display: flex;justify-content: space-between;align-items: center;border-bottom: 1px dashed rgba(255,255,255,0.1);padding: 8px 0;text-align: right;}
   table td:last-child {border-bottom: none;justify-content: flex-end;}
-  table td::before {content: attr(data-label);font-weight: bold;color:var(--brown);text-align: left;margin-right: 15px;font-size: 0.75rem;}
+  table td::before {content: attr(data-label);font-weight: bold;color: var(--brown);text-align: left;margin-right: 15px;font-size: 0.75rem;}
   .hero-title{font-size:1.5rem;}
   .clock-time{font-size:3rem;}
   .navbar{padding:10px 15px;}
@@ -167,6 +161,7 @@ td strong{color:var(--brown);}
     <span id="nav-user-role-label">SMK Banjar Asri Cimaung</span>
   </div>
   <div class="nav-right">
+    <button id="btn-install-pwa" class="btn-install" onclick="installPWA()">📲 Install</button>
     <div id="menu-dots-wrapper" style="position:relative;">
       <button class="dots-btn" onclick="toggleDropdown()" title="Menu">
         &#8942;
@@ -202,9 +197,9 @@ td strong{color:var(--brown);}
       <div class="badge-ta">Tahun Ajaran 2024–2027</div>
       <p class="hero-desc">Satu kelas, dua jurusan, satu keluarga.</p>
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-num">33</div><div class="stat-label">Jumlah Siswa</div></div>
-        <div class="stat-card"><div class="stat-num" style="color:var(--brown);">27</div><div class="stat-label">Siswa TKJ</div></div>
-        <div class="stat-card"><div class="stat-num" style="color:var(--brown-light);">6</div><div class="stat-label">Siswa TAV</div></div>
+        <div class="stat-card"><div class="stat-num gacha-num" data-target="33">0</div><div class="stat-label">Jumlah Siswa</div></div>
+        <div class="stat-card"><div class="stat-num gacha-num" data-target="27" style="color:var(--brown);">0</div><div class="stat-label">Siswa TKJ</div></div>
+        <div class="stat-card"><div class="stat-num gacha-num" data-target="6" style="color:var(--cream);">0</div><div class="stat-label">Siswa TAV</div></div>
       </div>
     </div>
 
@@ -213,21 +208,21 @@ td strong{color:var(--brown);}
       <div class="card-3d">
         <p>Kami adalah kelas 12 TKJ 3 TAV di SMK Banjar Asri Cimaung. Kelas ini terdiri dari 33 siswa yang berasal dari dua jurusan, yaitu Teknik Komputer dan Jaringan (TKJ) serta Teknik Audio Video (TAV), belajar dan tumbuh bersama.</p>
         <div class="progress-container">
-          <div class="progress-tkj"></div>
-          <div class="progress-tav"></div>
+          <div class="progress-tkj" id="bar-tkj"></div>
+          <div class="progress-tav" id="bar-tav"></div>
         </div>
         <div class="progress-labels">
-          <span>TKJ · 27 siswa (82%)</span>
-          <span>TAV · 6 siswa (18%)</span>
+          <span>TKJ · <span class="gacha-num" data-target="27">0</span> siswa (<span class="gacha-num" data-target="82">0</span>%)</span>
+          <span>TAV · <span class="gacha-num" data-target="6">0</span> siswa (<span class="gacha-num" data-target="18">0</span>%)</span>
         </div>
       </div>
 
       <div class="jurusan-card tkj">
-        <h4><img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/cacb5cbc9875e53213d3b04b617282b84c13b0a2/logo%20tkj.png" alt="Logo TKJ" style="width:32px; height:32px; object-fit:contain;"> TKJ</h4>
+        <h4><img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/logo%20tkj.webp" alt="Logo TKJ" style="width:32px; height:32px; object-fit:contain;"> TKJ</h4>
         <p>Teknik Komputer dan Jaringan. Mempelajari perakitan komputer, jaringan, peladen (server), dan administrasi sistem.</p>
       </div>
       <div class="jurusan-card tav">
-        <h4><img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/cacb5cbc9875e53213d3b04b617282b84c13b0a2/logo%20tav.png" alt="Logo TAV" style="width:32px; height:32px; object-fit:contain;"> TAV</h4>
+        <h4><img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/logo%20tav.webp" alt="Logo TAV" style="width:32px; height:32px; object-fit:contain;"> TAV</h4>
         <p>Teknik Audio Video. Mempelajari perangkat audio, video, sistem elektronik, dan produksi multimedia.</p>
       </div>
     </div>
@@ -245,10 +240,7 @@ td strong{color:var(--brown);}
     <div class="section">
       <h2 class="section-title">Struktur Kelas</h2>
       <div class="img-container">
-        <img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/main/IMG_3528.PNG" alt="Struktur Kelas 1">
-      </div>
-      <div class="card-3d" style="text-align:center; color:var(--text-dim); font-size:0.9rem;">
-        (Foto Struktur Kelas 2 Menyusul)
+        <img src="https://raw.githubusercontent.com/fauzanmuhammadakbar050309-rgb/website-tabungan-siswa1/bed8082178fccea09a92aa32ccf1c9d4d1b4846d/struktur%20kelas%20(1).webp" alt="Struktur Kelas" loading="lazy">
       </div>
     </div>
 
@@ -257,18 +249,6 @@ td strong{color:var(--brown);}
       <div id="landing-piket-container"></div>
     </div>
 
-    <div class="section">
-      <div class="card-3d" style="text-align:center; font-style:italic; color:var(--brown); font-size:1.5rem; font-weight:bold; letter-spacing:1px;">
-        <span class="hero-title" style="font-size:1.5rem;">United and Famous</span>
-      </div>
-    </div>
-
-    <div class="section" style="padding-bottom:60px;">
-      <h2 class="section-title">Galeri Singkat</h2>
-      <div class="card-3d" style="text-align:center; color:var(--text-dim); font-size:0.9rem;">
-        (Foto Galeri 1, 2, 3 Menyusul)
-      </div>
-    </div>
   </div>
 
   <div id="page-login" class="page-content hidden">
@@ -281,9 +261,6 @@ td strong{color:var(--brown);}
         <div class="form-group"><label>Akses Masuk</label>
           <select id="login-role-select"><option value="siswa">Siswa</option><option value="admin">Admin</option><option value="developer">Developer</option></select>
         </div>
-        <label class="checkbox-group">
-          <input type="checkbox" id="remember-me"> Ingat Saya (Simpan Akun)
-        </label>
         <button class="btn btn-primary" style="margin-top:8px;" onclick="handleLogin()">Masuk</button>
       </div>
     </div>
@@ -298,20 +275,20 @@ td strong{color:var(--brown);}
           <div class="clock-date" id="clock-date">-</div>
         </div>
         <div class="card">
-          <h3 style="color:var(--brown);margin-bottom:10px;">📅 Piket Hari Ini</h3>
-          <div id="piket-hari-ini-date" style="color:var(--text-dim);font-size:.85rem;margin-bottom:15px;">-</div>
+          <h3 style="color:var(--cream);margin-bottom:10px;">📅 Piket Hari Ini</h3>
+          <div id="piket-hari-ini-date" style="color:var(--dim);font-size:.85rem;margin-bottom:15px;">-</div>
           <ul id="piket-hari-ini-list" style="list-style:none;padding:0;"></ul>
           <button class="btn btn-primary" style="width:auto;margin-top:10px;" onclick="showPage('page-piket')">Lihat Semua Jadwal Piket →</button>
         </div>
       </div>
 
       <div id="page-piket" class="card page-content hidden">
-        <h3 style="color:var(--brown);margin-bottom:10px;">📅 Jadwal Piket Kelas</h3>
-        <div id="admin-piket-form" class="hidden" style="background:var(--card2);padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
+        <h3 style="color:var(--cream);margin-bottom:10px;">📅 Jadwal Piket Kelas</h3>
+        <div id="admin-piket-form" class="hidden" style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
           <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Atur Petugas Piket</h4>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <select id="piket-hari" style="flex:1;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);"><option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option></select>
-            <input type="text" id="piket-nama" placeholder="Nama (pisah koma)" style="flex:2;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
+            <select id="piket-hari" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);"><option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option></select>
+            <input type="text" id="piket-nama" placeholder="Nama (pisah koma)" style="flex:2;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
             <button class="btn btn-success btn-sm" onclick="simpanPiket()">Simpan</button>
           </div>
         </div>
@@ -319,53 +296,53 @@ td strong{color:var(--brown);}
       </div>
 
       <div id="page-foto" class="card page-content hidden">
-        <h3 style="color:var(--brown);margin-bottom:10px;">📸 Kenangan Foto Kelas</h3>
-        <p style="color:var(--text-dim);font-size:.88rem;margin-bottom:16px;">Dokumentasi galeri kelas tersimpan aman melalui tautan Google Drive.</p>
-        <div id="admin-foto-form" class="hidden" style="background:var(--card2);padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
+        <h3 style="color:var(--cream);margin-bottom:10px;">📸 Kenangan Foto Kelas</h3>
+        <p style="color:var(--dim);font-size:.88rem;margin-bottom:16px;">Dokumentasi galeri kelas tersimpan aman melalui tautan Google Drive.</p>
+        <div id="admin-foto-form" class="hidden" style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
           <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Atur Link Google Drive</h4>
           <div style="display:flex;gap:10px;">
-            <input type="text" id="input-gdrive-link" placeholder="https://drive.google.com/..." style="flex:2;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
+            <input type="text" id="input-gdrive-link" placeholder="https://drive.google.com/..." style="flex:2;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
             <button class="btn btn-primary btn-sm" style="width:auto;" onclick="simpanDriveLink()">Simpan</button>
           </div>
         </div>
-        <div style="text-align:center;padding:35px 20px;background:var(--card2);border-radius:12px;border:1px dashed var(--brown);">
-          <p style="margin-bottom:18px;color:var(--text-dim);font-size:.9rem;">Klik tombol di bawah untuk membuka galeri Google Drive kelas:</p>
+        <div style="text-align:center;padding:35px 20px;background:rgba(0,0,0,.2);border-radius:12px;border:1px dashed var(--brown);">
+          <p style="margin-bottom:18px;color:var(--dim);font-size:.9rem;">Klik tombol di bawah untuk membuka galeri Google Drive kelas:</p>
           <a id="gdrive-button-link" href="#" target="_blank" class="btn btn-primary" style="text-decoration:none;display:inline-block;width:auto;padding:12px 28px;">Buka Google Drive Kelas</a>
         </div>
       </div>
 
       <div id="page-tabungan" class="card page-content hidden">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <h3 style="color:var(--brown);">💰 Data Tabungan</h3>
+          <h3 style="color:var(--cream);">💰 Data Tabungan</h3>
           <button class="btn btn-primary btn-sm" style="width:auto;" onclick="exportCSV()">📥 Export</button>
         </div>
         
         <div id="tabungan-admin-view">
-          <div style="background:linear-gradient(135deg, rgba(201,160,80,.1), rgba(255,255,255,1));border:1px solid var(--brown);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-            <div><h3 style="font-size:.9rem;color:var(--text-dim);font-weight:normal;">Total Saldo Keseluruhan Kelas</h3><div style="font-size:1.7rem;font-weight:bold;color:var(--brown);margin-top:4px;" id="total-semua-tabungan">Rp 0</div></div>
+          <div style="background:linear-gradient(135deg, rgba(166,110,56,.2), rgba(43,35,31,1));border:1px solid var(--brown);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <div><h3 style="font-size:.9rem;color:var(--dim);font-weight:normal;">Total Saldo Keseluruhan Kelas</h3><div style="font-size:1.7rem;font-weight:bold;color:var(--cream);margin-top:4px;" id="total-semua-tabungan">Rp 0</div></div>
             <div style="font-size:2.5rem;">💵</div>
           </div>
-          <div style="background:var(--card2);padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
+          <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
             <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">📝 Input Setor Tabungan</h4>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
-              <select id="tab-nama" style="flex:2;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);"></select>
-              <input type="number" id="tab-nominal" placeholder="Nominal (Rp)" style="flex:1;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
+              <select id="tab-nama" style="flex:2;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);"></select>
+              <input type="number" id="tab-nominal" placeholder="Nominal (Rp)" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
               <button class="btn btn-success btn-sm" onclick="tambahSetor()">Simpan Setor</button>
             </div>
           </div>
           <div style="text-align:center;margin-bottom:15px;">
             <button class="btn btn-danger btn-sm" onclick="toggleFormIuran()" style="width:auto;padding:8px 20px;border-radius:20px;">📉 Tarik</button>
           </div>
-          <div id="form-iuran-panel" style="background:rgba(231,76,60,.05);border:1px solid #e74c3c;border-radius:10px;padding:15px;margin:15px 0;display:none;">
-            <h4 style="color:#e74c3c;margin-bottom:10px;">📉 Form Tarik</h4>
+          <div id="form-iuran-panel" style="background:rgba(122,46,46,.2);border:1px solid #7a2e2e;border-radius:10px;padding:15px;margin:15px 0;display:none;">
+            <h4 style="color:#ff6b6b;margin-bottom:10px;">📉 Form Tarik</h4>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-              <input type="text" id="iuran-ket" placeholder="Keterangan (cth: Beli alat)" style="flex:2;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
-              <input type="number" id="iuran-nominal" placeholder="Nominal (Rp)" style="flex:1;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
+              <input type="text" id="iuran-ket" placeholder="Keterangan (cth: Beli alat)" style="flex:2;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+              <input type="number" id="iuran-nominal" placeholder="Nominal (Rp)" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
             </div>
-            <label style="display:flex;align-items:center;gap:8px;color:var(--text-main);font-weight:bold;margin-bottom:10px;cursor:pointer;">
+            <label style="display:flex;align-items:center;gap:8px;color:var(--cream);font-weight:bold;margin-bottom:10px;cursor:pointer;">
               <input type="checkbox" id="check-semua" onchange="togglePilihSemua()"> Pilih Semua Siswa
             </label>
-            <div id="list-siswa-iuran" style="max-height:150px;overflow-y:auto;background:var(--bg);border-radius:8px;padding:10px;margin-bottom:10px;"></div>
+            <div id="list-siswa-iuran" style="max-height:150px;overflow-y:auto;background:#14110f;border-radius:8px;padding:10px;margin-bottom:10px;"></div>
             <button class="btn btn-danger btn-sm" onclick="prosesIuran()" style="width:100%;">Proses Tarik</button>
           </div>
           <div id="daftar-siswa-container">
@@ -375,14 +352,14 @@ td strong{color:var(--brown);}
           <div id="rincian-tabungan-container" class="hidden">
             <button class="btn btn-secondary btn-sm" onclick="kembaliKeDaftar()" style="margin-bottom:15px;">⬅ Kembali</button>
             <h4 id="rincian-nama" style="color:var(--brown);margin-bottom:5px;"></h4>
-            <p style="margin-bottom:15px;">Total Saldo: <strong id="rincian-saldo" style="color:var(--brown);font-size:1.2rem;"></strong></p>
+            <p style="margin-bottom:15px;">Total Saldo: <strong id="rincian-saldo" style="color:var(--cream);font-size:1.2rem;"></strong></p>
             <table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Nominal</th><th>Keterangan</th><th id="th-aksi-tabungan" class="hidden">Aksi</th></tr></thead><tbody id="tabel-rincian-tabungan"></tbody></table>
           </div>
         </div>
 
         <div id="tabungan-siswa-view" class="hidden">
-          <div style="background:linear-gradient(135deg, rgba(201,160,80,.1), rgba(255,255,255,1));border:1px solid var(--brown);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-            <div><h3 style="font-size:.9rem;color:var(--text-dim);font-weight:normal;">Total Saldo Anda</h3><div style="font-size:1.7rem;font-weight:bold;color:var(--brown);margin-top:4px;" id="total-saldo-siswa">Rp 0</div></div>
+          <div style="background:linear-gradient(135deg, rgba(166,110,56,.2), rgba(43,35,31,1));border:1px solid var(--brown);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <div><h3 style="font-size:.9rem;color:var(--dim);font-weight:normal;">Total Saldo Anda</h3><div style="font-size:1.7rem;font-weight:bold;color:var(--cream);margin-top:4px;" id="total-saldo-siswa">Rp 0</div></div>
             <div style="font-size:2.5rem;">💵</div>
           </div>
           <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Riwayat Transaksi Anda</h4>
@@ -392,7 +369,7 @@ td strong{color:var(--brown);}
 
       <div id="page-chat" class="card page-content hidden">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <h3 style="color:var(--brown);">💬 Hubungi Developer</h3>
+          <h3 style="color:var(--cream);">💬 Hubungi Developer</h3>
         </div>
         <div class="chat-container">
           <div class="chat-messages" id="chat-messages-user"></div>
@@ -404,7 +381,7 @@ td strong{color:var(--brown);}
       </div>
 
       <div id="page-inbox" class="card page-content hidden">
-        <h3 style="color:var(--brown);margin-bottom:10px;">📥 Pesan Masuk</h3>
+        <h3 style="color:var(--cream);margin-bottom:10px;">📥 Pesan Masuk</h3>
         <div id="inbox-list"></div>
         
         <div id="chat-dev-view" class="hidden" style="margin-top:20px;">
@@ -423,8 +400,8 @@ td strong{color:var(--brown);}
       </div>
 
       <div id="page-profil" class="card page-content hidden">
-        <h3 style="color:var(--brown);margin-bottom:12px;">👤 Profil Saya</h3>
-        <div style="background:var(--card2);padding:20px;border-radius:10px;border:1px solid var(--border);">
+        <h3 style="color:var(--cream);margin-bottom:12px;">👤 Profil Saya</h3>
+        <div style="background:#14110f;padding:20px;border-radius:10px;border:1px solid var(--border);">
           <div class="form-group">
             <label>Username</label>
             <input type="text" id="profil-username">
@@ -438,15 +415,23 @@ td strong{color:var(--brown);}
       </div>
 
       <div id="page-akun" class="card page-content hidden">
-        <h3 style="color:var(--brown);margin-bottom:12px;">⚙️ Manajemen Akun Pengguna</h3>
-        <div style="background:var(--card2);padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
-          <h4 id="form-akun-title" style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Buat Akun Baru</h4>
+        <h3 style="color:var(--cream);margin-bottom:12px;">⚙️ Manajemen Akun Pengguna</h3>
+        
+        <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
+          <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">📥 Import Akun Siswa via File (.csv)</h4>
+          <p style="font-size:0.75rem;color:var(--dim);margin-bottom:10px;">Format: <strong>Nama Lengkap,Username,Password</strong> (pisahkan dengan koma atau enter)</p>
+          <textarea id="import-file" placeholder="Ahmad Fauzi,ahmad,123&#10;Siti Aminah,siti,123" style="width:100%;height:80px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);font-family:monospace;font-size:0.85rem;"></textarea>
+          <button class="btn btn-success btn-sm" style="width:auto;margin-top:10px;" onclick="importAkunSiswa()">🚀 Import Sekarang</button>
+        </div>
+
+        <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
+          <h4 id="form-akun-title" style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Buat Akun Manual</h4>
           <input type="hidden" id="edit-akun-index" value="-1">
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <input type="text" id="akun-nama" placeholder="Nama Lengkap" style="flex:1;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
-            <input type="text" id="akun-username" placeholder="Username" style="flex:1;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
-            <input type="text" id="akun-password" placeholder="Password" style="flex:1;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);">
-            <select id="akun-role" style="flex:1;padding:10px;border-radius:8px;background:var(--card);color:var(--text-main);border:1px solid var(--border);"><option value="siswa">Siswa</option><option value="admin">Admin</option><option value="developer">Developer</option></select>
+            <input type="text" id="akun-nama" placeholder="Nama Lengkap" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+            <input type="text" id="akun-username" placeholder="Username" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+            <input type="text" id="akun-password" placeholder="Password" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+            <select id="akun-role" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);"><option value="siswa">Siswa</option><option value="admin">Admin</option><option value="developer">Developer</option></select>
           </div>
           <div style="margin-top:10px;">
             <button class="btn btn-primary btn-sm" style="width:auto;" onclick="simpanAkun()">Simpan Akun</button>
@@ -494,12 +479,59 @@ let users = []; let piket = []; let tabungan = []; let chats = []; let driveLink
 let currentUser = JSON.parse(sessionStorage.getItem('app_current_user')) || null;
 let firebaseReady = false; let selectedSiswaTabungan = null; let selectedChatUser = null;
 let pressTimer;
+let deferredPrompt;
 
 const defaultUsers = [
   {nama:"Administrator Utama",username:"admin",password:"123",role:"admin",status:"offline"},
   {nama:"Developer Sistem",username:"dev",password:"123",role:"developer",status:"offline"}
 ];
 const defaultPiket = [{hari:"Senin",anggota:"Fauzan, Raisya"},{hari:"Selasa",anggota:"Budi, Siti"},{hari:"Rabu",anggota:"Joko"},{hari:"Kamis",anggota:"Doni, Maya"},{hari:"Jumat",anggota:"Eko, Dian"}];
+
+// PWA INSTALL LOGIC
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if(!window.matchMedia('(display-mode: standalone)').matches){
+    document.getElementById('btn-install-pwa').style.display = 'block';
+  }
+});
+
+function installPWA() {
+  if(deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        document.getElementById('btn-install-pwa').style.display = 'none';
+      }
+      deferredPrompt = null;
+    });
+  } else {
+    alert("Untuk menginstall: Klik menu titik tiga di Chrome, lalu pilih 'Tambahkan ke Layar Utama'.");
+  }
+}
+
+// ANIMASI GACHA & PROGRESS BAR
+function jalankanAnimasi() {
+  // Gacha Angka
+  document.querySelectorAll('.gacha-num').forEach(el => {
+    const target = parseInt(el.getAttribute('data-target'));
+    let current = 0;
+    const step = Math.ceil(target / 30);
+    const interval = setInterval(() => {
+      current += step;
+      if(current >= target) { current = target; clearInterval(interval); }
+      el.innerText = current;
+    }, 30);
+  });
+
+  // Progress Bar
+  setTimeout(() => {
+    const barTkj = document.getElementById('bar-tkj');
+    const barTav = document.getElementById('bar-tav');
+    if(barTkj) barTkj.style.width = '82%';
+    if(barTav) barTav.style.width = '18%';
+  }, 300);
+}
 
 function updateClock() {
   const now = new Date();
@@ -528,6 +560,9 @@ window.addEventListener('firebase-ready', () => {
   firebaseReady = true;
   updateClock();
   initFirebaseListeners();
+  if(!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+    // Tombol install akan muncul otomatis lewat event beforeinstallprompt
+  }
 });
 
 function initFirebaseListeners(){
@@ -618,14 +653,11 @@ function handleLogin(){
   const u = document.getElementById('login-username').value.trim();
   const p = document.getElementById('login-password').value.trim();
   const r = document.getElementById('login-role-select').value;
-  const remember = document.getElementById('remember-me').checked;
   
   const found = users.find(x => x.username === u && x.password === p && x.role === r);
   if(!found){ alert("Username, Password, atau Akses Masuk salah!"); return; }
   
   currentUser = found; sessionStorage.setItem('app_current_user', JSON.stringify(found));
-  if(remember) localStorage.setItem('remember_login', JSON.stringify({u, p, r}));
-  else localStorage.removeItem('remember_login');
 
   if(found._key){ window.fbUpdate(window.fbRef(window.db, 'users/' + found._key), {status:'online'}); setupPresence(found._key); }
   
@@ -646,14 +678,7 @@ function handleLogout(){
 }
 
 window.onload = function() {
-  const saved = localStorage.getItem('remember_login');
-  if(saved) {
-    const d = JSON.parse(saved);
-    document.getElementById('login-username').value = d.u;
-    document.getElementById('login-password').value = d.p;
-    document.getElementById('login-role-select').value = d.r;
-    document.getElementById('remember-me').checked = true;
-  }
+  // Remove remember me logic
 };
 
 function inisialisasiSesiUI(){
@@ -684,6 +709,7 @@ function showPage(pageId){
     showPage('page-dashboard'); return;
   }
 
+  if(pageId==='page-landing'){ jalankanAnimasi(); }
   if(pageId==='page-dashboard')renderDashboard();
   if(pageId==='page-piket')renderPiket();
   if(pageId==='page-foto')renderFotoPage();
@@ -701,8 +727,13 @@ function renderLandingPiket() {
   const hariList = ['Senin','Selasa','Rabu','Kamis','Jumat'];
   hariList.forEach(hari => {
     const data = piket.find(p=>p.hari===hari);
-    const anggota = data && data.anggota ? data.anggota : 'Belum ada';
-    container.innerHTML += `<div class="piket-item"><div class="piket-hari">${hari}</div><div class="piket-nama">${anggota}</div></div>`;
+    const anggota = data && data.anggota ? data.anggota : '';
+    container.innerHTML += `<div class="piket-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+      <div class="piket-hari" style="width:100%; border-bottom:1px solid var(--border); padding-bottom:5px;">📌 ${hari}</div>
+      <div style="display:flex; flex-direction:column; gap:5px; width:100%;">
+        ${anggota ? anggota.split(',').map(n=>`<span style="color:var(--white); font-size:0.9rem;">• ${n.trim()}</span>`).join('') : '<span style="color:var(--dim); font-size:0.9rem;">Belum ada petugas</span>'}
+      </div>
+    </div>`;
   });
 }
 
@@ -711,10 +742,10 @@ function renderDashboard(){
   document.getElementById('piket-hari-ini-date').innerText=today.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   const list=document.getElementById('piket-hari-ini-list');list.innerHTML='';
   const hariValid=['Senin','Selasa','Rabu','Kamis','Jumat'];
-  if(!hariValid.includes(hariIni)){list.innerHTML='<li style="color:var(--brown);">🎉 Hari ini libur, tidak ada piket</li>';return;}
+  if(!hariValid.includes(hariIni)){list.innerHTML='<li style="color:var(--cream);">🎉 Hari ini libur, tidak ada piket</li>';return;}
   const data=piket.find(p=>p.hari===hariIni);
-  if(!data||!data.anggota.trim()){list.innerHTML='<li style="color:var(--text-dim);">Belum ada petugas piket.</li>';return;}
-  data.anggota.split(',').forEach(nama=>{const li=document.createElement('li');li.innerText='• '+nama.trim();li.style.color='var(--text-main)';li.style.marginBottom='5px';list.appendChild(li);});
+  if(!data||!data.anggota.trim()){list.innerHTML='<li style="color:var(--dim);">Belum ada petugas piket.</li>';return;}
+  data.anggota.split(',').forEach(nama=>{const li=document.createElement('li');li.innerText='• '+nama.trim();li.style.color='var(--white)';li.style.marginBottom='5px';list.appendChild(li);});
 }
 
 function renderPiket(){
@@ -723,10 +754,10 @@ function renderPiket(){
   hariList.forEach(hari=>{
     const data=piket.find(p=>p.hari===hari);
     const anggota = data && data.anggota ? data.anggota : '';
-    container.innerHTML += `<div style="background:var(--card2); padding:15px; border-radius:10px; margin-bottom:10px; border:1px solid var(--border);">
+    container.innerHTML += `<div style="background:#14110f; padding:15px; border-radius:10px; margin-bottom:10px; border:1px solid var(--border);">
       <h4 style="color:var(--brown); margin-bottom:8px;">📌 ${hari}</h4>
       <div style="display:flex; flex-wrap:wrap; gap:8px;">
-        ${anggota ? anggota.split(',').map(n=>`<span style="background:var(--card); padding:5px 10px; border-radius:5px; border:1px solid var(--border); font-size:0.85rem; color:var(--text-main);">${n.trim()}</span>`).join('') : '<span style="color:var(--text-dim); font-size:0.85rem;">Belum ada petugas</span>'}
+        ${anggota ? anggota.split(',').map(n=>`<span style="background:var(--card2); padding:5px 10px; border-radius:5px; border:1px solid var(--brown); font-size:0.85rem; color:var(--cream);">${n.trim()}</span>`).join('') : '<span style="color:var(--dim); font-size:0.85rem;">Belum ada petugas</span>'}
       </div>
     </div>`;
   });
@@ -765,8 +796,8 @@ function renderTabunganAdmin(){
   const listIuran=document.getElementById('list-siswa-iuran'); listIuran.innerHTML='';
   Object.keys(saldo).forEach(nama=>{
     select.innerHTML+=`<option value="${nama}">${nama}</option>`;
-    listSiswa.innerHTML+=`<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;" onclick="lihatRincianTabungan('${nama}')"><span style="font-weight:bold;color:var(--text-main);">${nama}</span><span style="color:var(--brown);font-size:.85rem;font-weight:bold;">${formatRupiah(saldo[nama])}</span></div>`;
-    listIuran.innerHTML+=`<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.85rem;color:var(--text-main);cursor:pointer;"><input type="checkbox" class="check-siswa" value="${nama}"> ${nama}</label>`;
+    listSiswa.innerHTML+=`<div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;" onclick="lihatRincianTabungan('${nama}')"><span style="font-weight:bold;color:var(--white);">${nama}</span><span style="color:var(--cream);font-size:.85rem;font-weight:bold;">${formatRupiah(saldo[nama])}</span></div>`;
+    listIuran.innerHTML+=`<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.85rem;color:var(--white);cursor:pointer;"><input type="checkbox" class="check-siswa" value="${nama}"> ${nama}</label>`;
   });
   if(selectedSiswaTabungan) lihatRincianTabungan(selectedSiswaTabungan);
 }
@@ -779,7 +810,7 @@ function lihatRincianTabungan(nama){
   const tbody=document.getElementById('tabel-rincian-tabungan');tbody.innerHTML='';
   tabungan.filter(t=>t.nama===nama).forEach((item)=>{
     const nominalFmt=(item.jenis==='setor'?'+ ':'- ')+formatRupiah(item.nominal);
-    const cls=item.jenis==='tarik'?'color:#e74c3c;':'color:#27ae60;';
+    const cls=item.jenis==='tarik'?'color:#ff6b6b;':'color:#8dd694;';
     const ket = item.keterangan ? item.keterangan : (item.jenis==='setor'?'Nabung':'Tarik');
     const aksi = currentUser.role==='developer' ? `<td data-label="Aksi"><button class="btn btn-danger btn-sm" onclick="hapusTransaksi('${item._key}')">Hapus</button></td>` : '';
     document.getElementById('th-aksi-tabungan').style.display = currentUser.role==='developer' ? 'table-cell' : 'none';
@@ -815,7 +846,7 @@ function renderTabunganSiswa(){
   const tbody=document.getElementById('tabel-siswa-sendiri');tbody.innerHTML='';
   tabungan.filter(t=>t.nama===nama).forEach((item)=>{
     const nominalFmt=(item.jenis==='setor'?'+ ':'- ')+formatRupiah(item.nominal);
-    const cls=item.jenis==='tarik'?'color:#e74c3c;':'color:#27ae60;';
+    const cls=item.jenis==='tarik'?'color:#ff6b6b;':'color:#8dd694;';
     const ket = item.keterangan ? item.keterangan : (item.jenis==='setor'?'Nabung':'Tarik');
     tbody.innerHTML+=`<tr><td data-label="Tanggal">${item.tanggal}</td><td data-label="Jenis">${item.jenis==='setor'?'Setor':'Tarik'}</td><td data-label="Nominal" style="${cls}font-weight:bold;">${nominalFmt}</td><td data-label="Keterangan">${ket}</td></tr>`;
   });
@@ -828,6 +859,39 @@ function exportCSV(){
   tabungan.forEach(t=>{ csv += `"${t.tanggal}","${t.nama}","${t.jenis}","${t.nominal}","${t.keterangan}"\n`; });
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Data_Tabungan_12TKJ3.csv"; link.click();
+}
+
+// IMPORT AKUN SISWA
+function importAkunSiswa(){
+  if(currentUser.role!=='developer') return;
+  const raw = document.getElementById('import-file').value.trim();
+  if(!raw){ alert("Kolom import masih kosong!"); return; }
+  
+  const lines = raw.split('\n');
+  let berhasil = 0;
+  let gagal = 0;
+  
+  lines.forEach(line => {
+    if(!line.trim()) return;
+    const parts = line.split(',');
+    if(parts.length >= 2){
+      const nama = parts[0].trim();
+      const username = parts[1].trim();
+      const password = parts[2] ? parts[2].trim() : "123";
+      
+      if(users.some(u => u.username === username)){
+        gagal++;
+      } else {
+        window.fbSet(window.fbPush(window.fbRef(window.db, 'users')), {nama:nama, username:username, password:password, role:"siswa", status:"offline"});
+        berhasil++;
+      }
+    } else {
+      gagal++;
+    }
+  });
+  
+  alert(`Import selesai!\nBerhasil: ${berhasil} akun\nGagal/Duplikat: ${gagal} akun`);
+  document.getElementById('import-file').value = '';
 }
 
 function startPress(key) {
@@ -876,12 +940,12 @@ function renderInbox(){
     }
   });
   const keys = Object.keys(grouped);
-  if(keys.length === 0) { list.innerHTML = '<p style="color:var(--text-dim);">Belum ada pesan masuk.</p>'; return; }
+  if(keys.length === 0) { list.innerHTML = '<p style="color:var(--dim);">Belum ada pesan masuk.</p>'; return; }
   keys.forEach(uname => {
     const d = grouped[uname];
-    let badgeHtml = d.unread > 0 ? `<div style="background:#e74c3c;color:#fff;padding:4px 8px;border-radius:5px;font-size:0.7rem;font-weight:bold;">${d.unread} Baru</div>` : `<div style="background:var(--card2);padding:4px 8px;border-radius:5px;font-size:0.7rem;color:var(--text-dim);">${d.count} Pesan</div>`;
+    let badgeHtml = d.unread > 0 ? `<div style="background:#7a2e2e;color:#fae3e3;padding:4px 8px;border-radius:5px;font-size:0.7rem;font-weight:bold;">${d.unread} Baru</div>` : `<div style="background:var(--card2);padding:4px 8px;border-radius:5px;font-size:0.7rem;">${d.count} Pesan</div>`;
     list.innerHTML += `<div class="inbox-item" onclick="bukaChatDev('${uname}', '${d.nama}')">
-      <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-weight:bold;color:var(--brown);">${d.nama} (${uname})</span><span style="font-size:.8rem;color:var(--text-dim);">${d.lastMsg}</span></div>
+      <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-weight:bold;color:var(--brown);">${d.nama} (${uname})</span><span style="font-size:.8rem;color:var(--dim);">${d.lastMsg}</span></div>
       ${badgeHtml}
     </div>`;
   });
@@ -950,8 +1014,8 @@ function renderTabelAkun(){
   if(currentUser.role!=='developer')return;
   const tbody=document.getElementById('tabel-akun-body');tbody.innerHTML='';
   users.forEach((u)=>{
-    const br=u.role==='admin'?'<span style="color:var(--brown);font-weight:bold;">Admin</span>':(u.role==='developer'?'<span style="color:#e74c3c;font-weight:bold;">Developer</span>':'<span style="color:var(--text-dim);">Siswa</span>');
-    const bs=u.status==='online'?'<span style="color:#27ae60;font-weight:bold;">Online</span>':'<span style="color:var(--text-dim);">Offline</span>';
+    const br=u.role==='admin'?'<span style="color:var(--brown);font-weight:bold;">Admin</span>':(u.role==='developer'?'<span style="color:#ff6b6b;font-weight:bold;">Developer</span>':'<span style="color:var(--cream);">Siswa</span>');
+    const bs=u.status==='online'?'<span style="color:#8dd694;font-weight:bold;">Online</span>':'<span style="color:var(--dim);">Offline</span>';
     tbody.innerHTML+=`<tr><td data-label="Nama">${u.nama}</td><td data-label="Username">${u.username}</td><td data-label="Password">${u.password}</td><td data-label="Role">${br}</td><td data-label="Status">${bs}</td><td data-label="Aksi"><button class="btn btn-primary btn-sm" onclick="editAkun('${u._key}')">Edit</button> <button class="btn btn-danger btn-sm" onclick="hapusAkun('${u._key}')">Hapus</button></td></tr>`;
   });
 }
