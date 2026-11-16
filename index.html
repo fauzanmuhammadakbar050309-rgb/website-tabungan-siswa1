@@ -536,10 +536,11 @@ function installPWA() {
   }
 }
 
-// ANIMASI GACHA (Lebih Lambat)
+// ANIMASI GACHA (Angka Berputar)
 function jalankanGacha() {
   document.querySelectorAll('.gacha-num').forEach(el => {
     const target = parseInt(el.getAttribute('data-target'));
+    if(isNaN(target)) return;
     let current = 0;
     const step = Math.ceil(target / 60);
     const interval = setInterval(() => {
@@ -550,7 +551,7 @@ function jalankanGacha() {
   });
 }
 
-// ANIMASI PROGRESS BAR (Hanya TKJ yang berjalan, lebih lambat)
+// ANIMASI PROGRESS BAR (Hanya TKJ yang berjalan)
 function initProgressBar() {
   const barTkj = document.getElementById('bar-tkj');
   if(!barTkj) return;
@@ -569,12 +570,15 @@ function initProgressBar() {
   if(sectionTentang) observer.observe(sectionTentang);
 }
 
-// SCROLL REVEAL
+// SCROLL REVEAL (Dengan Delay Interval)
 function initScrollReveal() {
   const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('active');
+        const delay = index * 150; // Delay 150ms per elemen
+        setTimeout(() => {
+          entry.target.classList.add('active');
+        }, delay);
         revealObserver.unobserve(entry.target);
       }
     });
