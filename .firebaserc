@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "tkj3-tav-941cd"
-  }
+  },
+  "targets": {
+    "tkj3-tav-941cd": {
+      "hosting": {
+        "12tkj3tav": [
+          "12tkj3tav"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
