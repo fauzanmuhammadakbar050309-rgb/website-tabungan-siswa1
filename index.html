@@ -37,9 +37,17 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
   border: 1px solid var(--border);
 }
 
-/* SCROLL REVEAL */
-.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-.reveal.active { opacity: 1; transform: translateY(0); }
+/* SCROLL REVEAL (DRAMATIS) */
+.reveal { 
+  opacity: 0; 
+  transform: translateY(60px) scale(0.95);
+  transition: opacity 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: opacity, transform;
+}
+.reveal.active { 
+  opacity: 1; 
+  transform: translateY(0) scale(1); 
+}
 
 /* NAVBAR */
 .navbar{background:rgba(20,17,15,.95);backdrop-filter:blur(15px);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brown);position:sticky;top:0;z-index:100;}
@@ -73,7 +81,7 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 .card-3d p{line-height:1.6;margin-bottom:15px;font-size:0.9rem;}
 
 .progress-container{background:#14110f;border-radius:10px;height:15px;display:flex;overflow:hidden;margin:15px 0;border:1px solid #000;}
-.progress-tkj{background:var(--brown);width:0%;height:100%;transition:width 1.5s ease-out;}
+.progress-tkj{background:var(--brown);width:0%;height:100%;transition:width 2.5s ease-out;}
 .progress-tav{background:var(--cream);width:18%;height:100%;}
 .progress-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--dim);}
 
@@ -528,21 +536,21 @@ function installPWA() {
   }
 }
 
-// ANIMASI GACHA (Langsung Jalan Saat Halaman Dibuka)
+// ANIMASI GACHA (Lebih Lambat)
 function jalankanGacha() {
   document.querySelectorAll('.gacha-num').forEach(el => {
     const target = parseInt(el.getAttribute('data-target'));
     let current = 0;
-    const step = Math.ceil(target / 30);
+    const step = Math.ceil(target / 60);
     const interval = setInterval(() => {
       current += step;
       if(current >= target) { current = target; clearInterval(interval); }
       el.innerText = current;
-    }, 30);
+    }, 50);
   });
 }
 
-// ANIMASI PROGRESS BAR (Hanya TKJ yang berjalan, dipicu saat di-scroll)
+// ANIMASI PROGRESS BAR (Hanya TKJ yang berjalan, lebih lambat)
 function initProgressBar() {
   const barTkj = document.getElementById('bar-tkj');
   if(!barTkj) return;
@@ -550,6 +558,7 @@ function initProgressBar() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        barTkj.style.transition = 'width 2.5s ease-out';
         barTkj.style.width = '82%';
         observer.unobserve(entry.target);
       }
