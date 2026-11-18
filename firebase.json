@@ -1,9 +1,12 @@
 {
-  "hosting": [
-    {
-      "target": "12tkj3tav",
-      "public": ".",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-    }
-  ]
+  "hosting": {
+    "public": ".",
+    "redirects": [
+      {
+        "source": "**",
+        "destination": "https://12tkj3tav.web.app/:path*",
+        "type": 301
+      }
+    ]
+  }
 }
