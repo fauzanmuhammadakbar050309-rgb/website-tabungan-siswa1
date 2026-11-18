@@ -2,7 +2,7 @@ let users = []; let piket = []; let tabungan = []; let chats = []; let driveLink
 let currentUser = JSON.parse(sessionStorage.getItem('app_current_user')) || null;
 let firebaseReady = false; let selectedSiswaTabungan = null; let selectedChatUser = null;
 let pressTimer;
-let pesanan = []; let namaKelompok = {k1:"Kelompok 1", k2:"Kelompok 2"}; let kelompokAktif = 1; let qtyBaru = 1;
+let pesanan = []; let namaKelompok = {k1:"Kelompok 1", k2:"Kelompok 2"}; let kelompokAktif = 'k1'; let kelompokDb = null; let qtyBaru = 1;
 let deferredPrompt;
 
 const defaultUsers = [
@@ -171,6 +171,16 @@ function initFirebaseListeners(){
     const v = snap.val() || {};
     namaKelompok = { k1: v.k1 || "Kelompok 1", k2: v.k2 || "Kelompok 2" };
     if(currentUser && !document.getElementById('page-pesanan').classList.contains('hidden')) renderPesanan();
+  });
+
+  window.fbOnValue(window.fbRef(window.db, 'kelompok'), (snap) => {
+    const v = snap.val();
+    kelompokDb = v ? Object.keys(v).map(id => ({id: id, nama: (v[id] && v[id].nama) || 'Kelompok', urutan: (v[id] && v[id].urutan) || 0})).sort((a,b) => a.urutan - b.urutan) : null;
+    if(currentUser && !document.getElementById('page-pesanan').classList.contains('hidden')){
+      renderPesanan();
+      const f = document.getElementById('admin-kelompok-form');
+      if(f && !f.contains(document.activeElement)) isiFormKelompok();
+    }
   });
 
   document.getElementById('loading-overlay').classList.add('hidden');
@@ -678,21 +688,65 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-// ===== PESANAN (2 KELOMPOK) =====
+// ===== PESANAN (KELOMPOK DINAMIS) =====
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function bolehUbahPesanan(p){ return currentUser && (currentUser.role==='developer' || currentUser.role==='admin' || p.username===currentUser.username); }
 
-function isiFormKelompok(){
-  document.getElementById('input-nama-k1').value = namaKelompok.k1;
-  document.getElementById('input-nama-k2').value = namaKelompok.k2;
+// Daftar kelompok: dari database, atau 2 kelompok bawaan jika belum ada
+function ambilKelompok(){
+  if(kelompokDb && kelompokDb.length) return kelompokDb;
+  return [{id:'k1', nama:namaKelompok.k1}, {id:'k2', nama:namaKelompok.k2}];
 }
+// Pesanan lama menyimpan kelompok sebagai angka 1/2 -> dipetakan ke 'k1'/'k2'
+function idKelompokPesanan(p){ const v = String(p.kelompok); return /^\d+$/.test(v) ? 'k' + v : v; }
+function namaKelompokById(id){ const k = ambilKelompok().find(x => x.id === id); return k ? k.nama : 'Kelompok'; }
+function simpanDaftarKelompok(list){
+  const obj = {}; list.forEach((k, i) => { obj[k.id] = {nama: k.nama, urutan: i}; });
+  return window.fbSet(window.fbRef(window.db, 'kelompok'), obj);
+}
+function ambilNamaDariForm(){
+  return ambilKelompok().map(k => { const el = document.getElementById('nama-kel-' + k.id); return {id: k.id, nama: el ? el.value.trim() : k.nama, lama: k.nama}; });
+}
+
+function isiFormKelompok(){
+  const box = document.getElementById('daftar-input-kelompok'); if(!box) return;
+  const list = ambilKelompok();
+  box.innerHTML = list.map(k => `<div style="display:flex;gap:8px;margin-bottom:8px;">
+    <input type="text" id="nama-kel-${k.id}" value="${esc(k.nama)}" maxlength="30" placeholder="Nama kelompok" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+    <button class="btn btn-danger btn-sm" onclick="hapusKelompok('${k.id}')" ${list.length <= 1 ? 'disabled style="opacity:.4"' : ''}>🗑️</button>
+  </div>`).join('');
+}
+
 function simpanNamaKelompok(){
   if(!currentUser || currentUser.role!=='developer') return;
-  const k1 = document.getElementById('input-nama-k1').value.trim();
-  const k2 = document.getElementById('input-nama-k2').value.trim();
-  if(!k1 || !k2){ showAlert("Nama kelompok tidak boleh kosong!"); return; }
-  window.fbSet(window.fbRef(window.db, 'settings/kelompok'), {k1:k1, k2:k2});
-  showAlert("Nama kelompok berhasil diperbarui!", "✅ Berhasil");
+  const list = ambilNamaDariForm();
+  if(list.some(k => !k.nama)){ showAlert("Nama kelompok tidak boleh kosong!"); return; }
+  simpanDaftarKelompok(list);
+  showAlert("Nama kelompok berhasil disimpan!", "✅ Berhasil");
+}
+
+function tambahKelompok(){
+  if(!currentUser || currentUser.role!=='developer') return;
+  const list = ambilNamaDariForm();
+  if(list.some(k => !k.nama)){ showAlert("Isi dulu semua nama kelompok sebelum menambah."); return; }
+  const maxN = Math.max(0, ...ambilKelompok().map(k => parseInt(k.id.replace(/\D/g,'')) || 0));
+  list.push({id: 'k' + (maxN + 1), nama: 'Kelompok ' + (list.length + 1)});
+  simpanDaftarKelompok(list);
+  showAlert("Kelompok baru ditambahkan. Ubah namanya lalu tekan Simpan Nama.", "✅ Berhasil");
+}
+
+function hapusKelompok(id){
+  if(!currentUser || currentUser.role!=='developer') return;
+  const semua = ambilNamaDariForm();
+  if(semua.length <= 1){ showAlert("Minimal harus ada 1 kelompok!"); return; }
+  const target = semua.find(k => k.id === id); if(!target) return;
+  const terkait = pesanan.filter(p => idKelompokPesanan(p) === id);
+  const info = terkait.length ? `\n${terkait.length} pesanan di kelompok ini juga akan dihapus.` : '';
+  if(!confirm(`Hapus kelompok "${target.lama}"?${info}`)) return;
+  terkait.forEach(p => window.fbRemove(window.fbRef(window.db, 'pesanan/' + p._key)));
+  const sisa = semua.filter(k => k.id !== id).map(k => ({id: k.id, nama: k.nama || k.lama}));
+  simpanDaftarKelompok(sisa);
+  if(kelompokAktif === id) kelompokAktif = sisa[0].id;
 }
 
 // Normalisasi nomor HP Indonesia -> format 628xxxxxxxxx (null jika tidak valid)
@@ -706,7 +760,7 @@ function normalisasiHP(raw){
 function tampilHP(n){ return '0' + String(n).slice(2); }
 function samarkanHP(n){ const d = tampilHP(n); return d.slice(0,4) + '****' + d.slice(-3); }
 
-function pilihKelompok(n){ kelompokAktif = n; qtyBaru = 1; renderPesanan(); }
+function pilihKelompok(id){ kelompokAktif = id; qtyBaru = 1; renderPesanan(); }
 function ubahQtyBaru(d){
   qtyBaru = Math.min(99, Math.max(1, qtyBaru + d));
   document.getElementById('qty-baru').innerText = qtyBaru;
@@ -743,21 +797,19 @@ function hapusPesanan(key){
 }
 
 function renderPesanan(){
-  const t1 = document.getElementById('tab-k1'); const t2 = document.getElementById('tab-k2');
-  if(!t1 || !t2) return;
-  const total = k => pesanan.filter(p => Number(p.kelompok)===k).reduce((s,p) => s + (p.jumlah||0), 0);
-  t1.innerText = `${namaKelompok.k1} (${total(1)})`;
-  t2.innerText = `${namaKelompok.k2} (${total(2)})`;
-  t1.classList.toggle('active', kelompokAktif===1);
-  t2.classList.toggle('active', kelompokAktif===2);
-  document.getElementById('pesanan-judul').innerText = 'Pesanan ' + (kelompokAktif===1 ? namaKelompok.k1 : namaKelompok.k2);
+  const tabs = document.getElementById('kelompok-tabs'); if(!tabs) return;
+  const groups = ambilKelompok();
+  if(!groups.some(k => k.id === kelompokAktif)) kelompokAktif = groups[0].id;
+  const total = id => pesanan.filter(p => idKelompokPesanan(p) === id).reduce((s,p) => s + (p.jumlah||0), 0);
+  tabs.innerHTML = groups.map(k => `<button class="tab-kelompok ${k.id === kelompokAktif ? 'active' : ''}" onclick="pilihKelompok('${k.id}')">${esc(k.nama)} (${total(k.id)})</button>`).join('');
+  document.getElementById('pesanan-judul').innerText = 'Pesanan ' + namaKelompokById(kelompokAktif);
   document.getElementById('qty-baru').innerText = qtyBaru;
 
-  const list = pesanan.filter(p => Number(p.kelompok)===kelompokAktif)
-                      .sort((a,b) => new Date(a.waktu) - new Date(b.waktu));
+  const orders = pesanan.filter(p => idKelompokPesanan(p) === kelompokAktif)
+                        .sort((a,b) => new Date(a.waktu) - new Date(b.waktu));
 
   const rekap = {};
-  list.forEach(p => {
+  orders.forEach(p => {
     const k = String(p.item||'').trim().toLowerCase();
     if(!rekap[k]) rekap[k] = {label: p.item, total: 0};
     rekap[k].total += (p.jumlah||0);
@@ -767,11 +819,10 @@ function renderPesanan(){
   rekapEl.innerHTML = rekapKeys.length ? `<h4 style="font-size:.9rem;color:var(--brown);margin-bottom:8px;">Rekap Pesanan</h4><div class="rekap-chips">${rekapKeys.map(k => `<span class="rekap-chip">${esc(rekap[k].label)} <strong>×${rekap[k].total}</strong></span>`).join('')}</div>` : '';
 
   const box = document.getElementById('pesanan-list');
-  if(list.length === 0){ box.innerHTML = '<p style="color:var(--dim);font-size:.88rem;">Belum ada pesanan di kelompok ini.</p>'; return; }
-  box.innerHTML = list.map(p => {
+  if(orders.length === 0){ box.innerHTML = '<p style="color:var(--dim);font-size:.88rem;">Belum ada pesanan di kelompok ini.</p>'; return; }
+  box.innerHTML = orders.map(p => {
     const boleh = bolehUbahPesanan(p);
-    const namaK = Number(p.kelompok)===1 ? namaKelompok.k1 : namaKelompok.k2;
-    const pesanWA = `Halo, pesanan Anda (${p.item} x${p.jumlah}) di ${namaK} sudah kami terima. Terima kasih! 🙏`;
+    const pesanWA = `Halo, pesanan Anda (${p.item} x${p.jumlah}) di ${namaKelompokById(idKelompokPesanan(p))} sudah kami terima. Terima kasih! 🙏`;
     const waLink = (boleh && p.hp) ? `<a class="btn btn-success btn-sm" target="_blank" rel="noopener" href="https://wa.me/${p.hp}?text=${encodeURIComponent(pesanWA)}">💬 WA</a>` : '';
     const infoHP = p.hp ? `📞 ${boleh ? tampilHP(p.hp) : samarkanHP(p.hp)}` : '📞 (tanpa nomor)';
     const kontrol = boleh

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tkj3tav-v3'; // Ubah versi ini setiap kali update kode
+const CACHE_NAME = 'tkj3tav-v4'; // Ubah versi ini setiap kali update kode
 const urlsToCache = [
   '/',
   '/index.html'

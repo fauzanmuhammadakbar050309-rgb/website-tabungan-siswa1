@@ -259,18 +259,15 @@
         <p style="color:var(--dim);font-size:.88rem;margin-bottom:16px;">Pilih kelompok, isi pesanan, lalu atur jumlah dengan tombol − dan +.</p>
 
         <div id="admin-kelompok-form" class="hidden" style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
-          <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Ubah Nama Kelompok</h4>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <input type="text" id="input-nama-k1" placeholder="Nama kelompok 1" maxlength="30" style="flex:1;min-width:130px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-            <input type="text" id="input-nama-k2" placeholder="Nama kelompok 2" maxlength="30" style="flex:1;min-width:130px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-            <button class="btn btn-success btn-sm" style="width:auto;" onclick="simpanNamaKelompok()">Simpan</button>
+          <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Kelola Kelompok</h4>
+          <div id="daftar-input-kelompok"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+            <button class="btn btn-primary btn-sm" style="width:auto;" onclick="tambahKelompok()">➕ Tambah Kelompok</button>
+            <button class="btn btn-success btn-sm" style="width:auto;" onclick="simpanNamaKelompok()">Simpan Nama</button>
           </div>
         </div>
 
-        <div class="kelompok-tabs">
-          <button id="tab-k1" class="tab-kelompok active" onclick="pilihKelompok(1)">Kelompok 1</button>
-          <button id="tab-k2" class="tab-kelompok" onclick="pilihKelompok(2)">Kelompok 2</button>
-        </div>
+        <div class="kelompok-tabs" id="kelompok-tabs"></div>
 
         <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
           <h4 id="pesanan-judul" style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Pesanan</h4>
