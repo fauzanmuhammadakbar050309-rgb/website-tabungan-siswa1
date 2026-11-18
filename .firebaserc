@@ -5,7 +5,10 @@
   "targets": {
     "tkj3-tav-941cd": {
       "hosting": {
-        "12tkj3tav": [
+        "pertama": [
+          "tkj3-tav-941cd"
+        ],
+        "kedua": [
           "12tkj3tav"
         ]
       }

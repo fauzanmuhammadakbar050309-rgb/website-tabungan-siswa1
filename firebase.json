@@ -1,7 +1,21 @@
 {
-  "hosting": {
-    "site": "12tkj3tav",
-    "public": ".",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-  }
+  "hosting": [
+    {
+      "target": "pertama",
+      "public": ".",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "redirects": [
+        {
+          "source": "**",
+          "destination": "https://12tkj3tav.web.app/:path*",
+          "type": 301
+        }
+      ]
+    },
+    {
+      "target": "kedua",
+      "public": ".",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    }
+  ]
 }
