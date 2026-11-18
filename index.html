@@ -50,9 +50,7 @@
           <button onclick="showPage('page-piket')">📅 Jadwal Piket</button>
           <button onclick="showPage('page-foto')">📸 Kenangan Foto</button>
           <button onclick="showPage('page-tabungan')">💰 Data Tabungan</button>
-          <button id="menu-kelola-menu" class="hidden" onclick="showPage('page-kelola-menu')">🍔 Kelola Menu</button>
-          <button id="menu-daftar-pesanan" class="hidden" onclick="showPage('page-daftar-pesanan')">📥 Daftar Pesanan <span id="badge-pesanan-baru" class="badge-notif hidden" style="position:static;margin-left:6px;">0</span></button>
-          <button id="menu-setting-wa" class="hidden" onclick="showPage('page-setting-wa')">⚙️ Pengaturan WA</button>
+          <button onclick="showPage('page-pesanan')">🛒 Pesanan</button>
           <button id="menu-helpdesk" onclick="showPage('page-chat')">💬 Hubungi Developer</button>
           <button id="menu-inbox" class="hidden" onclick="showPage('page-inbox')">📥 Pesan Masuk</button>
           <button onclick="showPage('page-profil')">👤 Profil Saya</button>
@@ -123,10 +121,6 @@
     <div class="section reveal">
       <h2 class="section-title">Jadwal Piket</h2>
       <div id="landing-piket-container"></div>
-    </div>
-
-    <div class="section reveal" style="text-align:center;">
-      <button class="btn-order-landing" onclick="bukaModalOrder()">🛒 Order Pesanan</button>
     </div>
 
     <div class="footer">
@@ -209,6 +203,7 @@
           <h3 style="color:var(--cream);">💰 Data Tabungan</h3>
           <button class="btn btn-primary btn-sm" style="width:auto;" onclick="exportCSV()">📥 Export</button>
         </div>
+        
         <div id="tabungan-admin-view">
           <div style="background:linear-gradient(135deg, rgba(166,110,56,.2), rgba(43,35,31,1));border:1px solid var(--brown);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
             <div><h3 style="font-size:.9rem;color:var(--dim);font-weight:normal;">Total Saldo Keseluruhan Kelas</h3><div style="font-size:1.7rem;font-weight:bold;color:var(--cream);margin-top:4px;" id="total-semua-tabungan">Rp 0</div></div>
@@ -248,6 +243,7 @@
             <table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Nominal</th><th>Keterangan</th><th id="th-aksi-tabungan" class="hidden">Aksi</th></tr></thead><tbody id="tabel-rincian-tabungan"></tbody></table>
           </div>
         </div>
+
         <div id="tabungan-siswa-view" class="hidden">
           <div style="background:linear-gradient(135deg, rgba(166,110,56,.2), rgba(43,35,31,1));border:1px solid var(--brown);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
             <div><h3 style="font-size:.9rem;color:var(--dim);font-weight:normal;">Total Saldo Anda</h3><div style="font-size:1.7rem;font-weight:bold;color:var(--cream);margin-top:4px;" id="total-saldo-siswa">Rp 0</div></div>
@@ -258,48 +254,41 @@
         </div>
       </div>
 
-      <div id="page-kelola-menu" class="card page-content hidden">
-        <h3 style="color:var(--cream);margin-bottom:12px;">🍔 Kelola Menu Makanan</h3>
+      <div id="page-pesanan" class="card page-content hidden">
+        <h3 style="color:var(--cream);margin-bottom:10px;">🛒 Pesanan Kelas</h3>
+        <p style="color:var(--dim);font-size:.88rem;margin-bottom:16px;">Pilih kelompok, isi pesanan, lalu atur jumlah dengan tombol − dan +.</p>
+
+        <div id="admin-kelompok-form" class="hidden" style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
+          <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Ubah Nama Kelompok</h4>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <input type="text" id="input-nama-k1" placeholder="Nama kelompok 1" maxlength="30" style="flex:1;min-width:130px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+            <input type="text" id="input-nama-k2" placeholder="Nama kelompok 2" maxlength="30" style="flex:1;min-width:130px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
+            <button class="btn btn-success btn-sm" style="width:auto;" onclick="simpanNamaKelompok()">Simpan</button>
+          </div>
+        </div>
+
+        <div class="kelompok-tabs">
+          <button id="tab-k1" class="tab-kelompok active" onclick="pilihKelompok(1)">Kelompok 1</button>
+          <button id="tab-k2" class="tab-kelompok" onclick="pilihKelompok(2)">Kelompok 2</button>
+        </div>
+
         <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
-          <h4 id="form-menu-title" style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Tambah Menu Baru</h4>
-          <input type="hidden" id="edit-menu-key" value="">
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-            <input type="text" id="menu-nama" placeholder="Nama Menu (cth: Nasi Goreng)" style="flex:2;min-width:180px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-            <input type="number" id="menu-harga" placeholder="Harga (Rp)" style="flex:1;min-width:120px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-          </div>
-          <div style="margin-bottom:10px;">
-            <label style="color:var(--cream);font-size:0.85rem;display:block;margin-bottom:6px;">Link Foto Menu (opsional):</label>
-            <input type="text" id="menu-foto-url" placeholder="https://... atau tempel link Google Drive" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);" oninput="previewFotoDariLink()">
-            <div style="font-size:0.72rem;color:var(--dim);margin-top:5px;">💡 Google Drive: link share otomatis dikonversi. GitHub/Imgur: tempel link langsung.</div>
-          </div>
-          <div id="menu-foto-preview" style="margin-bottom:10px;display:none;">
-            <img id="menu-foto-img" style="max-width:140px;max-height:140px;border-radius:10px;border:1px solid var(--brown);object-fit:cover;background:#000;">
-            <div id="menu-foto-error" style="display:none;color:#ff6b6b;font-size:.75rem;margin-top:5px;">⚠️ Gambar gagal dimuat. Cek link atau share file.</div>
-          </div>
-          <div>
-            <button class="btn btn-primary btn-sm" style="width:auto;" onclick="simpanMenu()">Simpan Menu</button>
-            <button class="btn btn-secondary btn-sm hidden" id="btn-batal-edit-menu" onclick="resetFormMenu()">Batal Edit</button>
+          <h4 id="pesanan-judul" style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Pesanan</h4>
+          <input type="text" id="pesanan-item" placeholder="Nama pesanan (cth: Es Teh)" maxlength="60" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);margin-bottom:10px;">
+          <input type="tel" id="pesanan-hp" inputmode="numeric" placeholder="Nomor WhatsApp pelanggan (cth: 08123456789) *wajib" maxlength="16" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);margin-bottom:4px;">
+          <div style="font-size:.72rem;color:var(--dim);margin-bottom:10px;">Nomor dipakai untuk mengirim pesan konfirmasi ke pelanggan.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+            <div class="stepper">
+              <button type="button" onclick="ubahQtyBaru(-1)" aria-label="Kurangi">−</button>
+              <span id="qty-baru">1</span>
+              <button type="button" onclick="ubahQtyBaru(1)" aria-label="Tambah">+</button>
+            </div>
+            <button class="btn btn-primary btn-sm" style="width:auto;padding:9px 18px;" onclick="tambahPesanan()">Tambah Pesanan</button>
           </div>
         </div>
-        <h4 style="font-size:.9rem;color:var(--brown);margin-bottom:10px;">Daftar Menu</h4>
-        <div id="daftar-menu-container" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:15px;"></div>
-      </div>
 
-      <div id="page-daftar-pesanan" class="card page-content hidden">
-        <h3 style="color:var(--cream);margin-bottom:12px;">📥 Daftar Pesanan Masuk</h3>
-        <div id="daftar-pesanan-container"></div>
-      </div>
-
-      <div id="page-setting-wa" class="card page-content hidden">
-        <h3 style="color:var(--cream);margin-bottom:12px;">⚙️ Pengaturan Pesanan</h3>
-        <div style="background:#14110f;padding:16px;border-radius:10px;border:1px solid var(--border);">
-          <div class="form-group">
-            <label style="color:var(--cream);font-size:.85rem;display:block;margin-bottom:6px;">Nomor WhatsApp Tujuan Pesanan</label>
-            <input type="text" id="setting-wa-order" placeholder="628xxxxxxxxxx" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-            <div style="font-size:.72rem;color:var(--dim);margin-top:5px;">Format: 628xxx (tanpa + atau spasi)</div>
-          </div>
-          <button class="btn btn-primary btn-sm" style="width:auto;margin-top:10px;" onclick="simpanSettingWA()">Simpan</button>
-        </div>
+        <div id="pesanan-rekap"></div>
+        <div id="pesanan-list"></div>
       </div>
 
       <div id="page-chat" class="card page-content hidden">
@@ -319,6 +308,7 @@
       <div id="page-inbox" class="card page-content hidden">
         <h3 style="color:var(--cream);margin-bottom:10px;">📥 Pesan Masuk</h3>
         <div id="inbox-list"></div>
+        
         <div id="chat-dev-view" class="hidden" style="margin-top:20px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
             <button class="btn btn-secondary btn-sm" onclick="kembaliKeInbox()">⬅ Kembali</button>
@@ -352,12 +342,14 @@
 
       <div id="page-akun" class="card page-content hidden">
         <h3 style="color:var(--cream);margin-bottom:12px;">⚙️ Manajemen Akun Pengguna</h3>
+        
         <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
           <h4 style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">📥 Import Akun Siswa via File</h4>
           <p style="font-size:0.75rem;color:var(--dim);margin-bottom:10px;">Format: <strong>Nama Lengkap,Username,Password</strong> (pisahkan dengan enter)</p>
           <textarea id="import-file" placeholder="Ahmad Fauzi,ahmad,123&#10;Siti Aminah,siti,123" style="width:100%;height:80px;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);font-family:monospace;font-size:0.85rem;"></textarea>
           <button class="btn btn-success btn-sm" style="width:auto;margin-top:10px;" onclick="importAkunSiswa()">🚀 Import Sekarang</button>
         </div>
+
         <div style="background:#14110f;padding:14px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);">
           <h4 id="form-akun-title" style="margin-bottom:10px;font-size:.9rem;color:var(--brown);">Buat Akun Manual</h4>
           <input type="hidden" id="edit-akun-index" value="-1">
@@ -377,31 +369,6 @@
       </div>
 
     </div>
-  </div>
-</div>
-
-<div id="modal-order" class="modal-overlay">
-  <div class="modal-box">
-    <button class="modal-close" onclick="tutupModalOrder()">×</button>
-    <h3>🛒 Order Pesanan</h3>
-    <div id="modal-menu-list"></div>
-    <hr style="border:none;border-top:1px solid var(--border);margin:15px 0;">
-    <div style="margin-bottom:12px;">
-      <label style="color:var(--cream);font-size:.85rem;display:block;margin-bottom:6px;">Nama Pemesan *</label>
-      <input type="text" id="order-nama" placeholder="Nama lengkap" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-    </div>
-    <div style="margin-bottom:12px;">
-      <label style="color:var(--cream);font-size:.85rem;display:block;margin-bottom:6px;">Alamat *</label>
-      <input type="text" id="order-alamat" placeholder="Alamat lengkap" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-    </div>
-    <div style="margin-bottom:12px;">
-      <label style="color:var(--cream);font-size:.85rem;display:block;margin-bottom:6px;">Catatan (opsional)</label>
-      <input type="text" id="order-catatan" placeholder="cth: Pedas, tanpa acar" style="width:100%;padding:10px;border-radius:8px;background:var(--card2);color:white;border:1px solid var(--border);">
-    </div>
-    <div style="text-align:right;margin:12px 0;font-size:1.1rem;color:var(--cream);">
-      Total: <strong id="order-total" style="color:var(--brown);">Rp 0</strong>
-    </div>
-    <button class="btn btn-primary" style="width:100%;" onclick="checkoutOrder()">📱 Pesan via WhatsApp</button>
   </div>
 </div>
 

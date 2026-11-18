@@ -1,8 +1,8 @@
 let users = []; let piket = []; let tabungan = []; let chats = []; let driveLink = "https://drive.google.com";
-let menu = []; let pesanan = []; let waOrder = '';
 let currentUser = JSON.parse(sessionStorage.getItem('app_current_user')) || null;
 let firebaseReady = false; let selectedSiswaTabungan = null; let selectedChatUser = null;
 let pressTimer;
+let pesanan = []; let namaKelompok = {k1:"Kelompok 1", k2:"Kelompok 2"}; let kelompokAktif = 1; let qtyBaru = 1;
 let deferredPrompt;
 
 const defaultUsers = [
@@ -11,7 +11,7 @@ const defaultUsers = [
 ];
 const defaultPiket = [{hari:"Senin",anggota:"Fauzan, Raisya"},{hari:"Selasa",anggota:"Budi, Siti"},{hari:"Rabu",anggota:"Joko"},{hari:"Kamis",anggota:"Doni, Maya"},{hari:"Jumat",anggota:"Eko, Dian"}];
 
-// ==================== HELPER UMUM ====================
+// NOTIFIKASI KUSTOM
 function showAlert(pesan, judul = "⚠️ Peringatan") {
   document.getElementById('alert-title').innerText = judul;
   document.getElementById('alert-message').innerText = pesan;
@@ -20,34 +20,23 @@ function showAlert(pesan, judul = "⚠️ Peringatan") {
 function tutupAlert() {
   document.getElementById('custom-alert').classList.remove('show');
 }
-function escapeHtml(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function formatRupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(n||0);}
-function konversiLinkFoto(url) {
-  if (!url || typeof url !== 'string') return '';
-  url = url.trim();
-  if (!url) return '';
-  const p1 = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
-  const p2 = /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/;
-  const p3 = /drive\.google\.com\/uc\?.*id=([a-zA-Z0-9_-]+)/;
-  let match = url.match(p1) || url.match(p2) || url.match(p3);
-  if (match) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-  return url;
-}
 
-// ==================== PWA ====================
+// PWA INSTALL LOGIC
 window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault(); deferredPrompt = e;
+  e.preventDefault();
+  deferredPrompt = e;
   if(!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone){
     document.getElementById('btn-install-pwa').style.display = 'block';
   }
 });
+
 function installPWA() {
   if(deferredPrompt) {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') document.getElementById('btn-install-pwa').style.display = 'none';
+      if (choiceResult.outcome === 'accepted') {
+        document.getElementById('btn-install-pwa').style.display = 'none';
+      }
       deferredPrompt = null;
     });
   } else {
@@ -55,7 +44,7 @@ function installPWA() {
   }
 }
 
-// ==================== ANIMASI ====================
+// ANIMASI GACHA
 function jalankanGacha() {
   document.querySelectorAll('.gacha-num').forEach(el => {
     const target = parseInt(el.getAttribute('data-target'));
@@ -69,6 +58,8 @@ function jalankanGacha() {
     }, 50);
   });
 }
+
+// PROGRESS BAR
 function initProgressBar() {
   const barTkj = document.getElementById('bar-tkj');
   if(!barTkj) return;
@@ -84,6 +75,8 @@ function initProgressBar() {
   const sectionTentang = barTkj.closest('.section');
   if(sectionTentang) observer.observe(sectionTentang);
 }
+
+// SCROLL REVEAL
 function initScrollReveal() {
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -96,6 +89,7 @@ function initScrollReveal() {
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 }
+
 function updateClock() {
   const now = new Date();
   const jam = String(now.getHours()).padStart(2,'0');
@@ -117,7 +111,6 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 
-// ==================== FIREBASE READY ====================
 window.addEventListener('firebase-ready', () => {
   firebaseReady = true;
   updateClock();
@@ -140,7 +133,8 @@ function initFirebaseListeners(){
     const data = snap.val();
     if(data){ piket = Object.keys(data).map(k => ({...data[k], _key: k})); }
     else { defaultPiket.forEach((p) => { window.fbSet(window.fbRef(window.db, 'piket/' + p.hari), p); }); }
-    renderPiket(); renderLandingPiket();
+    renderPiket(); 
+    renderLandingPiket(); 
     if(currentUser && !document.getElementById('page-dashboard').classList.contains('hidden')) renderDashboard();
   });
 
@@ -167,22 +161,16 @@ function initFirebaseListeners(){
     if(currentUser && !document.getElementById('page-foto').classList.contains('hidden')) renderFotoPage();
   });
 
-  // ORDER
-  window.fbOnValue(window.fbRef(window.db, 'menu'), (snap) => {
-    const data = snap.val();
-    menu = data ? Object.keys(data).map(k => ({...data[k], _key:k})) : [];
-    if(currentUser && !document.getElementById('page-kelola-menu').classList.contains('hidden')) renderKelolaMenu();
-  });
   window.fbOnValue(window.fbRef(window.db, 'pesanan'), (snap) => {
     const data = snap.val();
-    pesanan = data ? Object.keys(data).map(k => ({...data[k], _key:k})).sort((a,b)=> new Date(b.waktu) - new Date(a.waktu)) : [];
-    updateBadgePesananBaru();
-    if(currentUser && !document.getElementById('page-daftar-pesanan').classList.contains('hidden')) renderDaftarPesanan();
+    if(data){ pesanan = Object.keys(data).map(k => ({...data[k], _key: k})); } else { pesanan = []; }
+    if(currentUser && !document.getElementById('page-pesanan').classList.contains('hidden')) renderPesanan();
   });
-  window.fbOnValue(window.fbRef(window.db, 'settings/waOrder'), (snap) => {
-    waOrder = snap.val() || '';
-    const el = document.getElementById('setting-wa-order');
-    if (el) el.value = waOrder;
+
+  window.fbOnValue(window.fbRef(window.db, 'settings/kelompok'), (snap) => {
+    const v = snap.val() || {};
+    namaKelompok = { k1: v.k1 || "Kelompok 1", k2: v.k2 || "Kelompok 2" };
+    if(currentUser && !document.getElementById('page-pesanan').classList.contains('hidden')) renderPesanan();
   });
 
   document.getElementById('loading-overlay').classList.add('hidden');
@@ -224,17 +212,9 @@ function updateNotifBadges() {
   }
   if(globalBadge) { globalBadge.innerText = unreadCount; globalBadge.classList.toggle('hidden', unreadCount === 0); }
 }
-function updateBadgePesananBaru() {
-  const badge = document.getElementById('badge-pesanan-baru');
-  if (!badge) return;
-  const jml = pesanan.filter(p => p.status === 'baru').length;
-  badge.innerText = jml;
-  badge.classList.toggle('hidden', jml === 0);
-}
 function markReadDev() { chats.filter(c => c.sender !== 'dev' && !c.readByDev).forEach(c => { window.fbUpdate(window.fbRef(window.db, 'chats/'+c._key), {readByDev: true}); }); }
 function markReadUser(uname) { chats.filter(c => c.username === uname && c.sender === 'dev' && !c.readByUser).forEach(c => { window.fbUpdate(window.fbRef(window.db, 'chats/'+c._key), {readByUser: true}); }); }
 
-// ==================== LOGIN/LOGOUT ====================
 function handleLogin(){
   if(!firebaseReady){ showAlert("Database belum terhubung."); return; }
   const u = document.getElementById('login-username').value.trim();
@@ -256,16 +236,17 @@ function handleLogin(){
   document.getElementById('app-section').classList.remove('hidden');
   inisialisasiSesiUI(); showPage('page-dashboard');
 }
+
 function handleLogout(){
   if(currentUser && currentUser._key){ window.fbUpdate(window.fbRef(window.db, 'users/' + currentUser._key), {status:'offline'}); }
   currentUser = null; sessionStorage.removeItem('app_current_user');
-  localStorage.removeItem('remember_login');
   document.getElementById('login-username').value=''; document.getElementById('login-password').value='';
   document.getElementById('app-section').classList.add('hidden');
   document.getElementById('public-menu').classList.remove('hidden');
   document.getElementById('private-menu').classList.add('hidden');
   showPage('page-landing');
 }
+
 window.onload = function() {
   const saved = localStorage.getItem('remember_login');
   if(saved) {
@@ -286,10 +267,7 @@ function inisialisasiSesiUI(){
   document.getElementById('menu-akun-btn').classList.toggle('hidden',!isDev);
   document.getElementById('menu-inbox').classList.toggle('hidden',!isDev);
   document.getElementById('menu-helpdesk').classList.toggle('hidden',isDev);
-  document.getElementById('menu-kelola-menu').classList.toggle('hidden',!isDev);
-  document.getElementById('menu-daftar-pesanan').classList.toggle('hidden',!isAdminOrDev);
-  document.getElementById('menu-setting-wa').classList.toggle('hidden',!isDev);
-  ['admin-piket-form','admin-foto-form'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!isDev));
+  ['admin-piket-form','admin-foto-form','admin-kelompok-form'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!isDev));
   document.getElementById('tabungan-admin-view').classList.toggle('hidden',!isAdminOrDev);
   document.getElementById('tabungan-siswa-view').classList.toggle('hidden',isAdminOrDev);
   updateClock(); updateNotifBadges();
@@ -315,16 +293,13 @@ function showPage(pageId){
   if(pageId==='page-piket') { renderPiket(); renderPilihanPiket(); }
   if(pageId==='page-foto')renderFotoPage();
   if(pageId==='page-tabungan')renderTabungan();
+  if(pageId==='page-pesanan'){ isiFormKelompok(); renderPesanan(); }
   if(pageId==='page-chat'){renderChatUser(); markReadUser(currentUser.username);}
   if(pageId==='page-inbox'){renderInbox(); markReadDev();}
   if(pageId==='page-profil')renderProfil();
   if(pageId==='page-akun')renderTabelAkun();
-  if(pageId==='page-kelola-menu') renderKelolaMenu();
-  if(pageId==='page-daftar-pesanan') renderDaftarPesanan();
-  if(pageId==='page-setting-wa') document.getElementById('setting-wa-order').value = waOrder || '';
 }
 
-// ==================== PIKET ====================
 function renderLandingPiket() {
   const container = document.getElementById('landing-piket-container');
   if(!container) return;
@@ -342,6 +317,7 @@ function renderLandingPiket() {
   });
   initScrollReveal();
 }
+
 function renderDashboard(){
   const today=new Date(); const hariIni=today.toLocaleDateString('id-ID',{weekday:'long'});
   document.getElementById('piket-hari-ini-date').innerText=today.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
@@ -352,6 +328,7 @@ function renderDashboard(){
   if(!data||!data.anggota.trim()){list.innerHTML='<li style="color:var(--dim);">Belum ada petugas piket.</li>';return;}
   data.anggota.split(',').forEach(nama=>{const li=document.createElement('li');li.innerText='• '+nama.trim();li.style.color='var(--white)';li.style.marginBottom='5px';list.appendChild(li);});
 }
+
 function renderPiket(){
   const container=document.getElementById('piket-list-container');container.innerHTML='';
   const hariList=['Senin','Selasa','Rabu','Kamis','Jumat'];
@@ -366,6 +343,7 @@ function renderPiket(){
     </div>`;
   });
 }
+
 function renderPilihanPiket() {
   const hari = document.getElementById('piket-hari').value;
   const container = document.getElementById('piket-siswa-list');
@@ -379,20 +357,26 @@ function renderPilihanPiket() {
   }
   siswaList.forEach(siswa => {
     const isChecked = namaTerpilih.includes(siswa.nama) ? 'checked' : '';
-    container.innerHTML += `<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem;color:var(--white);cursor:pointer;"><input type="checkbox" class="check-piket" value="${siswa.nama}" ${isChecked}> ${siswa.nama}</label>`;
+    container.innerHTML += `
+      <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem;color:var(--white);cursor:pointer;">
+        <input type="checkbox" class="check-piket" value="${siswa.nama}" ${isChecked}> ${siswa.nama}
+      </label>
+    `;
   });
 }
+
 function simpanPiket(){
   if(currentUser.role!=='developer')return;
   const h = document.getElementById('piket-hari').value;
   const selected = Array.from(document.querySelectorAll('.check-piket:checked')).map(c => c.value);
   if(selected.length === 0){ showAlert("Pilih minimal satu siswa untuk piket!"); return; }
-  window.fbSet(window.fbRef(window.db, 'piket/' + h), {hari:h, anggota:selected.join(', ')});
+  const anggotaStr = selected.join(', ');
+  window.fbSet(window.fbRef(window.db, 'piket/' + h), {hari:h, anggota:anggotaStr});
   showAlert("Jadwal piket " + h + " berhasil diperbarui!", "✅ Berhasil");
-  renderPiket(); renderLandingPiket();
+  renderPiket();
+  renderLandingPiket();
 }
 
-// ==================== FOTO / GDRIVE ====================
 function renderFotoPage(){document.getElementById('gdrive-button-link').href=driveLink;document.getElementById('input-gdrive-link').value=driveLink;}
 function simpanDriveLink(){
   if(currentUser.role!=='developer')return;
@@ -401,7 +385,7 @@ function simpanDriveLink(){
   window.fbSet(window.fbRef(window.db, 'settings/driveLink'), l); showAlert("Link berhasil diperbarui!", "✅ Berhasil");
 }
 
-// ==================== TABUNGAN ====================
+function formatRupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(n);}
 function hitungSaldoPerSiswa(){
   let saldo={}; users.forEach(u=>{if(u.role==='siswa')saldo[u.nama]=0;});
   tabungan.forEach(t=>{if(saldo[t.nama]!==undefined){saldo[t.nama]+=(t.jenis==='setor'?t.nominal:-t.nominal);}});
@@ -484,10 +468,39 @@ function exportCSV(){
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Data_Tabungan_12TKJ3.csv"; link.click();
 }
 
-// ==================== CHAT ====================
+function importAkunSiswa(){
+  if(currentUser.role!=='developer') return;
+  const raw = document.getElementById('import-file').value.trim();
+  if(!raw){ showAlert("Kolom import masih kosong!"); return; }
+  const lines = raw.split('\n');
+  let berhasil = 0;
+  let gagal = 0;
+  lines.forEach(line => {
+    if(!line.trim()) return;
+    const parts = line.split(',');
+    if(parts.length >= 2){
+      const nama = parts[0].trim();
+      const username = parts[1].trim();
+      const password = parts[2] ? parts[2].trim() : "123";
+      if(users.some(u => u.username === username)){
+        gagal++;
+      } else {
+        window.fbSet(window.fbPush(window.fbRef(window.db, 'users')), {nama:nama, username:username, password:password, role:"siswa", status:"offline"});
+        berhasil++;
+      }
+    } else {
+      gagal++;
+    }
+  });
+  showAlert(`Import selesai!\nBerhasil: ${berhasil} akun\nGagal/Duplikat: ${gagal} akun`, "✅ Import Selesai");
+  document.getElementById('import-file').value = '';
+}
+
 function startPress(key) {
   pressTimer = window.setTimeout(() => {
-    if(confirm("Hapus pesan ini?")) window.fbRemove(window.fbRef(window.db, 'chats/'+key));
+    if(confirm("Hapus pesan ini?")) {
+      window.fbRemove(window.fbRef(window.db, 'chats/'+key));
+    }
   }, 600);
 }
 function cancelPress() { clearTimeout(pressTimer); }
@@ -499,9 +512,10 @@ function renderChatUser(){
     const isDev = c.sender === 'dev';
     const div = document.createElement('div');
     div.className = `chat-bubble ${isDev ? 'other' : 'own'}`;
-    div.innerHTML = `<div class="chat-meta"><strong>${isDev?'Developer':currentUser.nama}</strong> <span>${c.jam}</span></div><div>${escapeHtml(c.pesan)}</div>`;
+    div.innerHTML = `<div class="chat-meta"><strong>${isDev?'Developer':currentUser.nama}</strong> <span>${c.jam}</span></div><div>${c.pesan}</div>`;
     div.onmousedown = () => { if(!isDev) startPress(c._key); };
-    div.onmouseup = cancelPress; div.onmouseleave = cancelPress;
+    div.onmouseup = cancelPress;
+    div.onmouseleave = cancelPress;
     div.ontouchstart = () => { if(!isDev) startPress(c._key); };
     div.ontouchend = cancelPress;
     box.appendChild(div);
@@ -522,6 +536,7 @@ function hapusRoomChatUser() {
   });
   showAlert("Room chat berhasil dihapus.", "✅ Berhasil");
 }
+
 function renderInbox(){
   const list = document.getElementById('inbox-list'); if(!list) return; list.innerHTML='';
   const grouped = {};
@@ -549,7 +564,8 @@ function bukaChatDev(uname, nama){
   document.getElementById('inbox-list').classList.add('hidden');
   document.getElementById('chat-dev-view').classList.remove('hidden');
   document.getElementById('chat-dev-title').innerText = 'Chat dengan ' + nama;
-  markReadDev(); renderChatDev();
+  markReadDev();
+  renderChatDev();
 }
 function kembaliKeInbox(){
   selectedChatUser = null;
@@ -565,9 +581,10 @@ function renderChatDev(){
     const isDev = c.sender === 'dev';
     const div = document.createElement('div');
     div.className = `chat-bubble ${isDev ? 'own' : 'other'}`;
-    div.innerHTML = `<div class="chat-meta"><strong>${isDev?'Anda (Dev)':escapeHtml(c.nama)}</strong> <span>${c.jam}</span></div><div>${escapeHtml(c.pesan)}</div>`;
+    div.innerHTML = `<div class="chat-meta"><strong>${isDev?'Anda (Dev)':c.nama}</strong> <span>${c.jam}</span></div><div>${c.pesan}</div>`;
     div.onmousedown = () => startPress(c._key);
-    div.onmouseup = cancelPress; div.onmouseleave = cancelPress;
+    div.onmouseup = cancelPress;
+    div.onmouseleave = cancelPress;
     div.ontouchstart = () => startPress(c._key);
     div.ontouchend = cancelPress;
     box.appendChild(div);
@@ -593,7 +610,6 @@ function hapusRoomChatDev() {
   kembaliKeInbox();
 }
 
-// ==================== PROFIL ====================
 function renderProfil(){
   document.getElementById('profil-username').value = currentUser.username;
   document.getElementById('profil-password').value = '';
@@ -612,14 +628,13 @@ function simpanProfil(){
   renderProfil();
 }
 
-// ==================== AKUN ====================
 function renderTabelAkun(){
-  if(!currentUser || currentUser.role!=='developer')return;
+  if(currentUser.role!=='developer')return;
   const tbody=document.getElementById('tabel-akun-body');tbody.innerHTML='';
   users.forEach((u)=>{
     const br=u.role==='admin'?'<span style="color:var(--brown);font-weight:bold;">Admin</span>':(u.role==='developer'?'<span style="color:#ff6b6b;font-weight:bold;">Developer</span>':'<span style="color:var(--cream);">Siswa</span>');
     const bs=u.status==='online'?'<span style="color:#8dd694;font-weight:bold;">Online</span>':'<span style="color:var(--dim);">Offline</span>';
-    tbody.innerHTML+=`<tr><td data-label="Nama">${escapeHtml(u.nama)}</td><td data-label="Username">${escapeHtml(u.username)}</td><td data-label="Password">${escapeHtml(u.password)}</td><td data-label="Role">${br}</td><td data-label="Status">${bs}</td><td data-label="Aksi"><button class="btn btn-primary btn-sm" onclick="editAkun('${u._key}')">Edit</button> <button class="btn btn-danger btn-sm" onclick="hapusAkun('${u._key}')">Hapus</button></td></tr>`;
+    tbody.innerHTML+=`<tr><td data-label="Nama">${u.nama}</td><td data-label="Username">${u.username}</td><td data-label="Password">${u.password}</td><td data-label="Role">${br}</td><td data-label="Status">${bs}</td><td data-label="Aksi"><button class="btn btn-primary btn-sm" onclick="editAkun('${u._key}')">Edit</button> <button class="btn btn-danger btn-sm" onclick="hapusAkun('${u._key}')">Hapus</button></td></tr>`;
   });
 }
 function simpanAkun(){
@@ -648,168 +663,131 @@ function resetFormAkun(){
   document.getElementById('form-akun-title').innerText="Buat Akun Baru"; document.getElementById('edit-akun-index').value="-1";
   document.getElementById('akun-nama').value=''; document.getElementById('akun-username').value=''; document.getElementById('akun-password').value=''; document.getElementById('akun-role').value='siswa'; document.getElementById('btn-batal-edit').classList.add('hidden');
 }
-function importAkunSiswa(){
-  if(currentUser.role!=='developer') return;
-  const raw = document.getElementById('import-file').value.trim();
-  if(!raw){ showAlert("Kolom import masih kosong!"); return; }
-  const lines = raw.split('\n'); let berhasil = 0; let gagal = 0;
-  lines.forEach(line => {
-    if(!line.trim()) return;
-    const parts = line.split(',');
-    if(parts.length >= 2){
-      const nama = parts[0].trim(); const username = parts[1].trim(); const password = parts[2] ? parts[2].trim() : "123";
-      if(users.some(u => u.username === username)){ gagal++; }
-      else { window.fbSet(window.fbPush(window.fbRef(window.db, 'users')), {nama, username, password, role:"siswa", status:"offline"}); berhasil++; }
-    } else { gagal++; }
-  });
-  showAlert(`Import selesai!\nBerhasil: ${berhasil} akun\nGagal/Duplikat: ${gagal} akun`, "✅ Import Selesai");
-  document.getElementById('import-file').value = '';
-}
 
-// ==================== ORDER PESANAN ====================
-function previewFotoDariLink() {
-  const raw = document.getElementById('menu-foto-url').value;
-  const url = konversiLinkFoto(raw);
-  const box = document.getElementById('menu-foto-preview');
-  const img = document.getElementById('menu-foto-img');
-  const err = document.getElementById('menu-foto-error');
-  if (!url) { box.style.display = 'none'; return; }
-  img.src = url;
-  img.onload = () => { box.style.display = 'block'; err.style.display = 'none'; };
-  img.onerror = () => { box.style.display = 'block'; err.style.display = 'block'; };
-}
-function simpanMenu() {
-  if (!currentUser || currentUser.role !== 'developer') return;
-  const nama = document.getElementById('menu-nama').value.trim();
-  const harga = parseInt(document.getElementById('menu-harga').value);
-  const fotoRaw = document.getElementById('menu-foto-url').value.trim();
-  const editKey = document.getElementById('edit-menu-key').value;
-  if (!nama || isNaN(harga) || harga <= 0) { showAlert("Nama dan harga menu wajib diisi!"); return; }
-  const foto = fotoRaw ? konversiLinkFoto(fotoRaw) : null;
-  const dataMenu = { nama, harga, foto: foto || null, aktif:true, updatedAt: new Date().toISOString() };
-  if (editKey) { window.fbUpdate(window.fbRef(window.db, 'menu/' + editKey), dataMenu); showAlert("Menu berhasil diperbarui!", "✅ Berhasil"); }
-  else { window.fbSet(window.fbPush(window.fbRef(window.db, 'menu')), dataMenu); showAlert("Menu baru berhasil ditambahkan!", "✅ Berhasil"); }
-  resetFormMenu();
-}
-function resetFormMenu() {
-  document.getElementById('menu-nama').value = '';
-  document.getElementById('menu-harga').value = '';
-  document.getElementById('menu-foto-url').value = '';
-  document.getElementById('menu-foto-preview').style.display = 'none';
-  document.getElementById('edit-menu-key').value = '';
-  document.getElementById('form-menu-title').innerText = 'Tambah Menu Baru';
-  document.getElementById('btn-batal-edit-menu').classList.add('hidden');
-}
-function editMenu(key) {
-  const m = menu.find(x => x._key === key); if (!m) return;
-  document.getElementById('menu-nama').value = m.nama;
-  document.getElementById('menu-harga').value = m.harga;
-  document.getElementById('menu-foto-url').value = m.foto || '';
-  document.getElementById('edit-menu-key').value = key;
-  document.getElementById('form-menu-title').innerText = 'Edit Menu';
-  document.getElementById('btn-batal-edit-menu').classList.remove('hidden');
-  if (m.foto) previewFotoDariLink(); else document.getElementById('menu-foto-preview').style.display = 'none';
-}
-function hapusMenu(key) {
-  if (!currentUser || currentUser.role !== 'developer') return;
-  if (!confirm("Hapus menu ini?")) return;
-  window.fbRemove(window.fbRef(window.db, 'menu/' + key));
-  showAlert("Menu dihapus.", "✅ Berhasil");
-}
-function renderKelolaMenu() {
-  const container = document.getElementById('daftar-menu-container');
-  if (!container) return;
-  container.innerHTML = '';
-  if (menu.length === 0) { container.innerHTML = '<p style="color:var(--dim);text-align:center;grid-column:1/-1;">Belum ada menu. Tambahkan menu pertama!</p>'; return; }
-  menu.forEach(m => {
-    const fotoHtml = m.foto ? `<div class="menu-card-img"><img src="${escapeHtml(m.foto)}" alt="${escapeHtml(m.nama)}" loading="lazy" onerror="this.parentElement.innerHTML='🍽️'"></div>` : `<div class="menu-card-img">🍽️</div>`;
-    container.innerHTML += `<div class="menu-card">${fotoHtml}<div class="menu-card-body"><h5>${escapeHtml(m.nama)}</h5><div class="harga">${formatRupiah(m.harga)}</div><div class="aksi"><button class="btn btn-primary btn-sm" onclick="editMenu('${m._key}')">✏️ Edit</button><button class="btn btn-danger btn-sm" onclick="hapusMenu('${m._key}')">🗑️ Hapus</button></div></div></div>`;
-  });
-}
-function bukaModalOrder() {
-  const menuAktif = menu.filter(m => m.aktif !== false);
-  if (menuAktif.length === 0) { showAlert("Belum ada menu tersedia. Hubungi developer."); return; }
-  document.getElementById('modal-order').classList.add('show');
-  document.getElementById('order-nama').value = '';
-  document.getElementById('order-alamat').value = '';
-  document.getElementById('order-catatan').value = '';
-  renderMenuOrderPublik();
-  document.getElementById('order-total').innerText = 'Rp 0';
-}
-function tutupModalOrder() { document.getElementById('modal-order').classList.remove('show'); }
-function renderMenuOrderPublik() {
-  const container = document.getElementById('modal-menu-list'); if (!container) return; container.innerHTML = '';
-  const menuAktif = menu.filter(m => m.aktif !== false);
-  menuAktif.forEach(m => {
-    const thumbHtml = m.foto ? `<div class="thumb"><img src="${escapeHtml(m.foto)}" alt="${escapeHtml(m.nama)}" onerror="this.parentElement.innerHTML='🍽️'"></div>` : `<div class="thumb">🍽️</div>`;
-    container.innerHTML += `<div class="menu-item-order">${thumbHtml}<div class="menu-item-order-info"><h5>${escapeHtml(m.nama)}</h5><div class="harga">${formatRupiah(m.harga)}</div></div><input type="number" min="0" value="0" data-key="${m._key}" data-harga="${m.harga}" class="qty-order-input" onchange="hitungTotalOrder()" oninput="hitungTotalOrder()"></div>`;
-  });
-}
-function hitungTotalOrder() {
-  let total = 0;
-  document.querySelectorAll('.qty-order-input').forEach(inp => { total += (parseInt(inp.value) || 0) * (parseInt(inp.dataset.harga) || 0); });
-  document.getElementById('order-total').innerText = formatRupiah(total);
-}
-function checkoutOrder() {
-  const nama = document.getElementById('order-nama').value.trim();
-  const alamat = document.getElementById('order-alamat').value.trim();
-  const catatan = document.getElementById('order-catatan').value.trim();
-  if (!nama) { showAlert("Nama pemesan wajib diisi!"); return; }
-  if (!alamat) { showAlert("Alamat wajib diisi!"); return; }
-  const items = []; let total = 0;
-  document.querySelectorAll('.qty-order-input').forEach(inp => {
-    const qty = parseInt(inp.value) || 0;
-    if (qty > 0) {
-      const m = menu.find(x => x._key === inp.dataset.key);
-      if (m) { const subtotal = m.harga * qty; items.push({ nama: m.nama, harga: m.harga, qty, subtotal }); total += subtotal; }
-    }
-  });
-  if (items.length === 0) { showAlert("Pilih minimal 1 menu!"); return; }
-  if (!waOrder) { showAlert("Nomor WhatsApp tujuan belum diatur. Hubungi developer."); return; }
-  const now = new Date();
-  const kodeOrder = 'ORD-' + now.getTime();
-  const pesananData = { kode: kodeOrder, namaPemesan: nama, alamat, catatan, items, total, status: 'baru', waktu: now.toISOString(), jam: now.toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}), tanggal: now.toLocaleDateString('id-ID') };
-  window.fbSet(window.fbPush(window.fbRef(window.db, 'pesanan')), pesananData);
-  let teks = `Halo, saya ingin memesan:\n\n`;
-  items.forEach(it => { teks += `- ${it.nama} x${it.qty} = ${formatRupiah(it.subtotal)}\n`; });
-  teks += `\nTotal: ${formatRupiah(total)}\n\nNama: ${nama}\nAlamat: ${alamat}\n`;
-  if (catatan) teks += `Catatan: ${catatan}\n`;
-  teks += `\nKode: ${kodeOrder}`;
-  window.open(`https://wa.me/${waOrder}?text=${encodeURIComponent(teks)}`, '_blank');
-  tutupModalOrder();
-  showAlert("Pesanan berhasil dikirim ke WhatsApp!", "✅ Berhasil");
-}
-function renderDaftarPesanan() {
-  const container = document.getElementById('daftar-pesanan-container'); if (!container) return; container.innerHTML = '';
-  if (pesanan.length === 0) { container.innerHTML = '<p style="color:var(--dim);text-align:center;">Belum ada pesanan masuk.</p>'; return; }
-  pesanan.forEach(p => {
-    const statusClass = p.status === 'baru' ? 'baru' : (p.status === 'proses' ? 'proses' : 'selesai');
-    const statusLabel = p.status === 'baru' ? '🟡 Baru' : (p.status === 'proses' ? '🟠 Proses' : '🟢 Selesai');
-    const itemsHtml = (p.items || []).map(it => `<div>• ${escapeHtml(it.nama)} x${it.qty} = ${formatRupiah(it.subtotal)}</div>`).join('');
-    let aksiHtml = '';
-    if (p.status === 'baru') aksiHtml = `<button class="btn btn-primary btn-sm" onclick="ubahStatusPesanan('${p._key}','proses')">🟠 Proses</button>`;
-    else if (p.status === 'proses') aksiHtml = `<button class="btn btn-success btn-sm" onclick="ubahStatusPesanan('${p._key}','selesai')">🟢 Selesai</button>`;
-    container.innerHTML += `<div class="pesanan-card ${statusClass}"><h5>🧑 ${escapeHtml(p.namaPemesan)}</h5><div class="meta">📍 ${escapeHtml(p.alamat)} · 🕐 ${p.tanggal} ${p.jam}</div><span class="status-badge status-${statusClass}">${statusLabel}</span><div class="items">${itemsHtml}</div>${p.catatan ? `<div style="font-size:.8rem;color:var(--dim);margin-bottom:8px;">📝 ${escapeHtml(p.catatan)}</div>` : ''}<div class="total">Total: ${formatRupiah(p.total)}</div><div style="display:flex;gap:6px;flex-wrap:wrap;">${aksiHtml}</div></div>`;
-  });
-}
-function ubahStatusPesanan(key, status) {
-  const p = pesanan.find(x => x._key === key); if (!p) return;
-  window.fbUpdate(window.fbRef(window.db, 'pesanan/' + key), { status });
-  showAlert(`Status pesanan diubah ke "${status}".`, "✅ Berhasil");
-}
-function simpanSettingWA() {
-  if (!currentUser || currentUser.role !== 'developer') return;
-  const val = document.getElementById('setting-wa-order').value.trim();
-  if (val && !/^[0-9]{10,15}$/.test(val)) { showAlert("Format nomor WA tidak valid. Gunakan 628xxx (tanpa + atau spasi)."); return; }
-  window.fbSet(window.fbRef(window.db, 'settings/waOrder'), val);
-  showAlert("Nomor WhatsApp berhasil disimpan!", "✅ Berhasil");
-}
-
-// ==================== ENTER SHORTCUT ====================
+// Tombol Enter untuk login dan chat
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Enter') {
-    if (!document.getElementById('page-login').classList.contains('hidden')) { handleLogin(); event.preventDefault(); return; }
-    if (document.activeElement === document.getElementById('chat-input-user')) { kirimPesanUser(); event.preventDefault(); return; }
-    if (document.activeElement === document.getElementById('chat-input-dev')) { kirimPesanDev(); event.preventDefault(); return; }
+    if (!document.getElementById('page-login').classList.contains('hidden')) {
+      handleLogin(); event.preventDefault(); return;
+    }
+    const chatInputUser = document.getElementById('chat-input-user');
+    if (document.activeElement === chatInputUser) { kirimPesanUser(); event.preventDefault(); return; }
+    if (document.activeElement && (document.activeElement.id === 'pesanan-item' || document.activeElement.id === 'pesanan-hp')) { tambahPesanan(); event.preventDefault(); return; }
+    const chatInputDev = document.getElementById('chat-input-dev');
+    if (document.activeElement === chatInputDev) { kirimPesanDev(); event.preventDefault(); return; }
   }
 });
+
+// ===== PESANAN (2 KELOMPOK) =====
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function bolehUbahPesanan(p){ return currentUser && (currentUser.role==='developer' || currentUser.role==='admin' || p.username===currentUser.username); }
+
+function isiFormKelompok(){
+  document.getElementById('input-nama-k1').value = namaKelompok.k1;
+  document.getElementById('input-nama-k2').value = namaKelompok.k2;
+}
+function simpanNamaKelompok(){
+  if(!currentUser || currentUser.role!=='developer') return;
+  const k1 = document.getElementById('input-nama-k1').value.trim();
+  const k2 = document.getElementById('input-nama-k2').value.trim();
+  if(!k1 || !k2){ showAlert("Nama kelompok tidak boleh kosong!"); return; }
+  window.fbSet(window.fbRef(window.db, 'settings/kelompok'), {k1:k1, k2:k2});
+  showAlert("Nama kelompok berhasil diperbarui!", "✅ Berhasil");
+}
+
+// Normalisasi nomor HP Indonesia -> format 628xxxxxxxxx (null jika tidak valid)
+function normalisasiHP(raw){
+  let d = String(raw || '').replace(/[^\d]/g, '');
+  if(d.startsWith('0')) d = '62' + d.slice(1);
+  else if(d.startsWith('8')) d = '62' + d;
+  if(!/^628\d{8,11}$/.test(d)) return null;
+  return d;
+}
+function tampilHP(n){ return '0' + String(n).slice(2); }
+function samarkanHP(n){ const d = tampilHP(n); return d.slice(0,4) + '****' + d.slice(-3); }
+
+function pilihKelompok(n){ kelompokAktif = n; qtyBaru = 1; renderPesanan(); }
+function ubahQtyBaru(d){
+  qtyBaru = Math.min(99, Math.max(1, qtyBaru + d));
+  document.getElementById('qty-baru').innerText = qtyBaru;
+}
+
+function tambahPesanan(){
+  const input = document.getElementById('pesanan-item');
+  const item = input.value.trim();
+  if(!item){ showAlert("Isi nama pesanan terlebih dahulu!"); return; }
+  const hp = normalisasiHP(document.getElementById('pesanan-hp').value);
+  if(!hp){ showAlert("Nomor WhatsApp pelanggan wajib diisi dengan benar!\nContoh: 08123456789"); return; }
+  const now = new Date();
+  const jam = now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  window.fbSet(window.fbPush(window.fbRef(window.db, 'pesanan')), {
+    kelompok: kelompokAktif, username: currentUser.username, nama: currentUser.nama,
+    item: item, jumlah: qtyBaru, hp: hp, jam: jam, waktu: now.toISOString()
+  });
+  input.value = ''; document.getElementById('pesanan-hp').value = ''; qtyBaru = 1;
+  document.getElementById('qty-baru').innerText = qtyBaru;
+}
+
+function ubahJumlahPesanan(key, d){
+  const p = pesanan.find(x => x._key === key);
+  if(!p || !bolehUbahPesanan(p)) return;
+  const baru = Math.min(99, Math.max(1, (p.jumlah || 1) + d));
+  if(baru === p.jumlah) return;
+  window.fbUpdate(window.fbRef(window.db, 'pesanan/' + key), {jumlah: baru});
+}
+
+function hapusPesanan(key){
+  const p = pesanan.find(x => x._key === key);
+  if(!p || !bolehUbahPesanan(p)) return;
+  if(confirm("Hapus pesanan ini?")) window.fbRemove(window.fbRef(window.db, 'pesanan/' + key));
+}
+
+function renderPesanan(){
+  const t1 = document.getElementById('tab-k1'); const t2 = document.getElementById('tab-k2');
+  if(!t1 || !t2) return;
+  const total = k => pesanan.filter(p => Number(p.kelompok)===k).reduce((s,p) => s + (p.jumlah||0), 0);
+  t1.innerText = `${namaKelompok.k1} (${total(1)})`;
+  t2.innerText = `${namaKelompok.k2} (${total(2)})`;
+  t1.classList.toggle('active', kelompokAktif===1);
+  t2.classList.toggle('active', kelompokAktif===2);
+  document.getElementById('pesanan-judul').innerText = 'Pesanan ' + (kelompokAktif===1 ? namaKelompok.k1 : namaKelompok.k2);
+  document.getElementById('qty-baru').innerText = qtyBaru;
+
+  const list = pesanan.filter(p => Number(p.kelompok)===kelompokAktif)
+                      .sort((a,b) => new Date(a.waktu) - new Date(b.waktu));
+
+  const rekap = {};
+  list.forEach(p => {
+    const k = String(p.item||'').trim().toLowerCase();
+    if(!rekap[k]) rekap[k] = {label: p.item, total: 0};
+    rekap[k].total += (p.jumlah||0);
+  });
+  const rekapEl = document.getElementById('pesanan-rekap');
+  const rekapKeys = Object.keys(rekap);
+  rekapEl.innerHTML = rekapKeys.length ? `<h4 style="font-size:.9rem;color:var(--brown);margin-bottom:8px;">Rekap Pesanan</h4><div class="rekap-chips">${rekapKeys.map(k => `<span class="rekap-chip">${esc(rekap[k].label)} <strong>×${rekap[k].total}</strong></span>`).join('')}</div>` : '';
+
+  const box = document.getElementById('pesanan-list');
+  if(list.length === 0){ box.innerHTML = '<p style="color:var(--dim);font-size:.88rem;">Belum ada pesanan di kelompok ini.</p>'; return; }
+  box.innerHTML = list.map(p => {
+    const boleh = bolehUbahPesanan(p);
+    const namaK = Number(p.kelompok)===1 ? namaKelompok.k1 : namaKelompok.k2;
+    const pesanWA = `Halo, pesanan Anda (${p.item} x${p.jumlah}) di ${namaK} sudah kami terima. Terima kasih! 🙏`;
+    const waLink = (boleh && p.hp) ? `<a class="btn btn-success btn-sm" target="_blank" rel="noopener" href="https://wa.me/${p.hp}?text=${encodeURIComponent(pesanWA)}">💬 WA</a>` : '';
+    const infoHP = p.hp ? `📞 ${boleh ? tampilHP(p.hp) : samarkanHP(p.hp)}` : '📞 (tanpa nomor)';
+    const kontrol = boleh
+      ? `<div class="pesanan-aksi">
+           ${waLink}
+           <div class="stepper stepper-sm">
+             <button type="button" onclick="ubahJumlahPesanan('${p._key}',-1)" aria-label="Kurangi">−</button>
+             <span>${p.jumlah}</span>
+             <button type="button" onclick="ubahJumlahPesanan('${p._key}',1)" aria-label="Tambah">+</button>
+           </div>
+           <button class="btn btn-danger btn-sm" onclick="hapusPesanan('${p._key}')">🗑️</button>
+         </div>`
+      : `<span class="pesanan-qty">× ${p.jumlah}</span>`;
+    return `<div class="pesanan-row">
+      <div class="pesanan-info"><strong>${esc(p.item)}</strong><span>${esc(p.nama)} · ${esc(p.jam)}</span><span>${infoHP}</span></div>
+      ${kontrol}
+    </div>`;
+  }).join('');
+}
