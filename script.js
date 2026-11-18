@@ -760,41 +760,115 @@ function buatPesanWA(kode,nama,alamat,hp,catatan,items,subtotal){
 
 // ================= DAFTAR PESANAN =================
 function renderDaftarPesanan(){
-  if(!currentUser)return; if(currentUser.role!=='admin'&&currentUser.role!=='developer')return;
-  const b=document.getElementById('pesanan-list-container'); if(!b)return;
-  const fk=document.getElementById('filter-kelompok').value; const fs=document.getElementById('filter-status').value;
+  if(!currentUser) return;
+  if(currentUser.role!=='admin' && currentUser.role!=='developer') return;
+  const b=document.getElementById('pesanan-list-container'); if(!b) return;
+  const fk=document.getElementById('filter-kelompok').value;
+  const fs=document.getElementById('filter-status').value;
   let list=pesanan.slice().sort((a,b)=>new Date(b.waktu)-new Date(a.waktu));
   if(fk!=='all') list=list.filter(p=>String(p.kelompok)===fk);
   if(fs!=='all') list=list.filter(p=>p.status===fs);
-  if(list.length===0){ b.innerHTML='<p style="color:var(--dim);">Tidak ada pesanan.</p>'; return; }
+
+  if(list.length===0){
+    b.innerHTML='<p style="color:var(--dim);">Tidak ada pesanan.</p>';
+    return;
+  }
   b.innerHTML='';
+
+  // Hitung berapa record yang berbagi kodePesanan sama (untuk tombol hapus semua)
+  const kodeCount = {};
+  pesanan.forEach(p => { kodeCount[p.kodePesanan] = (kodeCount[p.kodePesanan]||0)+1; });
+
   list.forEach(p=>{
-    const nk=p.kelompok===1?namaK1:namaK2;
-    const badge=`<span class="status-badge status-${p.status}">${labelStatus(p.status)}</span>`;
-    let ih=''; (p.items||[]).forEach(it=>{ ih+=`<div class="item-row"><span>${it.nama} × ${it.qty}</span><span>${formatRupiah(it.subtotal)}</span></div>`; });
-    const tgl=new Date(p.waktu).toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    b.innerHTML+=`<div class="pesanan-card"><div class="pesanan-header"><div><div class="kode">${p.kodePesanan} · ${nk}</div><div class="waktu">${tgl}</div></div>${badge}</div><div class="pelanggan"><strong>${p.nama}</strong> · ${p.alamat}<br>HP: <a href="https://wa.me/${p.noHp}" target="_blank" style="color:var(--brown);text-decoration:none;">${p.noHp}</a><br>Catatan: ${p.catatan||'-'}</div><div class="items">${ih}<div class="subtotal-row"><span>Subtotal</span><span>${formatRupiah(p.subtotal)}</span></div></div><div class="aksi"><button class="btn btn-success btn-sm" onclick="ubahStatusPesanan('${p._key}','diproses')">🍳 Proses</button><button class="btn btn-primary btn-sm" onclick="ubahStatusPesanan('${p._key}','selesai')">✅ Selesai</button><button class="btn btn-danger btn-sm" onclick="ubahStatusPesanan('${p._key}','dibatalkan')">❌ Batal</button><button class="btn btn-secondary btn-sm" onclick="waTerimaKasih('${p._key}')">🙏 Terima Kasih</button></div></div>`;
+    const nk = p.kelompok===1 ? namaK1 : namaK2;
+    const badge = `<span class="status-badge status-${p.status}">${labelStatus(p.status)}</span>`;
+    let ih='';
+    (p.items||[]).forEach(it=>{ ih+=`<div class="item-row"><span>${it.nama} × ${it.qty}</span><span>${formatRupiah(it.subtotal)}</span></div>`; });
+    const tgl = new Date(p.waktu).toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const totalRecord = kodeCount[p.kodePesanan] || 1;
+
+    let tombolHapusSemua = '';
+    if(totalRecord > 1){
+      tombolHapusSemua = `<button class="btn btn-danger btn-sm" onclick="hapusSemuaPesananByKode('${p.kodePesanan}')" title="Hapus semua record dengan kode ini">🗑️ Hapus Semua (${totalRecord})</button>`;
+    }
+
+    b.innerHTML+=`
+      <div class="pesanan-card">
+        <div class="pesanan-header">
+          <div>
+            <div class="kode">${p.kodePesanan} · ${nk}</div>
+            <div class="waktu">${tgl}</div>
+          </div>
+          ${badge}
+        </div>
+        <div class="pelanggan">
+          <strong>${p.nama}</strong> · ${p.alamat}<br>
+          HP: <a href="https://wa.me/${p.noHp}" target="_blank" style="color:var(--brown);text-decoration:none;">${p.noHp}</a><br>
+          Catatan: ${p.catatan||'-'}
+        </div>
+        <div class="items">
+          ${ih}
+          <div class="subtotal-row"><span>Subtotal</span><span>${formatRupiah(p.subtotal)}</span></div>
+        </div>
+        <div class="aksi">
+          <button class="btn btn-success btn-sm" onclick="ubahStatusPesanan('${p._key}','diproses')">🍳 Proses</button>
+          <button class="btn btn-primary btn-sm" onclick="ubahStatusPesanan('${p._key}','selesai')">✅ Selesai</button>
+          <button class="btn btn-danger btn-sm" onclick="ubahStatusPesanan('${p._key}','dibatalkan')">❌ Batal</button>
+          <button class="btn btn-secondary btn-sm" onclick="waTerimaKasih('${p._key}')">🙏 Terima Kasih</button>
+          <button class="btn btn-danger btn-sm" onclick="hapusPesanan('${p._key}')" style="margin-left:auto;">🗑️ Hapus</button>
+          ${tombolHapusSemua}
+        </div>
+      </div>`;
   });
 }
-function labelStatus(s){ return s==='baru'?'Baru':s==='diproses'?'Diproses':s==='selesai'?'Selesai':s==='dibatalkan'?'Dibatalkan':s; }
+
+function labelStatus(s){
+  return s==='baru'?'Baru':s==='diproses'?'Diproses':s==='selesai'?'Selesai':s==='dibatalkan'?'Dibatalkan':s;
+}
+
 function ubahStatusPesanan(key,status){
-  const p=pesanan.find(x=>x._key===key); if(!p)return;
+  const p=pesanan.find(x=>x._key===key); if(!p) return;
   window.fbUpdate(window.fbRef(window.db,'pesanan/'+key),{status});
   if(status==='diproses'){
     bukaWAKePelanggan(p.noHp,`Kode: ${p.kodePesanan}\nHalo ${p.nama}, pesanan Anda sedang diproses 🍳`);
   } else if(status==='selesai'){
-    const nk=p.kelompok===1?namaK1:namaK2;
+    const nk = p.kelompok===1 ? namaK1 : namaK2;
     let m=`Kode: ${p.kodePesanan}\nHalo ${p.nama}, pesanan Anda sudah selesai.\nSilakan ambil ke ${nk}.\n\nRincian:\n`;
     (p.items||[]).forEach(it=>{ m+=`- ${it.nama} x${it.qty} = ${formatRupiah(it.subtotal)}\n`; });
     m+=`\nSubtotal: ${formatRupiah(p.subtotal)}\n\nTerima kasih 🙏`;
     bukaWAKePelanggan(p.noHp,m);
   }
 }
+
 function waTerimaKasih(key){
-  const p=pesanan.find(x=>x._key===key); if(!p)return;
+  const p=pesanan.find(x=>x._key===key); if(!p) return;
   const nk=p.kelompok===1?namaK1:namaK2;
   bukaWAKePelanggan(p.noHp,`Kode: ${p.kodePesanan}\nTerima kasih telah order di ${nk} 🙏`);
 }
+
+// ===== HAPUS PESANAN =====
+function hapusPesanan(key){
+  if(!currentUser) return;
+  if(currentUser.role!=='admin' && currentUser.role!=='developer') return;
+  const p = pesanan.find(x => x._key === key);
+  if(!p) return;
+  if(!confirm(`Hapus pesanan "${p.kodePesanan}" dari ${p.nama} (${p.kelompok===1?namaK1:namaK2})?\n\nData yang dihapus tidak bisa dikembalikan.`)) return;
+  window.fbRemove(window.fbRef(window.db, 'pesanan/' + key));
+  showAlert("Pesanan berhasil dihapus.", "✅ Berhasil");
+}
+
+function hapusSemuaPesananByKode(kode){
+  if(!currentUser) return;
+  if(currentUser.role!=='admin' && currentUser.role!=='developer') return;
+  const target = pesanan.filter(p => p.kodePesanan === kode);
+  if(target.length === 0) return;
+  if(!confirm(`Hapus SEMUA (${target.length}) record pesanan dengan kode "${kode}"?\n\nIni akan menghapus pesanan dari kedua kelompok sekaligus.\nData tidak bisa dikembalikan.`)) return;
+  target.forEach(p => {
+    window.fbRemove(window.fbRef(window.db, 'pesanan/' + p._key));
+  });
+  showAlert(`${target.length} pesanan berhasil dihapus.`, "✅ Berhasil");
+}
+
 function bukaWAKePelanggan(noHp,pesan){
   const hp=String(noHp||'').replace(/[^0-9]/g,'');
   if(!hp){ showAlert("Nomor HP pelanggan tidak valid."); return; }
@@ -802,12 +876,12 @@ function bukaWAKePelanggan(noHp,pesan){
   window.open(`https://wa.me/${wa}?text=${encodeURIComponent(pesan)}`,'_blank');
 }
 
-// ================= ENTER =================
+// ================= ENTER UNTUK LOGIN & CHAT =================
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Enter') {
-    const lp=document.getElementById('page-login');
+    const lp = document.getElementById('page-login');
     if (lp && !lp.classList.contains('hidden')) { handleLogin(); event.preventDefault(); return; }
-    if (document.activeElement===document.getElementById('chat-input-user')) { kirimPesanUser(); event.preventDefault(); return; }
-    if (document.activeElement===document.getElementById('chat-input-dev')) { kirimPesanDev(); event.preventDefault(); return; }
+    if (document.activeElement === document.getElementById('chat-input-user')) { kirimPesanUser(); event.preventDefault(); return; }
+    if (document.activeElement === document.getElementById('chat-input-dev')) { kirimPesanDev(); event.preventDefault(); return; }
   }
 });
