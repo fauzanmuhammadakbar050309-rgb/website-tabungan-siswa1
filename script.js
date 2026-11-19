@@ -8,6 +8,9 @@ let firebaseReady = false; let selectedSiswaTabungan = null; let selectedChatUse
 let pressTimer;
 let deferredPrompt;
 
+// ================= KONSTANTA =================
+const TANGGAL_BAZAR = "26 November 2026";
+
 const defaultUsers = [
   {nama:"Administrator Utama",username:"admin",password:"123",role:"admin",status:"offline"},
   {nama:"Developer Sistem",username:"dev",password:"123",role:"developer",status:"offline"}
@@ -242,7 +245,6 @@ function showPage(pageId){
   target.classList.remove('hidden');
   document.getElementById('dots-dropdown').classList.remove('show');
 
-  // GUEST BOLEH AKSES: landing, login, order
   if(!currentUser && pageId !== 'page-landing' && pageId !== 'page-login' && pageId !== 'page-order') {
     showPage('page-login'); return;
   }
@@ -752,7 +754,7 @@ function tampilkanModalOrder(kode,nama,alamat,hp,catatan,items1,items2){
 }
 function tutupOrderModal(){ const m=document.getElementById('order-modal'); m.classList.remove('show'); m.classList.add('hidden'); }
 function buatPesanWA(kode,nama,alamat,hp,catatan,items,subtotal){
-  let msg=`Kode: ${kode}\nNama: ${nama}\nAlamat/Kelas: ${alamat}\nNo HP: ${hp}\nCatatan: ${catatan||'-'}\n\nPesanan:\n`;
+  let msg=`PRE-ORDER BAZAR ${TANGGAL_BAZAR.toUpperCase()}\nKode: ${kode}\nNama: ${nama}\nAlamat/Kelas: ${alamat}\nNo HP: ${hp}\nCatatan: ${catatan||'-'}\n\nPesanan:\n`;
   items.forEach(it=>{ msg+=`- ${it.nama} x${it.qty} = ${formatRupiah(it.subtotal)}\n`; });
   msg+=`\nSubtotal: ${formatRupiah(subtotal)}`;
   return msg;
@@ -775,7 +777,6 @@ function renderDaftarPesanan(){
   }
   b.innerHTML='';
 
-  // Hitung berapa record yang berbagi kodePesanan sama (untuk tombol hapus semua)
   const kodeCount = {};
   pesanan.forEach(p => { kodeCount[p.kodePesanan] = (kodeCount[p.kodePesanan]||0)+1; });
 
@@ -815,6 +816,7 @@ function renderDaftarPesanan(){
           <button class="btn btn-primary btn-sm" onclick="ubahStatusPesanan('${p._key}','selesai')">✅ Selesai</button>
           <button class="btn btn-danger btn-sm" onclick="ubahStatusPesanan('${p._key}','dibatalkan')">❌ Batal</button>
           <button class="btn btn-secondary btn-sm" onclick="waTerimaKasih('${p._key}')">🙏 Terima Kasih</button>
+          <button class="btn btn-secondary btn-sm" onclick="waIngatkanBazar('${p._key}')" style="border-color:var(--brown);">📅 Ingatkan Bazar</button>
           <button class="btn btn-danger btn-sm" onclick="hapusPesanan('${p._key}')" style="margin-left:auto;">🗑️ Hapus</button>
           ${tombolHapusSemua}
         </div>
@@ -830,10 +832,10 @@ function ubahStatusPesanan(key,status){
   const p=pesanan.find(x=>x._key===key); if(!p) return;
   window.fbUpdate(window.fbRef(window.db,'pesanan/'+key),{status});
   if(status==='diproses'){
-    bukaWAKePelanggan(p.noHp,`Kode: ${p.kodePesanan}\nHalo ${p.nama}, pesanan Anda sedang diproses 🍳`);
+    bukaWAKePelanggan(p.noHp,`Kode: ${p.kodePesanan}\nHalo ${p.nama}, pre-order Anda sudah kami terima dan sedang diproses 🍳\nPesanan bisa diambil saat bazar ${TANGGAL_BAZAR}.`);
   } else if(status==='selesai'){
     const nk = p.kelompok===1 ? namaK1 : namaK2;
-    let m=`Kode: ${p.kodePesanan}\nHalo ${p.nama}, pesanan Anda sudah selesai.\nSilakan ambil ke ${nk}.\n\nRincian:\n`;
+    let m=`Kode: ${p.kodePesanan}\nHalo ${p.nama}, pre-order Anda sudah siap.\nSilakan ambil ke ${nk} saat bazar ${TANGGAL_BAZAR}.\n\nRincian:\n`;
     (p.items||[]).forEach(it=>{ m+=`- ${it.nama} x${it.qty} = ${formatRupiah(it.subtotal)}\n`; });
     m+=`\nSubtotal: ${formatRupiah(p.subtotal)}\n\nTerima kasih 🙏`;
     bukaWAKePelanggan(p.noHp,m);
@@ -843,7 +845,15 @@ function ubahStatusPesanan(key,status){
 function waTerimaKasih(key){
   const p=pesanan.find(x=>x._key===key); if(!p) return;
   const nk=p.kelompok===1?namaK1:namaK2;
-  bukaWAKePelanggan(p.noHp,`Kode: ${p.kodePesanan}\nTerima kasih telah order di ${nk} 🙏`);
+  bukaWAKePelanggan(p.noHp,`Kode: ${p.kodePesanan}\nTerima kasih sudah pre-order di ${nk} 🙏\nSampai jumpa di bazar ${TANGGAL_BAZAR}!`);
+}
+
+// ===== TOMBOL BARU: INGATKAN BAZAR (tanpa ubah status) =====
+function waIngatkanBazar(key){
+  const p=pesanan.find(x=>x._key===key); if(!p) return;
+  const nk=p.kelompok===1?namaK1:namaK2;
+  const m=`Kode: ${p.kodePesanan}\nHalo ${p.nama}, pre-order Anda akan tersedia di bazar ${TANGGAL_BAZAR}.\nSilakan ambil di ${nk}.\n\nTerima kasih 🙏`;
+  bukaWAKePelanggan(p.noHp,m);
 }
 
 // ===== HAPUS PESANAN =====

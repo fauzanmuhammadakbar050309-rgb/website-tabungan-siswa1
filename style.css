@@ -16,25 +16,14 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 @keyframes float{0%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-50px) scale(1.1);}100%{transform:translate(-20px,20px) scale(0.9);}}
 .bg-overlay{position:fixed;inset:0;z-index:-1;background:rgba(20,17,15,0.6);backdrop-filter:blur(15px);}
 
-/* TANPA EFEK GLOW (FLAT) */
-.hero-title, .section-title, .clock-time, .stat-num {
-  color: var(--white);
-  text-shadow: none;
-}
+.hero-title, .section-title, .clock-time, .stat-num { color: var(--white); text-shadow: none; }
 .card-3d p, .jurusan-card p { color: var(--cream); }
 .card, .card-3d, .stat-card, .jurusan-card, .piket-item, .login-card, .navbar {
-  background-color: var(--card);
-  box-shadow: none;
-  border: 1px solid var(--border);
+  background-color: var(--card); box-shadow: none; border: 1px solid var(--border);
 }
 
 /* SCROLL REVEAL */
-.reveal {
-  opacity: 0;
-  transform: translateY(60px) scale(0.95);
-  transition: opacity 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  will-change: opacity, transform;
-}
+.reveal { opacity: 0; transform: translateY(60px) scale(0.95); transition: opacity 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); will-change: opacity, transform; }
 .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
 
 /* NAVBAR */
@@ -57,7 +46,7 @@ body{background-color:var(--bg);color:var(--white);min-height:100vh;overflow-x:h
 .badge-ta{display:inline-block;background:rgba(166,110,56,.2);color:var(--cream);padding:6px 16px;border-radius:20px;font-size:0.8rem;margin-top:10px;margin-bottom:20px;border:1px solid var(--brown);}
 .hero-title{font-size:2rem;font-weight:bold;margin-bottom:10px;}
 .hero-subtitle{font-size:1.1rem;color:var(--cream);margin-bottom:5px;}
-.hero-desc{font-size:0.9rem;color:var(--dim);margin-bottom:30px; text-transform: uppercase;}
+.hero-desc{font-size:0.9rem;color:var(--dim);margin-bottom:30px;text-transform:uppercase;}
 .stats-grid{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
 .stat-card{background:var(--card);border:1px solid var(--brown);padding:10px 15px;border-radius:12px;text-align:center;flex:1;min-width:80px;max-width:110px;}
 .stat-num{font-size:1.5rem;font-weight:bold;}
@@ -150,36 +139,20 @@ td strong{color:var(--cream);}
 #custom-alert .alert-btn {padding:10px 24px;background:var(--brown);color:var(--white);border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:0.2s;}
 #custom-alert .alert-btn:hover {background:#c48549;}
 
-/* ============ FITUR PESANAN ============ */
+/* ============ FITUR PRE-ORDER ============ */
 .btn-order-landing{
-  padding:14px 36px;
-  font-size:1.05rem;
-  font-weight:bold;
-  border:none;
-  border-radius:50px;
-  background:linear-gradient(135deg, #a66e38, #c48549);
-  color:var(--white);
-  cursor:pointer;
-  transition:.3s;
+  padding:14px 36px;font-size:1.05rem;font-weight:bold;border:none;border-radius:50px;
+  background:linear-gradient(135deg, #a66e38, #c48549);color:var(--white);cursor:pointer;transition:.3s;
   box-shadow:0 6px 20px rgba(166,110,56,.4);
 }
 .btn-order-landing:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(166,110,56,.6);}
 .btn-order-landing:active{transform:translateY(0);}
 
 .menu-card{
-  display:flex;
-  gap:12px;
-  background:var(--card2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:10px;
-  align-items:center;
+  display:flex;gap:12px;background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:12px;margin-bottom:10px;align-items:center;
 }
-.menu-card img{
-  width:70px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0;
-  background:#14110f;
-}
+.menu-card img{width:70px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#14110f;}
 .menu-card-info{flex:1;min-width:0;}
 .menu-card-info h5{color:var(--white);font-size:.92rem;margin-bottom:2px;word-break:break-word;}
 .menu-card-info .menu-harga{color:var(--cream);font-weight:bold;font-size:.85rem;}
@@ -188,9 +161,8 @@ td strong{color:var(--cream);}
 
 .qty-control{display:flex;align-items:center;gap:8px;}
 .qty-control button{
-  width:32px;height:32px;border-radius:50%;
-  border:1px solid var(--brown);background:var(--brown);color:var(--white);
-  font-size:1.1rem;font-weight:bold;cursor:pointer;line-height:1;
+  width:32px;height:32px;border-radius:50%;border:1px solid var(--brown);
+  background:var(--brown);color:var(--white);font-size:1.1rem;font-weight:bold;cursor:pointer;line-height:1;
   display:flex;align-items:center;justify-content:center;
 }
 .qty-control button:hover{background:#c48549;}
@@ -209,6 +181,19 @@ td strong{color:var(--cream);}
 .keranjang-total .label{color:var(--cream);}
 .keranjang-total .nilai{color:var(--brown);font-size:1.3rem;}
 
+/* INFO BAZAR */
+.info-bazar{
+  background:rgba(166,110,56,.15);
+  border:1px solid var(--brown);
+  border-radius:10px;
+  padding:12px;
+  font-size:.85rem;
+  color:var(--cream);
+  margin-bottom:16px;
+  line-height:1.5;
+}
+.info-bazar strong{color:var(--brown);}
+
 #order-modal{opacity:0;pointer-events:none;transition:opacity .3s;}
 #order-modal.show{opacity:1;pointer-events:auto;}
 #order-modal > div{animation:alertPop .3s ease;}
@@ -217,13 +202,7 @@ td strong{color:var(--cream);}
 .wa-btn.k2{background:#1da851;}
 .wa-btn:hover{filter:brightness(1.1);}
 
-.pesanan-card{
-  background:var(--card2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
-}
+.pesanan-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;}
 .pesanan-card .pesanan-header{display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
 .pesanan-card .kode{color:var(--brown);font-weight:bold;font-size:.85rem;}
 .pesanan-card .waktu{color:var(--dim);font-size:.72rem;}
